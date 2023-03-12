@@ -2,7 +2,7 @@ import { Container, Navbar, Form, FormControl, Button, OverlayTrigger, Tooltip }
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import './App.css';
-import logo from './susie.svg';
+import logo from '../public/susie.svg';
 
 function App() {
   return (

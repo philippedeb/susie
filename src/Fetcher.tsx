@@ -1,13 +1,27 @@
 import React from "react";
 
-export {}
+export let branchList: string[] = []
+export let commitList: string[] = []
+export let pullRequestList: string[] = []
+
+/**
+ * https://www.seancdavis.com/posts/extract-github-repo-name-from-url-using-javascript/
+ */
+function extractGitHubRepoPath(url: string): string {
+  if (!url) return "URL not found";
+  const match = url.match(
+    /(^https?:\/\/(www\.)?)?github.com\/(?<owner>[\w.-]+)\/(?<name>[\w.-]+)/
+  );
+  if (!match || !(match.groups?.owner && match.groups?.name)) return "URL not found";
+  return `${match.groups.owner}/${match.groups.name}`;
+}
 
 export async function getData(searchValue: string): Promise<void> {
     try {
         const repo = extractGitHubRepoPath(searchValue)
-        getBranches(repo);
-        getCommits(repo);
-        getPullRequests(repo);
+        branchList = await getBranches(repo);
+        commitList = await getCommits(repo);
+        pullRequestList = await getPullRequests(repo);
     } catch (error) {
         console.error(error);
     }
@@ -67,16 +81,4 @@ async function getCommits(repo: string): Promise<string[]> {
     console.error(error);
     return ["No Commits Found"];
   }
-}
-
-/**
- * https://www.seancdavis.com/posts/extract-github-repo-name-from-url-using-javascript/
- */
-function extractGitHubRepoPath(url: string): string {
-  if (!url) return "URL not found";
-  const match = url.match(
-    /(^https?:\/\/(www\.)?)?github.com\/(?<owner>[\w.-]+)\/(?<name>[\w.-]+)/
-  );
-  if (!match || !(match.groups?.owner && match.groups?.name)) return "URL not found";
-  return `${match.groups.owner}/${match.groups.name}`;
 }

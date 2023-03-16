@@ -3,15 +3,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { getData } from './Fetcher';
+import { getLanguageRecommendations } from './SocialMetrics';
 import './App.css';
 import logo from '/susie.svg';
 
 function App() {
   const [searchValue, setSearchValue] = useState('');
 
-  function handleSearch() {
+  async function handleSearch() {
     console.log(`Searching for ${searchValue}...`);
-    getData(searchValue);
+    await getData(searchValue);
+    console.log('Get Language Recommendations');
+    getLanguageRecommendations();
   }
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {

@@ -1,19 +1,5 @@
 export {}
 
-interface GitBranch {
-  name: string
-}
-
-interface GitCommit {
-  commit: {
-    message: string
-  }
-}
-
-interface GitPull {
-  title: string
-}
-
 const inclusiveLanguageChecks = [
   { word: "man hours", replacements: ["labor hours", "work hours"]},
   { word: "manpower", replacements: ["labor", "workforce"]},
@@ -38,45 +24,6 @@ const inclusiveLanguageChecks = [
   { word: "killing it", replacements: ["elevating", "exceeding expectations", "excelling"]},
   { word: "master", replacements: ["main"]}
 ]
-
-async function getBranches(): Promise<string[]> {
-  try {
-    const response = await fetch('https://api.github.com/repos/cogentapps/chat-with-gpt/branches');
-    const data: GitBranch[] = await response.json();
-    const branchNames = data.map((item) => item.name.toLowerCase());
-    console.log("Branches Found");
-    return branchNames
-  } catch (error) {
-    console.error(error);
-    return ["No Branches Found"];
-  }
-}
-
-async function getPullRequests(): Promise<string[]> {
-  try {
-    const response = await fetch('https://api.github.com/repos/cogentapps/chat-with-gpt/pulls');
-    const data: GitPull[] = await response.json();
-    const pullNames = data.map((item) => item.title.toLowerCase());
-    console.log("Pull Requests Found");
-    return pullNames
-  } catch (error) {
-    console.error(error);
-    return ["No Pull Requests Found"];
-  }
-}
-
-async function getCommits(): Promise<string[]> {
-  try {
-    const response = await fetch('https://api.github.com/repos/cogentapps/chat-with-gpt/commits');
-    const data: GitCommit[] = await response.json();
-    const commitNames = data.map((item) => item.commit.message.toLowerCase());
-    console.log("Commits Found");
-    return commitNames
-  } catch (error) {
-    console.error(error);
-    return ["No Commits Found"];
-  }
-}
 
 interface Recommendation {
   name: string,
@@ -103,8 +50,4 @@ async function checkLanguage(func: Promise<string[]>): Promise<Recommendation[]>
   }
   return recommendations
 }
-
-checkLanguage(getBranches());
-checkLanguage(getCommits());
-checkLanguage(getPullRequests());
   

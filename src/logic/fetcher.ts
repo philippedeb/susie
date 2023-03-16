@@ -1,15 +1,17 @@
 export {}
 
-export async function getData(searchValue: string): Promise<void> {
-    try {
-        const repo = extractGitHubRepoPath(searchValue)
-        getBranches(repo);
-        getCommits(repo);
-        getPullRequests(repo);
-    } catch (error) {
-        console.error(error);
-    }
+export async function getData(searchValue: string): Promise<{branches: string[], commits: string[], pull_requests: string[]}> {
+  try {
+    const repo = extractGitHubRepoPath(searchValue);
+    const branches = await getBranches(repo);
+    const commits = await getCommits(repo);
+    const pull_requests = await getPullRequests(repo);
+    return { branches, commits, pull_requests };
+  } catch (error) {
+    console.error(error);
+    return { branches: [], commits: [], pull_requests: [] };
   }
+}
 
 interface GitBranch {
   name: string

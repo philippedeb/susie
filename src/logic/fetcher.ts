@@ -1,5 +1,3 @@
-import React from "react";
-
 export {}
 
 export async function getData(searchValue: string): Promise<void> {

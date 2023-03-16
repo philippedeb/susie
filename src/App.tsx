@@ -44,7 +44,19 @@ function App() {
               placement="bottom"
               overlay={<Tooltip>Enter a GitHub repository URL to analyze sustainability</Tooltip>}
             >
-              <FormControl type="text" placeholder="Paste GitHub URL here" className="rounded-pill bg-white text-dark border-0 shadow-sm w-100 mr-2" style={{ maxWidth: '90%', minWidth: '400px', borderColor: '#757167', borderWidth: 'medium' }} onChange={handleChange}/>
+              <FormControl type="text" placeholder="Paste GitHub URL here"
+                className="rounded-pill bg-white text-dark border-0 shadow-sm w-100 mr-2"
+                style={{ maxWidth: '90%', minWidth: '400px', borderColor: '#757167', borderWidth: 'medium' }}
+                onChange={handleChange}
+                onKeyDown={event => {
+                    if (event.key === "Enter") {
+                      event.preventDefault();
+                      handleSearch();
+                    }
+                  }
+                }
+                
+                />
             </OverlayTrigger>
             <OverlayTrigger
               placement="bottom"

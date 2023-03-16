@@ -1,4 +1,4 @@
-export {}
+export { checkLanguage, type Recommendation };
 
 const inclusiveLanguageChecks = [
   { word: "man hours", replacements: ["labor hours", "work hours"]},
@@ -31,9 +31,8 @@ interface Recommendation {
   replacements: string[]
 }
 
-async function checkLanguage(func: Promise<string[]>): Promise<Recommendation[]> {
+function checkLanguage(data: string[]): Recommendation[] {
   let recommendations: Recommendation[] = []
-  const data = await func;
   for (const item of data) {
     for (const check of inclusiveLanguageChecks) {
       const checkRegex = new RegExp('\\b${check.word}\\b');

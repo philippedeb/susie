@@ -2,6 +2,7 @@ import { Container } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getData } from "../logic/fetcher";
+import Inclusive from "./Inclusive";
 
 interface DashboardProps {
   repoLink: string;
@@ -11,9 +12,12 @@ function Dashboard(props: DashboardProps) {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const searchValue = searchParams.get("search") || "";
+
   const [branches, setBranches] = useState<string[]>([]);
   const [pullRequests, setPullRequests] = useState<string[]>([]);
   const [commits, setCommits] = useState<string[]>([]);
+
+  const [inclusiveData, setInclusiveData] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,10 +29,16 @@ function Dashboard(props: DashboardProps) {
     fetchData();
   }, [searchValue]);
 
+  useEffect(() => {
+    const inclusiveArray = [...branches, ...pullRequests, ...commits];
+    setInclusiveData(inclusiveArray);
+  }, [branches, pullRequests, commits]);
+
   return (
     <div>
       <Container>
         <p>Dashboard for {searchValue}</p>
+        <Inclusive data={inclusiveData} />
         <h3>Branches:</h3>
         <ul>
           {branches.map((branch, index) => (

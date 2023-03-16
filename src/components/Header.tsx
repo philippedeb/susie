@@ -6,7 +6,7 @@ function Header() {
   return (
     <Navbar bg="dark" expand="lg">
       <Container>
-        <Link to="/susie/">
+        <Link to="/susie/" style={{ textDecoration: "none" }}>
           <Navbar.Brand
             className="shake"
             style={{ color: "#fff", fontWeight: "bold" }}

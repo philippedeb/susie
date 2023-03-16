@@ -1,107 +1,17 @@
-// Welcome to the TypeScript Playground, this is a website
-// which gives you a chance to write, share and learn TypeScript.
-
-// You could think of it in three ways:
-//
-//  - A location to learn TypeScript where nothing can break
-//  - A place to experiment with TypeScript syntax, and share the URLs with others
-//  - A sandbox to experiment with different compiler features of TypeScript
-
 export {}
 
 interface GitBranch {
-  name: string,
-    commit: {
-      sha: string,
-      url: string
-    },
-    protected: boolean,
-    protection?: {
-      required_status_checks: {
-        enforcement_level: string,
-        contexts: []
-      }
-    }
-    protection_url: string
+  name: string
 }
 
 interface GitCommit {
-  url: string,
-  sha: string,
-  node_id: string,
-  html_url: string,
-  comments_url: string,
   commit: {
-    url: string,
-    author: {
-      name: string,
-      email: string,
-      date: string
-    },
-    committer: {
-      name: string,
-      email: string,
-      date: string
-    },
-    message: string,
-    tree: {
-      url: string,
-      sha: string
-    },
-    comment_count: number,
-    verification: {
-      verified: boolean,
-      reason: string,
-      signature?: string,
-      payload?: string
-    }
-  },
-  author: {
-    login: string,
-    id: number,
-    node_id: string,
-    avatar_url: string,
-    gravatar_id: string,
-    url: string,
-    html_url: string,
-    followers_url: string,
-    following_url: string,
-    gists_url: string,
-    starred_url: string,
-    subscriptions_url: string,
-    organizations_url: string,
-    repos_url: string,
-    events_url: string,
-    received_events_url: string,
-    type: string,
-    site_admin: boolean
-  },
-  committer: {
-    login: string,
-    id: number,
-    node_id: string,
-    avatar_url: string,
-    gravatar_id: string,
-    url: string,
-    html_url: string,
-    followers_url: string,
-    following_url: string,
-    gists_url: string,
-    starred_url: string,
-    subscriptions_url: string,
-    organizations_url: string,
-    repos_url: string,
-    events_url: string,
-    received_events_url: string,
-    type: string,
-    site_admin: boolean
-  },
-  parents?: [
-    {
-      url: string,
-      sha: string
-    }
-  ]
+    message: string
+  }
+}
+
+interface GitPull {
+  title: string
 }
 
 const inclusiveLanguageChecks = [
@@ -126,11 +36,12 @@ const inclusiveLanguageChecks = [
   { word: "legacy", replacements: ["flagship", "established", "rollover", "carryover"]},
   { word: "crushing it", replacements: ["elevating", "exceeding expectations", "excelling"]},
   { word: "killing it", replacements: ["elevating", "exceeding expectations", "excelling"]}
+  { word: "master", replacements: ["main"]}
 ]
 
 async function getBranches(): Promise<string[]> {
   try {
-    const response = await fetch('https://api.github.com/repos/streamlit/streamlit/branches');
+    const response = await fetch('https://api.github.com/repos/cogentapps/chat-with-gpt/branches');
     const data: GitBranch[] = await response.json();
     const branchNames = data.map((item) => item.name.toLowerCase());
     console.log("Branches Found");
@@ -141,9 +52,22 @@ async function getBranches(): Promise<string[]> {
   }
 }
 
+async function getPullRequests(): Promise<string[]> {
+  try {
+    const response = await fetch('https://api.github.com/repos/cogentapps/chat-with-gpt/pulls');
+    const data: GitPull[] = await response.json();
+    const pullNames = data.map((item) => item.title.toLowerCase());
+    console.log("Pull Requests Found");
+    return pullNames
+  } catch (error) {
+    console.error(error);
+    return ["No Pull Requests Found"];
+  }
+}
+
 async function getCommits(): Promise<string[]> {
   try {
-    const response = await fetch('https://api.github.com/repos/streamlit/streamlit/commits');
+    const response = await fetch('https://api.github.com/repos/cogentapps/chat-with-gpt/commits');
     const data: GitCommit[] = await response.json();
     const commitNames = data.map((item) => item.commit.message.toLowerCase());
     console.log("Commits Found");
@@ -154,17 +78,33 @@ async function getCommits(): Promise<string[]> {
   }
 }
 
-async function checkLanguage(func: Promise<string[] | undefined>): Promise<void> {
-  const data = await func ?? [];
+interface Recommendation {
+  name: string,
+  target_word: string,
+  replacements: string[]
+}
+
+async function checkLanguage(func: Promise<string[]>): Promise<Recommendation[]> {
+  let recommendations: Recommendation[] = []
+  const data = await func;
   for (const item of data) {
     for (const check of inclusiveLanguageChecks) {
       const checkRegex = new RegExp('\\b${check.word}\\b');
       if (checkRegex.test(item)) {
-        console.log("Name:", item, "Bad Word:", check.word);
+        console.log("Name:", item, "Target Word:", check.word);
+        const rec: Recommendation = {
+          name: item,
+          target_word: check.word,
+          replacements: check.replacements
+        }
+        recommendations.push(rec)
       }
     }
   }
+  return recommendations
 }
 
-checkLanguage(getBranches())
-checkLanguage(getCommits())
+checkLanguage(getBranches());
+checkLanguage(getCommits());
+checkLanguage(getPullRequests());
+  

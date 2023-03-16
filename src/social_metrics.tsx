@@ -35,7 +35,7 @@ const inclusiveLanguageChecks = [
   { word: "grandfathering", replacements: ["flagship", "established", "rollover", "carryover"]},
   { word: "legacy", replacements: ["flagship", "established", "rollover", "carryover"]},
   { word: "crushing it", replacements: ["elevating", "exceeding expectations", "excelling"]},
-  { word: "killing it", replacements: ["elevating", "exceeding expectations", "excelling"]}
+  { word: "killing it", replacements: ["elevating", "exceeding expectations", "excelling"]},
   { word: "master", replacements: ["main"]}
 ]
 

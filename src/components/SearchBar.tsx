@@ -10,21 +10,22 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { getData } from "../logic/fetcher";
 
-type Props = {
+interface Props {
   onSearch: (value: string) => void;
-};
+  onChange: (value: string) => void;
+}
 
 function SearchBar(props: Props) {
   const [searchValue, setSearchValue] = useState("");
 
   function handleSearch() {
-    console.log(`Searching for ${searchValue} in SearchBar.tsx...`);
     props.onSearch(searchValue);
-    // getData(searchValue);
   }
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setSearchValue(event.target.value);
+    const value = event.target.value;
+    setSearchValue(value);
+    props.onChange(value);
   }
 
   return (
@@ -48,11 +49,12 @@ function SearchBar(props: Props) {
               borderColor: "#757167",
               borderWidth: "medium",
             }}
+            value={searchValue}
             onChange={handleChange}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
                 event.preventDefault();
-                handleSearch();
+                props.onSearch(searchValue);
               }
             }}
           />

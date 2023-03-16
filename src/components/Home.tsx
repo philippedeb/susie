@@ -2,22 +2,24 @@ import { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import SearchBar from "./SearchBar";
 import "../css/Home.css";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
-  onSearch: (value: string) => void;
+  onChange: (value: string) => void;
 }
 
 function Home(props: Props) {
   const [loaded, setLoaded] = useState(false);
-
-  function handleSearch(value: string) {
-    console.log(`Searching for ${value} in Home.tsx...`);
-    props.onSearch(value);
-  }
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoaded(true);
   }, []);
+
+  const handleSubmit = (value: string) => {
+    props.onChange(value);
+    navigate(`./dashboard?search=${value}`);
+  };
 
   return (
     <Container
@@ -31,7 +33,7 @@ function Home(props: Props) {
       >
         How sustainable is your GitHub repository? 🦖📟
       </p>
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar onSearch={handleSubmit} onChange={props.onChange} />
     </Container>
   );
 }

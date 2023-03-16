@@ -1,4 +1,6 @@
 import React from "react";
+import { Languages } from "./LanguageAnalyser";
+import { analyseLanguages } from "./LanguageAnalyser";
 
 export async function getData(searchValue: string): Promise<void> {
     try {
@@ -6,6 +8,7 @@ export async function getData(searchValue: string): Promise<void> {
         const response = await fetch('https://api.github.com/repos/' + repo + '/languages');
         const data = await response.json();
         console.log(data);
+        analyseLanguages(data) // Probably needs to be somewehere else
         return data
     } catch (error) {
         console.error(error);

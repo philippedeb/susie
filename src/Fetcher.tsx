@@ -23,5 +23,3 @@ export async function getData(searchValue: string): Promise<void> {
     if (!match || !(match.groups?.owner && match.groups?.name)) return null;
     return `${match.groups.owner}/${match.groups.name}`;
   }
-
-// export default getData

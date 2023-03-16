@@ -30,7 +30,7 @@ function App() {
               className="d-inline-block align-top"
               alt="Susie Logo"
             />
-            {' Susie'}  
+            {' Susie'}
           </Navbar.Brand>
         </Container>
       </Navbar>

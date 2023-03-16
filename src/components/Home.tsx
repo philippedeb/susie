@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import SearchBar from "./SearchBar";
-import "../css/Home.css";
+import "../css/fade-in.css";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
@@ -24,7 +24,7 @@ function Home(props: Props) {
   return (
     <Container
       className={`d-flex flex-column justify-content-center align-items-center my-5${
-        loaded ? " loaded" : ""
+        loaded ? " fade-in-down" : ""
       }`}
     >
       <p

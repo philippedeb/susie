@@ -1,6 +1,8 @@
-export {extractGitHubOwnerAndRepo, getData }
+export { extractGitHubOwnerAndRepo, getData, getSlash };
 
-async function getData(searchValue: string): Promise<{branches: string[], commits: string[], pull_requests: string[]}> {
+async function getData(
+  searchValue: string
+): Promise<{ branches: string[]; commits: string[]; pull_requests: string[] }> {
   try {
     const repo = extractGitHubRepoPath(searchValue);
     const branches = await getBranches(repo);
@@ -14,29 +16,31 @@ async function getData(searchValue: string): Promise<{branches: string[], commit
 }
 
 interface GitBranch {
-  name: string
+  name: string;
 }
 
 interface GitCommit {
   commit: {
-    message: string
+    message: string;
     author: {
-      date: string
-    }
-  }
+      date: string;
+    };
+  };
 }
 
 interface GitPull {
-  title: string
+  title: string;
 }
 
 async function getBranches(repo: string): Promise<string[]> {
   try {
-    const response = await fetch('https://api.github.com/repos/' + repo + '/branches');
+    const response = await fetch(
+      "https://api.github.com/repos/" + repo + "/branches"
+    );
     const data: GitBranch[] = await response.json();
     const branchNames = data.map((item) => item.name.toLowerCase());
     console.log("Branches Found");
-    return branchNames
+    return branchNames;
   } catch (error) {
     console.error(error);
     return ["No Branches Found"];
@@ -45,11 +49,13 @@ async function getBranches(repo: string): Promise<string[]> {
 
 async function getPullRequests(repo: string): Promise<string[]> {
   try {
-    const response = await fetch('https://api.github.com/repos/' + repo + '/pulls');
+    const response = await fetch(
+      "https://api.github.com/repos/" + repo + "/pulls"
+    );
     const data: GitPull[] = await response.json();
     const pullNames = data.map((item) => item.title.toLowerCase());
     console.log("Pull Requests Found");
-    return pullNames
+    return pullNames;
   } catch (error) {
     console.error(error);
     return ["No Pull Requests Found"];
@@ -58,14 +64,39 @@ async function getPullRequests(repo: string): Promise<string[]> {
 
 async function getCommits(repo: string): Promise<string[]> {
   try {
-    const response = await fetch('https://api.github.com/repos/' + repo + '/commits');
+    const response = await fetch(
+      "https://api.github.com/repos/" + repo + "/commits"
+    );
     const data: GitCommit[] = await response.json();
     const commitNames = data.map((item) => item.commit.message.toLowerCase());
     console.log("Commits Found");
-    return commitNames
+    return commitNames;
   } catch (error) {
     console.error(error);
     return ["No Commits Found"];
+  }
+}
+
+/*
+ * Use param "readme" to check for a README file
+ * Use param "license" to check for a LICENSE file
+ */
+async function getSlash(url: string, param: string): Promise<boolean> {
+  const [owner, repo] = extractGitHubOwnerAndRepo(url);
+  try {
+    const response = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/${param}`
+    );
+    const data = await response.json();
+    if (data.message && data.message === "Not Found") {
+      return false;
+    } else if (data.path) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error(error);
+    return false;
   }
 }
 
@@ -77,7 +108,8 @@ function extractGitHubRepoPath(url: string): string {
   const match = url.match(
     /(^https?:\/\/(www\.)?)?github.com\/(?<owner>[\w.-]+)\/(?<name>[\w.-]+)/
   );
-  if (!match || !(match.groups?.owner && match.groups?.name)) return "URL not found";
+  if (!match || !(match.groups?.owner && match.groups?.name))
+    return "URL not found";
   return `${match.groups.owner}/${match.groups.name}`;
 }
 
@@ -86,6 +118,7 @@ function extractGitHubOwnerAndRepo(url: string): [string, string] {
   const match = url.match(
     /(^https?:\/\/(www\.)?)?github.com\/(?<owner>[\w.-]+)\/(?<name>[\w.-]+)/
   );
-  if (!match || !(match.groups?.owner && match.groups?.name)) return ["URL not found", ""];
+  if (!match || !(match.groups?.owner && match.groups?.name))
+    return ["URL not found", ""];
   return [match.groups.owner, match.groups.name];
 }

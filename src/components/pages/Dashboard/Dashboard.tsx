@@ -1,7 +1,7 @@
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getData } from "../../../logic/fetcher";
+import { getData, getSlash } from "../../../logic/fetcher";
 import Inclusive from "../../metrics/Inclusive";
 import Sidebar from "../../structure/Sidebar";
 import Section from "../../structure/Section";
@@ -18,6 +18,10 @@ function Dashboard() {
   const [commits, setCommits] = useState<string[]>([]);
 
   const [inclusiveData, setInclusiveData] = useState<string[]>([]);
+
+  const [hasReadme, setHasReadme] = useState(false);
+  const [hasLicense, setHasLicense] = useState(false);
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -26,6 +30,13 @@ function Dashboard() {
       setBranches(data.branches);
       setPullRequests(data.pull_requests);
       setCommits(data.commits);
+
+      const hasReadme = await getSlash(searchValue, "readme");
+      const hasLicense = await getSlash(searchValue, "license");
+      setHasReadme(hasReadme);
+      setHasLicense(hasLicense);
+
+      // ! Must be last in fetchData to ensure all data is fetched before setting isLoading to false
       setIsLoading(false);
     };
     fetchData();
@@ -57,6 +68,19 @@ function Dashboard() {
       title: "Inclusive Language",
       content: <Inclusive data={inclusiveData} />,
     },
+    {
+      title: "Governance",
+      content: (
+        <ul>
+          <li>
+            <strong>Readme:</strong> {hasReadme ? "✅" : "⛔"}
+          </li>
+          <li>
+            <strong>License:</strong> {hasLicense ? "✅" : "⛔"}
+          </li>
+        </ul>
+      ),
+    },
   ];
 
   return (
@@ -65,10 +89,10 @@ function Dashboard() {
       <div>
         <Container>
           <Row>
-            <Col>
+            <Col sm={4}>
               <Sidebar sections={sections} />
             </Col>
-            <Col sm={{ span: 12 }} className="sections-col">
+            <Col sm={{ span: 8, offset: 2 }} className="sections-col">
               {isLoading ? (
                 <div className="d-flex justify-content-center">
                   <Spinner animation="border" />

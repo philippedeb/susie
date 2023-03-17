@@ -1,10 +1,11 @@
 import { Container, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import logo from "/susie.svg";
+import "../css/Header.css";
 
 function Header() {
   return (
-    <Navbar bg="dark" expand="lg">
+    <Navbar bg="dark" expand="lg" className="header">
       <Container>
         <Link to="/susie/" style={{ textDecoration: "none" }}>
           <Navbar.Brand

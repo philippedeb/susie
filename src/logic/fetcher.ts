@@ -1,6 +1,6 @@
-export {}
+export {extractGitHubOwnerAndRepo, getData }
 
-export async function getData(searchValue: string): Promise<{branches: string[], commits: string[], pull_requests: string[]}> {
+async function getData(searchValue: string): Promise<{branches: string[], commits: string[], pull_requests: string[]}> {
   try {
     const repo = extractGitHubRepoPath(searchValue);
     const branches = await getBranches(repo);
@@ -79,4 +79,13 @@ function extractGitHubRepoPath(url: string): string {
   );
   if (!match || !(match.groups?.owner && match.groups?.name)) return "URL not found";
   return `${match.groups.owner}/${match.groups.name}`;
+}
+
+function extractGitHubOwnerAndRepo(url: string): [string, string] {
+  if (!url) return ["URL not found", ""];
+  const match = url.match(
+    /(^https?:\/\/(www\.)?)?github.com\/(?<owner>[\w.-]+)\/(?<name>[\w.-]+)/
+  );
+  if (!match || !(match.groups?.owner && match.groups?.name)) return ["URL not found", ""];
+  return [match.groups.owner, match.groups.name];
 }

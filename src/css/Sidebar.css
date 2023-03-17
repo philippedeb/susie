@@ -1,0 +1,23 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 200px;
+  padding: 15px;
+  color: white;
+  overflow-y: auto;
+  z-index: 2;
+  margin-top: 50px; /* Add margin-top to push the Sidebar below the Header */
+}
+
+.list-group-item {
+  background-color: #343a40 !important;
+  border-color: #454d55 !important;
+  cursor: pointer;
+  color: white !important;
+}
+
+.list-group-item:hover {
+  background-color: #454d55 !important;
+}

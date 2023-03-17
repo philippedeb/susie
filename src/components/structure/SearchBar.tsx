@@ -9,11 +9,10 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import "../css/fade-in.css";
+import "../../css/fade-in.css";
 
 interface Props {
   onSearch: (value: string) => void;
-  onChange: (value: string) => void;
 }
 
 function SearchBar(props: Props) {
@@ -31,7 +30,6 @@ function SearchBar(props: Props) {
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const value = event.target.value;
     setSearchValue(value);
-    props.onChange(value);
   }
 
   function isValidUrl(url: string) {

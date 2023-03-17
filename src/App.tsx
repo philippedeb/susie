@@ -6,14 +6,12 @@ import {
   Route,
   useNavigate,
 } from "react-router-dom";
-import Dashboard from "./components/Dashboard";
-import Home from "./components/Home";
+import Dashboard from "./components/pages/Dashboard/Dashboard";
+import Home from "./components/pages/Home";
 import { useState } from "react";
-import NotFound from "./components/NotFound";
+import NotFound from "./components/pages/NotFound";
 
 function App() {
-  const [searchValue, setSearchValue] = useState("");
-
   return (
     <Router>
       <div // Standard styling for the app
@@ -22,11 +20,8 @@ function App() {
       >
         <Header />
         <Routes>
-          <Route path="/susie/" element={<Home onChange={setSearchValue} />} />
-          <Route
-            path="/susie/dashboard"
-            element={<Dashboard repoLink={searchValue} />}
-          />
+          <Route path="/susie/" element={<Home />} />
+          <Route path="/susie/dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

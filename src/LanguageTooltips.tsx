@@ -1,8 +1,8 @@
-export interface LanguageTooltips {
+interface LanguageTooltips {
     data: Record<string, string>;
 }
 
-export const LanguageScores: LanguageTooltips = {
+export const LanguageTooltips: LanguageTooltips = {
     data: {
         "C": "C code is very energy efficient!", 
         "Rust": "Rust code is very energy efficient!",

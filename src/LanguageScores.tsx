@@ -1,9 +1,9 @@
-export interface LanguageScoreInterface {
+interface LanguageScores {
     data: Record<string, number>;
 }
 
 // https://greenlab.di.uminho.pt/wp-content/uploads/2017/10/sleFinal.pdf
-export const LanguageScores: LanguageScoreInterface = {
+export const LanguageScores: LanguageScores = {
     data: {
         "C": 1, 
         "Rust": 1.03,

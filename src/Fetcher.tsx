@@ -9,7 +9,7 @@ export async function getData(searchValue: string): Promise<void> {
         const data = await response.json();
         console.log(data);
         analyseLanguages(data) // Probably needs to be somewehere else
-        return data
+        return data;
     } catch (error) {
         console.error(error);
     }

@@ -2,15 +2,13 @@ import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getData, getSlash } from "../../../logic/fetcher";
-import Inclusive from "../../metrics/Inclusive";
+import Inclusive from "../../metrics/Inclusivity/Inclusive";
 import Sidebar from "../../structure/Sidebar";
 import Section from "../../structure/Section";
 import "../../../css/Dashboard.css";
 import DashboardInfo from "./DashboardInfo";
-import {
-  analyseLanguages,
-  Languages,
-} from "../../metrics/Language/LanguageAnalyser";
+import LanguagePiechart from "../../metrics/Language/LanguagePiechart";
+import LanguageAdvise from "../../metrics/Language/LanguageAdvise";
 
 function Dashboard() {
   const location = useLocation();
@@ -20,7 +18,7 @@ function Dashboard() {
   const [branches, setBranches] = useState<string[]>([]);
   const [pullRequests, setPullRequests] = useState<string[]>([]);
   const [commits, setCommits] = useState<string[]>([]);
-  const [languages, setLanguages] = useState<Languages>({});
+  const [languages, setLanguages] = useState<{ [key: string]: number }>({});
 
   const [inclusiveData, setInclusiveData] = useState<string[]>([]);
 
@@ -78,14 +76,8 @@ function Dashboard() {
       title: "Programming Languages",
       content: (
         <>
-          <ul>
-            {Object.entries(languages).map(([language, count]) => (
-              <li key={language}>
-                {language}: {count}
-              </li>
-            ))}
-          </ul>
-          <p>{analyseLanguages(languages)}</p>
+          <LanguagePiechart languages={languages} />
+          <LanguageAdvise languages={languages} threshold={20.0} />
         </>
       ),
     },

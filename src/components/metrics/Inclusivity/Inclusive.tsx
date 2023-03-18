@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Alert, Spinner } from "react-bootstrap";
-import { checkLanguage, Recommendation } from "../../logic/social_metrics";
+import { checkLanguage, Recommendation } from "./social_metrics";
 
 interface Props {
   data: string[];

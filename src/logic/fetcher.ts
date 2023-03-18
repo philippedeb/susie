@@ -1,15 +1,10 @@
-import {
-  analyseLanguages,
-  Languages,
-} from "../components/metrics/Language/LanguageAnalyser";
-
 export { extractGitHubOwnerAndRepo, getData, getSlash };
 
 async function getData(searchValue: string): Promise<{
   branches: string[];
   commits: string[];
   pull_requests: string[];
-  languages: Languages;
+  languages: { [key: string]: number };
 }> {
   try {
     const repo = extractGitHubRepoPath(searchValue);
@@ -86,14 +81,12 @@ async function getCommits(repo: string): Promise<string[]> {
   }
 }
 
-async function getLanguages(repo: string): Promise<Languages> {
+async function getLanguages(repo: string): Promise<{ [key: string]: number }> {
   try {
     const response = await fetch(
       "https://api.github.com/repos/" + repo + "/languages"
     );
     const data = await response.json();
-    console.log("Languages Found:" + analyseLanguages(data));
-    // analyseLanguages(data) // Probably needs to be somewehere else
     return data;
   } catch (error) {
     console.error(error);

@@ -1,7 +1,7 @@
 import { Container, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import logo from "/susie.svg";
-import "../css/Header.css";
+import "../../css/Header.css";
 
 function Header() {
   return (

@@ -1,12 +1,11 @@
 import React from "react";
 import { Pie } from "react-chartjs-2";
 import { Container, Row, Col } from "react-bootstrap";
-import { Languages } from "./Languages";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register([ArcElement, Tooltip, Legend]);
 
 interface Props {
-  languages: Languages;
+  languages: { [key: string]: number };
 }
 
 const LanguagePiechart: React.FC<Props> = ({ languages }) => {

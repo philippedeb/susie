@@ -1,14 +1,14 @@
-import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getData, getSlash } from "../../../logic/fetcher";
 import Inclusive from "../../metrics/Inclusivity/Inclusive";
-import Sidebar from "../../structure/Sidebar";
-import Section from "../../structure/Section";
 import "../../../css/Dashboard.css";
 import DashboardInfo from "./DashboardInfo";
 import LanguagePiechart from "../../metrics/Language/LanguagePiechart";
 import LanguageAdvise from "../../metrics/Language/LanguageAdvise";
+import Info from "../../metrics/General/Info";
+import Governance from "../../metrics/Governance/Governance";
+import DashboardComponents from "./DashboardComponents";
 
 function Dashboard() {
   const location = useLocation();
@@ -55,17 +55,11 @@ function Dashboard() {
     {
       title: "Info",
       content: (
-        <ul>
-          <li>
-            <strong>Commits:</strong> {commits.length}
-          </li>
-          <li>
-            <strong>Pull Requests:</strong> {pullRequests.length}
-          </li>
-          <li>
-            <strong>Branches:</strong> {branches.length}
-          </li>
-        </ul>
+        <Info
+          commits={commits.length}
+          pullRequests={pullRequests.length}
+          branches={branches.length}
+        />
       ),
     },
     {
@@ -83,44 +77,14 @@ function Dashboard() {
     },
     {
       title: "Governance",
-      content: (
-        <ul>
-          <li>
-            <strong>Readme:</strong> {hasReadme ? "✅" : "⛔"}
-          </li>
-          <li>
-            <strong>License:</strong> {hasLicense ? "✅" : "⛔"}
-          </li>
-        </ul>
-      ),
+      content: <Governance hasReadme={hasReadme} hasLicense={hasLicense} />,
     },
   ];
 
   return (
     <>
       <DashboardInfo repoLink={searchValue} />
-      <div>
-        <Container>
-          <Row>
-            <Col sm={4}>
-              <Sidebar sections={sections} />
-            </Col>
-            <Col sm={{ span: 8, offset: 2 }} className="sections-col">
-              {isLoading ? (
-                <div className="d-flex justify-content-center">
-                  <Spinner animation="border" />
-                </div>
-              ) : (
-                sections.map((section, index) => (
-                  <Section key={index} title={section.title}>
-                    {section.content}
-                  </Section>
-                ))
-              )}
-            </Col>
-          </Row>
-        </Container>
-      </div>
+      <DashboardComponents sections={sections} isLoading={isLoading} />
     </>
   );
 }

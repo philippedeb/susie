@@ -46,3 +46,23 @@
 .shake:hover {
   animation: shake 1.5s;
 }
+
+.header-button {
+  background-color: #343a40;
+  border-radius: 20px;
+  border: 2px solid #343a40;
+  color: rgb(221, 221, 221) !important;
+  text-decoration: none !important;
+  font-weight: bold !important;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  padding: 5px 15px;
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+.header-button:hover {
+  background-color: #61856f;
+  border: 2px solid rgb(221, 221, 221);
+}

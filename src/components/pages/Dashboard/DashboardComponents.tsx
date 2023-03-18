@@ -22,7 +22,7 @@ function DashboardComponents(props: Props) {
               </div>
             ) : (
               props.sections.map((section, index) => (
-                <Section key={index} title={section.title}>
+                <Section guideKey={index} title={section.title}>
                   {section.content}
                 </Section>
               ))

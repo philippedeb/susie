@@ -21,7 +21,7 @@ function Sidebar(props: SidebarProps) {
       <ListGroup>
         {props.sections.map((section, index) => (
           <ListGroup.Item
-            key={index}
+            guideKey={index}
             onClick={() => handleClick(section.title)}
           >
             {section.title}

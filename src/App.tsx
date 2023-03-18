@@ -1,14 +1,8 @@
 import "./css/App.css";
 import Header from "./components/Header";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/pages/Dashboard/Dashboard";
 import Home from "./components/pages/Home";
-import { useState } from "react";
 import NotFound from "./components/pages/NotFound";
 
 function App() {

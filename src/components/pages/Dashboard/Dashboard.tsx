@@ -7,6 +7,10 @@ import Sidebar from "../../structure/Sidebar";
 import Section from "../../structure/Section";
 import "../../../css/Dashboard.css";
 import DashboardInfo from "./DashboardInfo";
+import {
+  analyseLanguages,
+  Languages,
+} from "../../metrics/Language/LanguageAnalyser";
 
 function Dashboard() {
   const location = useLocation();
@@ -16,6 +20,7 @@ function Dashboard() {
   const [branches, setBranches] = useState<string[]>([]);
   const [pullRequests, setPullRequests] = useState<string[]>([]);
   const [commits, setCommits] = useState<string[]>([]);
+  const [languages, setLanguages] = useState<Languages>({});
 
   const [inclusiveData, setInclusiveData] = useState<string[]>([]);
 
@@ -30,6 +35,7 @@ function Dashboard() {
       setBranches(data.branches);
       setPullRequests(data.pull_requests);
       setCommits(data.commits);
+      setLanguages(data.languages);
 
       const hasReadme = await getSlash(searchValue, "readme");
       const hasLicense = await getSlash(searchValue, "license");
@@ -67,6 +73,21 @@ function Dashboard() {
     {
       title: "Inclusive Language",
       content: <Inclusive data={inclusiveData} />,
+    },
+    {
+      title: "Programming Languages",
+      content: (
+        <>
+          <ul>
+            {Object.entries(languages).map(([language, count]) => (
+              <li key={language}>
+                {language}: {count}
+              </li>
+            ))}
+          </ul>
+          <p>{analyseLanguages(languages)}</p>
+        </>
+      ),
     },
     {
       title: "Governance",

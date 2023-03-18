@@ -1,17 +1,26 @@
+import {
+  analyseLanguages,
+  Languages,
+} from "../components/metrics/Language/LanguageAnalyser";
+
 export { extractGitHubOwnerAndRepo, getData, getSlash };
 
-async function getData(
-  searchValue: string
-): Promise<{ branches: string[]; commits: string[]; pull_requests: string[] }> {
+async function getData(searchValue: string): Promise<{
+  branches: string[];
+  commits: string[];
+  pull_requests: string[];
+  languages: Languages;
+}> {
   try {
     const repo = extractGitHubRepoPath(searchValue);
     const branches = await getBranches(repo);
     const commits = await getCommits(repo);
     const pull_requests = await getPullRequests(repo);
-    return { branches, commits, pull_requests };
+    const languages = await getLanguages(repo);
+    return { branches, commits, pull_requests, languages };
   } catch (error) {
     console.error(error);
-    return { branches: [], commits: [], pull_requests: [] };
+    return { branches: [], commits: [], pull_requests: [], languages: {} };
   }
 }
 
@@ -43,7 +52,7 @@ async function getBranches(repo: string): Promise<string[]> {
     return branchNames;
   } catch (error) {
     console.error(error);
-    return ["No Branches Found"];
+    return [];
   }
 }
 
@@ -58,7 +67,7 @@ async function getPullRequests(repo: string): Promise<string[]> {
     return pullNames;
   } catch (error) {
     console.error(error);
-    return ["No Pull Requests Found"];
+    return [];
   }
 }
 
@@ -73,7 +82,22 @@ async function getCommits(repo: string): Promise<string[]> {
     return commitNames;
   } catch (error) {
     console.error(error);
-    return ["No Commits Found"];
+    return [];
+  }
+}
+
+async function getLanguages(repo: string): Promise<Languages> {
+  try {
+    const response = await fetch(
+      "https://api.github.com/repos/" + repo + "/languages"
+    );
+    const data = await response.json();
+    console.log("Languages Found:" + analyseLanguages(data));
+    // analyseLanguages(data) // Probably needs to be somewehere else
+    return data;
+  } catch (error) {
+    console.error(error);
+    return {};
   }
 }
 

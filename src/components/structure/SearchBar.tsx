@@ -5,6 +5,7 @@ import {
   OverlayTrigger,
   Tooltip,
   Alert,
+  InputGroup,
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -40,52 +41,25 @@ function SearchBar(props: Props) {
 
   return (
     <>
-      <div className="d-flex align-items-center">
-        <Form className="d-flex">
-          <OverlayTrigger
-            placement="bottom"
-            overlay={
-              <Tooltip>
-                Enter a GitHub repository URL to analyze sustainability
-              </Tooltip>
+      <InputGroup className="mb-3 w-50">
+        <Form.Control
+          placeholder="Enter GitHub repository URL here"
+          aria-label="Enter GitHub repository URL here"
+          aria-describedby="basic-addon2"
+          value={searchValue}
+          onChange={handleChange}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              props.onSearch(searchValue);
             }
-          >
-            <FormControl
-              type="text"
-              placeholder="Enter GitHub repository URL here"
-              className="rounded-pill bg-white text-dark border-0 shadow-sm w-100 mr-2"
-              style={{
-                maxWidth: "90%",
-                minWidth: "400px",
-                borderColor: "#757167",
-                borderWidth: "medium",
-              }}
-              value={searchValue}
-              onChange={handleChange}
-              onKeyDown={(event) => {
-                if (event.key === "Enter") {
-                  event.preventDefault();
-                  props.onSearch(searchValue);
-                }
-              }}
-            />
-          </OverlayTrigger>
-          <OverlayTrigger
-            placement="bottom"
-            overlay={<Tooltip>Analyze</Tooltip>}
-          >
-            <Button
-              onClick={handleSearch}
-              variant="secondary"
-              className="rounded-pill"
-              style={{ backgroundColor: "#757167", marginLeft: "10px" }}
-            >
-              <FontAwesomeIcon icon={faSearch} />
-            </Button>
-          </OverlayTrigger>
-        </Form>
-      </div>
-      <div className="mt-2">
+          }}
+        />
+        <Button variant="success" id="button-addon2" onClick={handleSearch}>
+          <FontAwesomeIcon icon={faSearch} />
+        </Button>
+      </InputGroup>
+      <div className="mt-2 w-75">
         {showWarning && (
           <Alert
             variant="danger"
@@ -93,8 +67,7 @@ function SearchBar(props: Props) {
             dismissible
             onClose={() => setShowWarning(false)}
           >
-            Please enter a valid GitHub repository URL
-            (https://www.github.com/owner/repo).
+            The URL must be in the format https://www.github.com/owner/repo.
           </Alert>
         )}
       </div>

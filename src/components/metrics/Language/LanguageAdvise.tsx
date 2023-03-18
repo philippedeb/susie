@@ -34,7 +34,7 @@ function LanguageAdvise(props: Props) {
         </Alert>
       ) : (
         filteredLabels.map(([label, usagePercentage]) => (
-          <Alert key={label} variant="primary">
+          <Alert guideKey={label} variant="primary">
             {analyseLanguage([label, +usagePercentage])}
           </Alert>
         ))

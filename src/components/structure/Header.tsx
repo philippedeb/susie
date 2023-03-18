@@ -2,6 +2,8 @@ import { Container, Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import logo from "/susie.svg";
 import "../../css/Header.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 function Header() {
   return (
@@ -19,7 +21,9 @@ function Header() {
             {" Susie"}
           </Navbar.Brand>
         </Link>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle aria-controls="basic-navbar-nav">
+          <FontAwesomeIcon icon={faBars} className="navbar-toggle" />
+        </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto justify-content-center">
             <Link to="/susie/" style={{ textDecoration: "none" }}>

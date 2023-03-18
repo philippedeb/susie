@@ -66,3 +66,24 @@
   background-color: #61856f;
   border: 2px solid rgb(221, 221, 221);
 }
+
+.navbar-collapse {
+  padding-top: 8px;
+  padding-bottom: 5px;
+}
+
+.navbar-toggle {
+  outline: none;
+  box-shadow: none;
+  color: white;
+}
+
+.navbar-dark .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;..");
+}
+
+.navbar-toggler {
+  outline: none !important;
+  box-shadow: none !important;
+  border: 0px !important;
+}

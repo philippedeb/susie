@@ -41,7 +41,7 @@ function SearchBar(props: Props) {
 
   return (
     <>
-      <InputGroup className="mb-3 w-50">
+      <InputGroup className="mb-3 w-75">
         <Form.Control
           placeholder="Enter GitHub repository URL here"
           aria-label="Enter GitHub repository URL here"

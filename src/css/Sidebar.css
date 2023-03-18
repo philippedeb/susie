@@ -8,7 +8,7 @@
   color: white;
   overflow-y: auto;
   z-index: 2;
-  margin-top: 50px; /* Add margin-top to push the Sidebar below the Header */
+  margin-top: 64px; /* Add margin-top to push the Sidebar below the Header */
 }
 
 .list-group-item {

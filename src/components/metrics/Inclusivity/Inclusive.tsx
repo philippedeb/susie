@@ -31,12 +31,12 @@ function Inclusive(props: Props) {
         <div>
           <h2>Inclusive Language Recommendations</h2>
           <ul>
-            {recommendations.map((rec, index) => (
-              <li guideKey={index}>
+            {recommendations.map((rec) => (
+              <li>
                 <p>{rec.name}:</p>
                 <ul>
-                  {rec.replacements.map((rep, index) => (
-                    <li guideKey={index}>{rep}</li>
+                  {rec.replacements.map((rep) => (
+                    <li>{rep}</li>
                   ))}
                 </ul>
               </li>

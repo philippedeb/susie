@@ -1,0 +1,11 @@
+.section {
+  background-color: #343a40;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.section h3 {
+  margin-bottom: 10px;
+  color: #fff;
+}

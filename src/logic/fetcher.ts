@@ -12,6 +12,7 @@ async function getData(searchValue: string): Promise<{
     const commits = await getCommits(repo);
     const pull_requests = await getPullRequests(repo);
     const languages = await getLanguages(repo);
+    const runs = await getRuns(repo)
     return { branches, commits, pull_requests, languages };
   } catch (error) {
     console.error(error);
@@ -114,6 +115,19 @@ async function getSlash(url: string, param: string): Promise<boolean> {
   } catch (error) {
     console.error(error);
     return false;
+  }
+}
+
+async function getRuns(repo: string): Promise<Object> {
+  try {
+    const response = await fetch(
+      "https://api.github.com/repos/" + repo + "/actions/runs"
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return {};
   }
 }
 

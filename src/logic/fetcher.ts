@@ -5,6 +5,7 @@ async function getData(searchValue: string): Promise<{
   commits: string[];
   pull_requests: string[];
   languages: { [key: string]: number };
+  runs: string[];
 }> {
   try {
     const repo = extractGitHubRepoPath(searchValue);
@@ -12,11 +13,11 @@ async function getData(searchValue: string): Promise<{
     const commits = await getCommits(repo);
     const pull_requests = await getPullRequests(repo);
     const languages = await getLanguages(repo);
-    const runs = await getRuns(repo)
-    return { branches, commits, pull_requests, languages };
+    const runs = await getRuns(repo);
+    return { branches, commits, pull_requests, languages, runs };
   } catch (error) {
     console.error(error);
-    return { branches: [], commits: [], pull_requests: [], languages: {} };
+    return { branches: [], commits: [], pull_requests: [], languages: {}, runs: [] };
   }
 }
 
@@ -35,6 +36,12 @@ interface GitCommit {
 
 interface GitPull {
   title: string;
+}
+
+interface WorkflowRuns {
+  workflow_runs: {
+    conclusion: string;
+  };
 }
 
 async function getBranches(repo: string): Promise<string[]> {
@@ -118,16 +125,18 @@ async function getSlash(url: string, param: string): Promise<boolean> {
   }
 }
 
-async function getRuns(repo: string): Promise<Object> {
+async function getRuns(repo: string): Promise<string[]> {
   try {
     const response = await fetch(
-      "https://api.github.com/repos/" + repo + "/actions/runs"
+      "https://api.github.com/repos/" + repo + "/actions/runs?per_page=100"
     );
-    const data = await response.json();
-    return data;
+    const data: WorkflowRuns[] = await response.json();
+    const statusses = data.map((item) => item.workflow_runs.conclusion);
+    console.log("Runs Found");
+    return statusses;
   } catch (error) {
     console.error(error);
-    return {};
+    return [];
   }
 }
 

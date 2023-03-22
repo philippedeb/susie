@@ -72,10 +72,10 @@ async function getPullRequests(repo: string): Promise<string[]> {
   }
 }
 
-async function getCommits(repo: string): Promise<string[]> {
+async function getCommits(repo: string, since: string = "2008-02-08T12:00:00Z"): Promise<string[]> {
   try {
     const response = await fetch(
-      "https://api.github.com/repos/" + repo + "/commits"
+      "https://api.github.com/repos/" + repo + "/commits?since=" + since
     );
     const data: GitCommit[] = await response.json();
     const commitNames = data.map((item) => item.commit.message.toLowerCase());
@@ -100,10 +100,10 @@ async function getLanguages(repo: string): Promise<{ [key: string]: number }> {
   }
 }
 
-async function getIssues(repo: string): Promise<string[]> {
+async function getIssues(repo: string, since: string = "2008-02-08T12:00:00Z"): Promise<string[]> {
   try {
     const response = await fetch(
-      "https://api.github.com/repos/" + repo + "/issues"
+      "https://api.github.com/repos/" + repo + "/issues?since=" + since
     );
     const data: GitIssue[] = await response.json();
     const issueNames = data.map((item) => item.title.toLowerCase());

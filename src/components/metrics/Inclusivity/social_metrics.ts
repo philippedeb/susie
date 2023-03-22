@@ -1,11 +1,9 @@
-import { branchList } from "./Fetcher";
-import { commitList } from "./Fetcher";
-import { pullRequestList } from "./Fetcher";
+export { checkLanguage, type Recommendation };
 
 const inclusiveLanguageChecks = [
-  { word: "man hours", replacements: ["labor hours", "work hours", "person hours", "engineer hours"]},
+  { word: "man hours", replacements: ["labor hours", "work hours"]},
   { word: "manpower", replacements: ["labor", "workforce"]},
-  { word: "guys", replacements: ["folks", "people", "you all"]},
+  { word: "guys", replacements: ["folks", "people"]},
   { word: "girl", replacements: ["woman"]},
   { word: "girls", replacements: ["women"]},
   { word: "middleman", replacements: ["middle person", "mediator", "liaison"]},
@@ -38,17 +36,13 @@ interface Recommendation {
   replacements: string[]
 }
 
-interface ComponentRecommendations {
-  component: string
-  recommendations: Recommendation[]
-}
-
-function checkLanguage(componentNames: string[]): Recommendation[] {
+async function checkLanguage(data: string[]): Promise<Recommendation[]> {
   let recommendations: Recommendation[] = []
-  for (const item of componentNames) {
+  for (const item of data) {
     for (const check of inclusiveLanguageChecks) {
       const checkRegex = new RegExp('\\b' + check.word + '\\b');
       if (checkRegex.test(item)) {
+        console.log("Name:", item, "Target Word:", check.word);
         const rec: Recommendation = {
           name: item,
           target_word: check.word,
@@ -59,15 +53,4 @@ function checkLanguage(componentNames: string[]): Recommendation[] {
     }
   }
   return recommendations
-}
-
-export function getLanguageRecommendations(): ComponentRecommendations[] {
-  let languageRecommendations: ComponentRecommendations[] = [
-    { component: "Commits", recommendations: checkLanguage(commitList)},
-    { component: "Branches", recommendations: checkLanguage(branchList)},
-    { component: "Pull Requests", recommendations: checkLanguage(pullRequestList)}
-  ]
-  console.log("Here are some Language Recommendations")
-  console.log(languageRecommendations)
-  return languageRecommendations
 }

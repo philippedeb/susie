@@ -19,6 +19,7 @@ function Dashboard() {
   const [pullRequests, setPullRequests] = useState<string[]>([]);
   const [commits, setCommits] = useState<string[]>([]);
   const [languages, setLanguages] = useState<{ [key: string]: number }>({});
+  const [issues, setIssues] = useState<string[]>([]);
 
   const [inclusiveData, setInclusiveData] = useState<string[]>([]);
 
@@ -34,6 +35,7 @@ function Dashboard() {
       setPullRequests(data.pull_requests);
       setCommits(data.commits);
       setLanguages(data.languages);
+      setIssues(data.issues);
 
       const hasReadme = await getSlash(searchValue, "readme");
       const hasLicense = await getSlash(searchValue, "license");
@@ -47,7 +49,7 @@ function Dashboard() {
   }, [searchValue]);
 
   useEffect(() => {
-    const inclusiveArray = [...branches, ...pullRequests, ...commits];
+    const inclusiveArray = [...branches, ...pullRequests, ...commits, ...issues];
     setInclusiveData(inclusiveArray);
   }, [branches, pullRequests, commits]);
 
@@ -59,6 +61,7 @@ function Dashboard() {
           commits={commits.length}
           pullRequests={pullRequests.length}
           branches={branches.length}
+          issues={issues.length}
         />
       ),
     },

@@ -5,6 +5,7 @@ async function getData(searchValue: string): Promise<{
   commits: string[];
   pull_requests: string[];
   languages: { [key: string]: number };
+  issues: string[];
 }> {
   try {
     const repo = extractGitHubRepoPath(searchValue);
@@ -12,10 +13,11 @@ async function getData(searchValue: string): Promise<{
     const commits = await getCommits(repo);
     const pull_requests = await getPullRequests(repo);
     const languages = await getLanguages(repo);
-    return { branches, commits, pull_requests, languages };
+    const issues = await getIssues(repo);
+    return { branches, commits, pull_requests, languages, issues };
   } catch (error) {
     console.error(error);
-    return { branches: [], commits: [], pull_requests: [], languages: {} };
+    return { branches: [], commits: [], pull_requests: [], languages: {}, issues: [] };
   }
 }
 
@@ -33,6 +35,10 @@ interface GitCommit {
 }
 
 interface GitPull {
+  title: string;
+}
+
+interface GitIssue {
   title: string;
 }
 
@@ -91,6 +97,21 @@ async function getLanguages(repo: string): Promise<{ [key: string]: number }> {
   } catch (error) {
     console.error(error);
     return {};
+  }
+}
+
+async function getIssues(repo: string): Promise<string[]> {
+  try {
+    const response = await fetch(
+      "https://api.github.com/repos/" + repo + "/issues"
+    );
+    const data: GitIssue[] = await response.json();
+    const issueNames = data.map((item) => item.title.toLowerCase());
+    console.log("Issues Found");
+    return issueNames;
+  } catch (error) {
+    console.error(error);
+    return [];
   }
 }
 

@@ -2,6 +2,7 @@ interface Props {
   commits: number;
   pullRequests: number;
   branches: number;
+  issues: number;
 }
 
 function Info(props: Props) {
@@ -15,6 +16,9 @@ function Info(props: Props) {
       </li>
       <li>
         <strong>Branches:</strong> {props.branches}
+      </li>
+      <li>
+        <strong>Issues:</strong> {props.issues}
       </li>
     </ul>
   );

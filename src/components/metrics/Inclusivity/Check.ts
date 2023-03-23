@@ -40,11 +40,11 @@ interface Recommendation {
   replacements: string[]
 }
 
-function checkLanguage(data: string[]): Recommendation[] {
+async function checkLanguage(data: string[]): Promise<Recommendation[]> {
   let recommendations: Recommendation[] = []
   for (const item of data) {
     for (const check of inclusiveLanguageChecks) {
-      const checkRegex = new RegExp('\\b${check.word}\\b');
+      const checkRegex = new RegExp('\\b' + check.word + '\\b');
       if (checkRegex.test(item)) {
         console.log("Name:", item, "Target Word:", check.word);
         const rec: Recommendation = {
@@ -58,4 +58,3 @@ function checkLanguage(data: string[]): Recommendation[] {
   }
   return recommendations
 }
-  

@@ -105,7 +105,6 @@ function InclusiveLanguageGuide() {
                     <li className="list-group-item">Here will be a link to a source.</li>
                     <li className="list-group-item">Here will be a link to a source.</li>
                 </ul>
-                <p></p>
             </Col>
           </Row>
         </Container>

@@ -1,9 +1,13 @@
 export { checkLanguage, type Recommendation };
 
 const inclusiveLanguageChecks = [
-  { word: "man hours", replacements: ["labor hours", "work hours"]},
+  { word: "master", replacements: ["main", "leader", "primary"]},
+  { word: "slave", replacements: ["follower", "replica", "secondary"]},
+  { word: "whitelist", replacements: ["allow list", "inclusion list", "safe list"]},
+  { word: "blacklist", replacements: ["deny list", "exclusion list", "block list", "banned list"]},
+  { word: "man hours", replacements: ["labor hours", "work hours", "person hours", "engineer hours"]},
   { word: "manpower", replacements: ["labor", "workforce"]},
-  { word: "guys", replacements: ["folks", "people"]},
+  { word: "guys", replacements: ["folks", "people", "you all"]},
   { word: "girl", replacements: ["woman"]},
   { word: "girls", replacements: ["women"]},
   { word: "middleman", replacements: ["middle person", "mediator", "liaison"]},
@@ -22,12 +26,12 @@ const inclusiveLanguageChecks = [
   { word: "legacy", replacements: ["flagship", "established", "rollover", "carryover"]},
   { word: "crushing it", replacements: ["elevating", "exceeding expectations", "excelling"]},
   { word: "killing it", replacements: ["elevating", "exceeding expectations", "excelling"]},
-  { word: "master", replacements: ["main", "leader", "primary"]},
-  { word: "whitelist", replacements: ["allowlist"]},
-  { word: "blacklist", replacements: ["denylist"]},
-  { word: "slave", replacements: ["follower", "replica", "standby"]},
+  { word: "owner", replacements: ["lead", "manager", "expert"]},
   { word: "sanity check", replacements: ["quick check", "confidence check", "coherence check"]},
-  { word: "dummy value", replacements: ["placeholder value", "sample value"]}
+  { word: "dummy value", replacements: ["placeholder value", "sample value"]},
+  { word: "native feature", replacements: ["core feature", "built-in feature"]},
+  { word: "culture fit", replacements: ["values fit"]},
+  { word: "housekeeping", replacements: ["cleanup", "maintenance"]}
 ]
 
 interface Recommendation {

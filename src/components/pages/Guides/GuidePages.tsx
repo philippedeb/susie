@@ -1,5 +1,6 @@
 import NotFound from "../NotFound";
 import GuidePage from "./GuidePage";
+import InclusiveLanguageGuide from "./InclusiveLanguageGuide";
 
 interface GuidePagesProps {
   guideKey: string;
@@ -14,10 +15,10 @@ function GuidePages(props: GuidePagesProps) {
   // Instruction: add a guide by adding a new key-value pair with the key being the guideKey and the value being the guide page.
   const guidePages: GuidePages = {
     "inclusive-language": (
-      <GuidePage title="Inclusive Language">Work in progress..</GuidePage>
+      <GuidePage title="Inclusive Language"><InclusiveLanguageGuide></InclusiveLanguageGuide></GuidePage>
     ),
     "programming-languages-efficiency": (
-      <GuidePage title="Inclusive Language">Work in progress..</GuidePage>
+      <GuidePage title="Programming Languages">Work in progress..</GuidePage>
     ),
   };
 

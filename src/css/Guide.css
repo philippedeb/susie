@@ -1,0 +1,28 @@
+.guide {
+  cursor: pointer;
+  background-color: #343a40 !important;
+  border-radius: 15px !important;
+  text-decoration: none;
+  color: #ffffff;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.guide:hover {
+  background-color: #7b7468 !important;
+}
+
+.guide .card-body {
+  padding: 20px;
+}
+
+.card-title {
+  color: rgb(117, 180, 228);
+}
+
+.card-description {
+  font-size: 1.15rem;
+  font-weight: 420;
+  line-height: 1.5;
+  margin-bottom: 0;
+  color: white;
+}

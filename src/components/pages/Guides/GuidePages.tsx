@@ -1,5 +1,6 @@
 import NotFound from "../NotFound";
 import GuidePage from "./GuidePage";
+import EnergyConsumptionGuide from "./EnergyConsumptionGuide";
 
 interface GuidePagesProps {
   guideKey: string;
@@ -16,8 +17,8 @@ function GuidePages(props: GuidePagesProps) {
     "inclusive-language": (
       <GuidePage title="Inclusive Language">Work in progress..</GuidePage>
     ),
-    "programming-languages-efficiency": (
-      <GuidePage title="Inclusive Language">Work in progress..</GuidePage>
+    "software-efficiency": (
+      <GuidePage title="Energy Consumption"><EnergyConsumptionGuide></EnergyConsumptionGuide></GuidePage>
     ),
   };
 

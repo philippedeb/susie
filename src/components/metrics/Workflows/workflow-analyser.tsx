@@ -14,7 +14,7 @@ function WorkflowAnalysis(props: Props) {
     for (var i = 0, j = props.statusses.length; i < j; i++) {
        occurrences[props.statusses[i]] = (occurrences[props.statusses[i]] || 0) + 1;
     }
-    const percentage_failures = occurrences['failure']/props.statusses.length * 100
+    const percentage_failures = occurrences['failure']/props.statusses.length
     if (percentage_failures > THRESHOLD) {
         console.log("Your builds are failing quite often, you should try running locally before pushing!")
     } else {

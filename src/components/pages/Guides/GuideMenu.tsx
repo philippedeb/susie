@@ -20,9 +20,9 @@ function Guides() {
           guideKey={"inclusive-language"}
         />
         <Guide
-          guideTitle="Programming Languages"
-          description="How efficient are they? 📈"
-          guideKey={"programming-languages-efficiency"}
+          guideTitle="Energy efficiency in Software Development"
+          description="How efficient are your programming languages and workflow builds? 📈"
+          guideKey={"software-efficiency"}
         />
       </div>
     </Container>

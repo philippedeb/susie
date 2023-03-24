@@ -14,6 +14,7 @@ async function getData(searchValue: string): Promise<{
     const pull_requests = await getPullRequests(repo);
     const languages = await getLanguages(repo);
     const issues = await getIssues(repo);
+    const dates = await getDates(repo);
     return { branches, commits, pull_requests, languages, issues };
   } catch (error) {
     console.error(error);
@@ -31,6 +32,7 @@ interface GitCommit {
     author: {
       date: string;
     };
+    date: string;
   };
 }
 
@@ -113,6 +115,30 @@ async function getIssues(repo: string, since: string = "2008-02-08T12:00:00Z"): 
     console.error(error);
     return [];
   }
+}
+
+
+async function getDates(repo: string): Promise<string[]> {
+  let n: number = 1;
+  let dateList: string[] = []
+  while (n < 5) {
+    try {
+      const link: string = 'https://api.github.com/repos/' + repo + '/commits?page=' + n.toString();
+      console.log(link)
+      const response = await fetch(link)
+      const data: GitCommit[] = await response.json();
+      const commitDates = data.map((item) => item.commit.author.date);
+      dateList = dateList.concat(commitDates)
+      if (commitDates.length < 30) {
+        break;
+      }
+      n++
+    } catch (error) {
+      console.error(error);
+      return ["No Dates Found"];
+    }
+  }
+  return dateList;
 }
 
 /*

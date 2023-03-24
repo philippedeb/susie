@@ -17,6 +17,9 @@
     "react-bootstrap": "^2.7.2",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
+    "react-native": "^0.71.4",
+    "react-native-paper": "^5.5.1",
+    "react-native-progress": "^5.0.0",
     "react-router-dom": "^6.9.0"
   },
   "devDependencies": {

@@ -6,6 +6,7 @@ import "../../../css/Dashboard.css";
 import DashboardInfo from "./DashboardInfo";
 import LanguagePiechart from "../../metrics/Language/LanguagePiechart";
 import LanguageAdvise from "../../metrics/Language/LanguageAdvise";
+import WorkflowAnalysis from "../../metrics/Workflows/workflow-analyser";
 import Info from "../../metrics/General/Info";
 import Governance from "../../metrics/Governance/Governance";
 import DashboardComponents from "./DashboardComponents";
@@ -19,6 +20,7 @@ function Dashboard() {
   const [pullRequests, setPullRequests] = useState<string[]>([]);
   const [commits, setCommits] = useState<string[]>([]);
   const [languages, setLanguages] = useState<{ [key: string]: number }>({});
+  const [workflows, setWorkflows] = useState<string[]>([]);
 
   const [inclusiveData, setInclusiveData] = useState<string[]>([]);
 
@@ -34,6 +36,7 @@ function Dashboard() {
       setPullRequests(data.pull_requests);
       setCommits(data.commits);
       setLanguages(data.languages);
+      setWorkflows(data.runs);
 
       const hasReadme = await getSlash(searchValue, "readme");
       const hasLicense = await getSlash(searchValue, "license");
@@ -78,6 +81,10 @@ function Dashboard() {
     {
       title: "Governance",
       content: <Governance hasReadme={hasReadme} hasLicense={hasLicense} />,
+    },
+    {
+      title: "Workflow runs",
+      content: <WorkflowAnalysis statusses={workflows}/>,
     },
   ];
 

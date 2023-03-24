@@ -1,11 +1,13 @@
 
 import { Alert } from "react-bootstrap";
+import React , {useState, useEffect} from "react";
+import {Text , View, StyleSheet} from 'react-native';
+import { ProgressBar } from "react-native-paper";
 
 // Minimum ratio of successes
 const THRESHOLD = 0.1
 
 interface Props {
-    threshold: number;
     statusses: string[];
 }
 
@@ -20,4 +22,11 @@ function WorkflowAnalysis(props: Props) {
     } else {
         console.log("Your builds are successful. Running locally before pushing saves energy, so good job!")
     }
-}
+
+    return(
+        <h5>Test</h5>
+        // <ProgressBar progress={1 - percentage_failures}  color={"green"} />    
+    )
+};
+
+export default WorkflowAnalysis;

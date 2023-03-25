@@ -97,6 +97,14 @@ function Inclusive(props: Props) {
                 />
               )
             )}
+            {recommendations.profanity_locations.length > 0 && (
+              <Recommendation
+                key={"Profanity"}
+                title={"Profane language 😮"}
+                replacements={[]}
+                locations={recommendations.profanity_locations}
+              />
+            )}
           </div>
         )
       ) : (

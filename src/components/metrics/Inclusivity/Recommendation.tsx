@@ -19,14 +19,20 @@ function Recommendation(props: Props) {
     <div className="recommendation-container">
       <div className="recommendation-header" onClick={toggleDropdown}>
         <h6>
-          {props.title} {" → " + props.replacements.join(", ")}
+          {props.title}{" "}
+          {props.replacements.length > 0
+            ? " → " + props.replacements.join(", ")
+            : ""}
         </h6>
       </div>
       <Collapse in={isOpen}>
         <div className="recommendation-body">
           <p>
-            The term <b>{props.title}</b> was found in the following branches,
-            issues, commits or pull requests:
+            {props.replacements.length > 0
+              ? 'The term "' +
+                props.title +
+                '" was found in the following branches, issues, commits or pull requests:'
+              : "Based on the following branches, issues, commits or pull requests:"}
             <ul>
               {props.locations.map((location) => (
                 <li key={location} className="mt-2">

@@ -49,7 +49,12 @@ function Dashboard() {
   }, [searchValue]);
 
   useEffect(() => {
-    const inclusiveArray = [...branches, ...pullRequests, ...commits, ...issues];
+    const inclusiveArray = [
+      ...branches,
+      ...pullRequests,
+      ...commits,
+      ...issues,
+    ];
     setInclusiveData(inclusiveArray);
   }, [branches, pullRequests, commits]);
 

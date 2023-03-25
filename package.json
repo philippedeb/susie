@@ -11,6 +11,7 @@
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "bad-words": "^3.0.4",
     "bootstrap": "^5.2.3",
     "chart.js": "^4.2.1",
     "react": "^18.2.0",
@@ -20,7 +21,9 @@
     "react-router-dom": "^6.9.0"
   },
   "devDependencies": {
+    "@types/bad-words": "^3.0.1",
     "@types/colorbrewer": "^1.0.29",
+    "@types/node": "^18.15.7",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react": "^3.1.0",

@@ -1,0 +1,25 @@
+.recommendation-container {
+  background-color: #484e54;
+  border-radius: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  margin-top: 15px;
+}
+
+.recommendation-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.dropdown-icon {
+  font-size: 1.5rem;
+}
+
+.recommendation-body {
+  margin-top: 10px;
+  color: #dedede;
+}

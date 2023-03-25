@@ -1,4 +1,4 @@
-export { checkLanguage, type Recommendation };
+export { checkLanguage, type Recommendations, type TermRecommendation };
 
 import Filter from "bad-words";
 const filter = new Filter();
@@ -95,35 +95,42 @@ const inclusiveLanguageChecks = [
   { word: "firewomen", replacements: ["firefighters"] },
 ];
 
-interface Recommendation {
-  name: string;
-  target_word: string;
-  replacements: string[];
+interface Recommendations {
+  terms: { [key: string]: TermRecommendation };
+  profanity_locations: string[];
 }
 
-async function checkLanguage(data: string[]): Promise<Recommendation[]> {
-  let recommendations: Recommendation[] = [];
+interface TermRecommendation {
+  replacements: string[];
+  locations: string[];
+}
+
+function checkLanguage(data: string[]): Recommendations {
+  const recommendations: Recommendations = {
+    terms: {},
+    profanity_locations: [],
+  };
+
   for (const item of data) {
     // Check if the item contains any of the target words
     for (const check of inclusiveLanguageChecks) {
       const checkRegex = new RegExp("\\b" + check.word + "\\b");
       if (checkRegex.test(item)) {
         console.log("Name:", item, "Target Word:", check.word);
-        const rec: Recommendation = {
-          name: item,
-          target_word: check.word,
-          replacements: check.replacements,
-        };
-        recommendations.push(rec);
+
+        if (recommendations.terms[check.word]) {
+          recommendations.terms[check.word].locations.push(item);
+        } else {
+          recommendations.terms[check.word] = {
+            replacements: check.replacements,
+            locations: [item],
+          };
+        }
       }
     }
     // Check if the item contains any profanity
     if (filter.isProfane(item)) {
-      recommendations.push({
-        name: item,
-        target_word: "Profanity",
-        replacements: [],
-      });
+      recommendations.profanity_locations.push(item);
     }
   }
   return recommendations;

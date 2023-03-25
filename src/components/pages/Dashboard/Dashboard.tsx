@@ -4,7 +4,7 @@ import { getData, getSlash } from "../../../logic/fetcher";
 import Inclusive from "../../metrics/Inclusivity/Inclusive";
 import "../../../css/Dashboard.css";
 import DashboardInfo from "./DashboardInfo";
-import WorkflowAnalysis from "../../metrics/Workflows/workflow-analyser";
+import WorkflowAnalysis from "../../metrics/Workflows/WorkflowAnalysis";
 import Info from "../../metrics/General/Info";
 import Governance from "../../metrics/Governance/Governance";
 import DashboardComponents from "./DashboardComponents";
@@ -78,16 +78,16 @@ function Dashboard() {
       content: <Inclusive data={inclusiveData} />,
     },
     {
-      title: "Sustainable Programming Languages",
-      content: <ProgrammingLanguage languages={languages} />,
+      title: "Workflow",
+      content: <WorkflowAnalysis statusses={workflows} />,
     },
     {
       title: "Governance",
       content: <Governance hasReadme={hasReadme} hasLicense={hasLicense} />,
     },
     {
-      title: "Workflow runs",
-      content: <WorkflowAnalysis statusses={workflows} />,
+      title: "Sustainable Programming Languages",
+      content: <ProgrammingLanguage languages={languages} />,
     },
   ];
 

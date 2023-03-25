@@ -39,9 +39,9 @@ interface GitPull {
 }
 
 interface WorkflowRuns {
-  workflow_runs: {
-    conclusion: string;
-  };
+  workflow_runs: [
+    {conclusion : string}
+  ]
 }
 
 async function getBranches(repo: string): Promise<string[]> {
@@ -130,8 +130,9 @@ async function getRuns(repo: string): Promise<string[]> {
     const response = await fetch(
       "https://api.github.com/repos/" + repo + "/actions/runs?per_page=100"
     );
-    const data: WorkflowRuns[] = await response.json();
-    const statusses = data.map((item) => item.workflow_runs.conclusion);
+    const data: WorkflowRuns = await response.json();
+    console.log(data);
+    const statusses = data.workflow_runs.map((item) => item.conclusion.toLowerCase());
     console.log("Runs Found");
     return statusses;
   } catch (error) {

@@ -8,7 +8,7 @@ interface Props {
 }
 
 function analyseLanguage([language, usagePercentage]: [string, number]) {
-  const tooltip = LanguageTooltips.data[language];
+  const tooltip = LanguageTooltips[language];
   return `${usagePercentage}% of your code is ${language}. ${tooltip}`;
 }
 
@@ -23,7 +23,7 @@ function LanguageAdvise(props: Props) {
     .map((label, index) => [label, percentages[index]])
     .filter(([label, percentage]) => {
       // Only show languages that are above the threshold and have a tooltip
-      return +percentage >= props.threshold && label in LanguageTooltips.data;
+      return +percentage >= props.threshold && label in LanguageTooltips;
     });
 
   return (

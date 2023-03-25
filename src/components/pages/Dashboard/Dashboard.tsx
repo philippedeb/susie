@@ -4,12 +4,10 @@ import { getData, getSlash } from "../../../logic/fetcher";
 import Inclusive from "../../metrics/Inclusivity/Inclusive";
 import "../../../css/Dashboard.css";
 import DashboardInfo from "./DashboardInfo";
-import LanguagePiechart from "../../metrics/Language/LanguagePiechart";
-import LanguageAdvise from "../../metrics/Language/LanguageAdvise";
+import WorkflowAnalysis from "../../metrics/Workflows/workflow-analyser";
 import Info from "../../metrics/General/Info";
 import Governance from "../../metrics/Governance/Governance";
 import DashboardComponents from "./DashboardComponents";
-import DropDown from "../../structure/DropDown";
 import "../../../css/Link.css";
 import ProgrammingLanguage from "../../metrics/Language/ProgrammingLanguage";
 
@@ -23,6 +21,7 @@ function Dashboard() {
   const [commits, setCommits] = useState<string[]>([]);
   const [languages, setLanguages] = useState<{ [key: string]: number }>({});
   const [issues, setIssues] = useState<string[]>([]);
+  const [workflows, setWorkflows] = useState<string[]>([]);
 
   const [inclusiveData, setInclusiveData] = useState<string[]>([]);
 
@@ -39,6 +38,7 @@ function Dashboard() {
       setCommits(data.commits);
       setLanguages(data.languages);
       setIssues(data.issues);
+      setWorkflows(data.runs);
 
       const hasReadme = await getSlash(searchValue, "readme");
       const hasLicense = await getSlash(searchValue, "license");
@@ -84,6 +84,10 @@ function Dashboard() {
     {
       title: "Governance",
       content: <Governance hasReadme={hasReadme} hasLicense={hasLicense} />,
+    },
+    {
+      title: "Workflow runs",
+      content: <WorkflowAnalysis statusses={workflows} />,
     },
   ];
 

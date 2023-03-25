@@ -6,6 +6,7 @@ async function getData(searchValue: string): Promise<{
   pull_requests: string[];
   languages: { [key: string]: number };
   issues: string[];
+  runs: string[];
 }> {
   try {
     const repo = extractGitHubRepoPath(searchValue);
@@ -14,10 +15,18 @@ async function getData(searchValue: string): Promise<{
     const pull_requests = await getPullRequests(repo);
     const languages = await getLanguages(repo);
     const issues = await getIssues(repo);
-    return { branches, commits, pull_requests, languages, issues };
+    const runs = await getRuns(repo);
+    return { branches, commits, pull_requests, languages, issues, runs };
   } catch (error) {
     console.error(error);
-    return { branches: [], commits: [], pull_requests: [], languages: {}, issues: [] };
+    return {
+      branches: [],
+      commits: [],
+      pull_requests: [],
+      languages: {},
+      issues: [],
+      runs: [],
+    };
   }
 }
 
@@ -40,6 +49,10 @@ interface GitPull {
 
 interface GitIssue {
   title: string;
+}
+
+interface WorkflowRuns {
+  workflow_runs: [{ conclusion: string }];
 }
 
 async function getBranches(repo: string): Promise<string[]> {
@@ -72,10 +85,16 @@ async function getPullRequests(repo: string): Promise<string[]> {
   }
 }
 
-async function getCommits(repo: string, since: string = "2008-02-08T12:00:00Z"): Promise<string[]> {
+async function getCommits(
+  repo: string,
+  since: string = "2008-02-08T12:00:00Z"
+): Promise<string[]> {
   try {
     const response = await fetch(
-      "https://api.github.com/repos/" + repo + "/commits?per_page=100&since=" + since
+      "https://api.github.com/repos/" +
+        repo +
+        "/commits?per_page=100&since=" +
+        since
     );
     const data: GitCommit[] = await response.json();
     const commitNames = data.map((item) => item.commit.message.toLowerCase());
@@ -100,10 +119,16 @@ async function getLanguages(repo: string): Promise<{ [key: string]: number }> {
   }
 }
 
-async function getIssues(repo: string, since: string = "2008-02-08T12:00:00Z"): Promise<string[]> {
+async function getIssues(
+  repo: string,
+  since: string = "2008-02-08T12:00:00Z"
+): Promise<string[]> {
   try {
     const response = await fetch(
-      "https://api.github.com/repos/" + repo + "/issues?per_page=100&since=" + since
+      "https://api.github.com/repos/" +
+        repo +
+        "/issues?per_page=100&since=" +
+        since
     );
     const data: GitIssue[] = await response.json();
     const issueNames = data.map((item) => item.title.toLowerCase());
@@ -135,6 +160,23 @@ async function getSlash(url: string, param: string): Promise<boolean> {
   } catch (error) {
     console.error(error);
     return false;
+  }
+}
+
+async function getRuns(repo: string): Promise<string[]> {
+  try {
+    const response = await fetch(
+      "https://api.github.com/repos/" + repo + "/actions/runs?per_page=100"
+    );
+    const data: WorkflowRuns = await response.json();
+    const statusses = data.workflow_runs.map((item) =>
+      item.conclusion.toLowerCase()
+    );
+    console.log("Runs Found");
+    return statusses;
+  } catch (error) {
+    console.error(error);
+    return [];
   }
 }
 

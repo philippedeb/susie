@@ -1,4 +1,5 @@
 import { Alert } from "react-bootstrap";
+import DropDown from "../../structure/DropDown";
 import { LanguageTooltips } from "./LanguageTooltips";
 
 interface Props {
@@ -27,16 +28,19 @@ function LanguageAdvise(props: Props) {
 
   return (
     <>
-      <h5 className="mt-3">Analysis</h5>
+      <h5 className="mt-3">Insights</h5>
       {filteredLabels.length == 0 ? (
         <Alert variant="success">
           You are using efficient languages, well done!
         </Alert>
       ) : (
         filteredLabels.map(([label, usagePercentage], index) => (
-          <Alert key={index} variant="primary">
-            {analyseLanguage([label, +usagePercentage])}
-          </Alert>
+          <DropDown
+            key={index}
+            header={label}
+            collapsed={false}
+            children={<p>{analyseLanguage([label, +usagePercentage])}</p>}
+          ></DropDown>
         ))
       )}
     </>

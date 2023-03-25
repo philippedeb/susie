@@ -20,9 +20,11 @@ function DropDown(props: Props) {
       <div className="recommendation-header" onClick={toggleDropdown}>
         <h6>{props.header}</h6>
       </div>
-      <Collapse in={isOpen}>
-        <div className="recommendation-body mb-3">{props.children}</div>
-      </Collapse>
+      {props.children && (
+        <Collapse in={isOpen}>
+          <div className="recommendation-body mb-3">{props.children}</div>
+        </Collapse>
+      )}
     </div>
   );
 }

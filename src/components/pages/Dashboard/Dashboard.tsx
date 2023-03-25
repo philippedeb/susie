@@ -11,6 +11,7 @@ import Governance from "../../metrics/Governance/Governance";
 import DashboardComponents from "./DashboardComponents";
 import DropDown from "../../structure/DropDown";
 import "../../../css/Link.css";
+import ProgrammingLanguage from "../../metrics/Language/ProgrammingLanguage";
 
 function Dashboard() {
   const location = useLocation();
@@ -78,26 +79,7 @@ function Dashboard() {
     },
     {
       title: "Sustainable Programming Languages",
-      content: (
-        <>
-          <p>
-            Did you know that your choice of programming language can have an
-            enviromental impact? 🌱
-            <br /> Read more about the topic in{" "}
-            <a className="susie-link" href="./guide?name=inclusive-language">
-              this guide
-            </a>{" "}
-            or look at what Susie has found:
-          </p>
-          <DropDown
-            header={"Tech Stack of the Repository 💻"}
-            collapsed={false}
-          >
-            <LanguagePiechart languages={languages} />
-          </DropDown>
-          <LanguageAdvise languages={languages} threshold={20.0} />
-        </>
-      ),
+      content: <ProgrammingLanguage languages={languages} />,
     },
     {
       title: "Governance",

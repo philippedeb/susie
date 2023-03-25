@@ -131,7 +131,6 @@ async function getRuns(repo: string): Promise<string[]> {
       "https://api.github.com/repos/" + repo + "/actions/runs?per_page=100"
     );
     const data: WorkflowRuns = await response.json();
-    console.log(data);
     const statusses = data.workflow_runs.map((item) => item.conclusion.toLowerCase());
     console.log("Runs Found");
     return statusses;

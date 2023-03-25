@@ -17,12 +17,12 @@ function GuidePages(props: GuidePagesProps) {
   const guidePages: GuidePages = {
     "inclusive-language": (
       <GuidePage title="Inclusive Language">
-        <InclusiveLanguageGuide></InclusiveLanguageGuide>
+        <InclusiveLanguageGuide />
       </GuidePage>
     ),
-    "software-efficiency": (
-      <GuidePage title="Energy Consumption">
-        <EnergyConsumptionGuide></EnergyConsumptionGuide>
+    "programming-languages": (
+      <GuidePage title="Programming Languages">
+        <EnergyConsumptionGuide />
       </GuidePage>
     ),
   };

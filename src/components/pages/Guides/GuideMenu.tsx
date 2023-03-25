@@ -22,7 +22,7 @@ function Guides() {
         <Guide
           guideTitle="Programming Languages"
           description="How much energy do they consume? 📈"
-          guideKey={"software-efficiency"}
+          guideKey={"programming-languages"}
         />
       </div>
     </Container>

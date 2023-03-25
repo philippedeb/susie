@@ -27,7 +27,7 @@ function LanguageAdvise(props: Props) {
 
   return (
     <>
-      <h4>Analysis</h4>
+      <h5 className="mt-3">Analysis</h5>
       {filteredLabels.length == 0 ? (
         <Alert variant="success">
           You are using efficient languages, well done!

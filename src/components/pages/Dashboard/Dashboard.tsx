@@ -23,12 +23,21 @@ function Dashboard() {
   const [issues, setIssues] = useState<string[]>([]);
   const [workflows, setWorkflows] = useState<string[]>([]);
 
+  const [readme, setReadMe] = useState<string>(""); // README.md
+  const [license, setLicense] = useState<string>(""); // LICENSE.md
+  const [changeLog, setChangeLog] = useState<string>(""); // CHANGELOG.md
+  const [codeOfConduct, setCodeOfConduct] = useState<string>(""); // CODE_OF_CONDUCT.md
+  const [contributing, setContributing] = useState<string>(""); // CONTRIBUTING.md
+  const [issueTemplate, setIssueTemplate] = useState<string>(""); // ISSUE_TEMPLATE.md
+  const [pullRequestTemplate, setPullRequestTemplate] = useState<string>(""); // PULL_REQUEST_TEMPLATE.md
+
   const [inclusiveData, setInclusiveData] = useState<string[]>([]);
 
   const [hasReadme, setHasReadme] = useState(false);
   const [hasLicense, setHasLicense] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
+  const [successLoading, setSuccessLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,16 +49,25 @@ function Dashboard() {
       setIssues(data.issues);
       setWorkflows(data.runs);
 
+      setReadMe(data.readme);
+      setLicense(data.license);
+      setChangeLog(data.changelog);
+      setCodeOfConduct(data.codeOfConduct);
+      setContributing(data.contributingGuidelines);
+      setIssueTemplate(data.issueTemplate);
+      setPullRequestTemplate(data.prTemplate);
+
       const hasReadme = await getSlash(searchValue, "readme");
       const hasLicense = await getSlash(searchValue, "license");
       setHasReadme(hasReadme);
       setHasLicense(hasLicense);
 
-      // ! Must be last in fetchData to ensure all data is fetched before setting isLoading to false
+      // ! Must be last in fetchData to ensure all data is fetched before setting isLoading to false (loading icon) and successLoading to true (no error message)
+      setSuccessLoading(branches.length > 0);
       setIsLoading(false);
     };
     fetchData();
-  }, [searchValue]);
+  }, [searchValue]); // only run when searchValue changes
 
   useEffect(() => {
     const inclusiveArray = [
@@ -57,9 +75,30 @@ function Dashboard() {
       ...pullRequests,
       ...commits,
       ...issues,
+      ...workflows,
+      readme,
+      // license,
+      changeLog,
+      codeOfConduct,
+      contributing,
+      issueTemplate,
+      pullRequestTemplate,
     ];
     setInclusiveData(inclusiveArray);
-  }, [branches, pullRequests, commits]);
+  }, [
+    branches,
+    pullRequests,
+    commits,
+    issues,
+    workflows,
+    readme,
+    license,
+    changeLog,
+    codeOfConduct,
+    contributing,
+    issueTemplate,
+    pullRequestTemplate,
+  ]); // only run when any of the inclusive data changes (license is not excluded as it makes sense to mention "owner" from legal perspective)
 
   const sections = [
     {
@@ -83,7 +122,19 @@ function Dashboard() {
     },
     {
       title: "Governance",
-      content: <Governance hasReadme={hasReadme} hasLicense={hasLicense} />,
+      content: (
+        <Governance
+          hasReadme={hasReadme}
+          hasLicense={hasLicense}
+          readme={readme}
+          license={license}
+          changeLog={changeLog}
+          codeOfConduct={codeOfConduct}
+          contributing={contributing}
+          issueTemplate={issueTemplate}
+          pullRequestTemplate={pullRequestTemplate}
+        />
+      ),
     },
     {
       title: "Sustainable Programming Languages",
@@ -94,7 +145,11 @@ function Dashboard() {
   return (
     <>
       <DashboardInfo repoLink={searchValue} />
-      <DashboardComponents sections={sections} isLoading={isLoading} />
+      <DashboardComponents
+        sections={sections}
+        isLoading={isLoading}
+        successLoading={successLoading}
+      />
     </>
   );
 }

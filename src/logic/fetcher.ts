@@ -7,6 +7,13 @@ async function getData(searchValue: string): Promise<{
   languages: { [key: string]: number };
   issues: string[];
   runs: string[];
+  readme: string;
+  license: string;
+  changelog: string;
+  codeOfConduct: string;
+  contributingGuidelines: string;
+  issueTemplate: string;
+  prTemplate: string;
 }> {
   try {
     const repo = extractGitHubRepoPath(searchValue);
@@ -16,7 +23,28 @@ async function getData(searchValue: string): Promise<{
     const languages = await getLanguages(repo);
     const issues = await getIssues(repo);
     const runs = await getRuns(repo);
-    return { branches, commits, pull_requests, languages, issues, runs };
+    const readme = await getFileContent(repo, "README.md");
+    const license = await getFileContent(repo, "LICENSE");
+    const changelog = await getFileContent(repo, "CHANGELOG.md");
+    const codeOfConduct = await getCodeOfConduct(repo);
+    const contributingGuidelines = await getContributingGuidelines(repo);
+    const issueTemplate = await getIssueTemplate(repo);
+    const prTemplate = await getPrTemplate(repo);
+    return {
+      branches,
+      commits,
+      pull_requests,
+      languages,
+      issues,
+      runs,
+      readme,
+      license,
+      changelog,
+      codeOfConduct,
+      contributingGuidelines,
+      issueTemplate,
+      prTemplate,
+    };
   } catch (error) {
     console.error(error);
     return {
@@ -26,6 +54,13 @@ async function getData(searchValue: string): Promise<{
       languages: {},
       issues: [],
       runs: [],
+      readme: "",
+      license: "",
+      changelog: "",
+      codeOfConduct: "",
+      contributingGuidelines: "",
+      issueTemplate: "",
+      prTemplate: "",
     };
   }
 }
@@ -53,6 +88,74 @@ interface GitIssue {
 
 interface WorkflowRuns {
   workflow_runs: [{ conclusion: string }];
+}
+
+async function getCodeOfConduct(repo: string): Promise<string> {
+  try {
+    const response = await fetch(
+      `https://api.github.com/repos/${repo}/community/code_of_conduct`
+    );
+    const data = await response.json();
+    if (data.code_of_conduct) {
+      return atob(data.code_of_conduct.body);
+    } else {
+      return "";
+    }
+  } catch (error) {
+    console.error(error);
+    return "";
+  }
+}
+
+async function getContributingGuidelines(repo: string): Promise<string> {
+  try {
+    const response = await fetch(
+      `https://api.github.com/repos/${repo}/contents/CONTRIBUTING.md`
+    );
+    const data = await response.json();
+    if (data.content) {
+      return atob(data.content);
+    } else {
+      return "";
+    }
+  } catch (error) {
+    console.error(error);
+    return "";
+  }
+}
+
+async function getIssueTemplate(repo: string): Promise<string> {
+  try {
+    const response = await fetch(
+      `https://api.github.com/repos/${repo}/contents/.github/ISSUE_TEMPLATE.md`
+    );
+    const data = await response.json();
+    if (data.content) {
+      return atob(data.content);
+    } else {
+      return "";
+    }
+  } catch (error) {
+    console.error(error);
+    return "";
+  }
+}
+
+async function getPrTemplate(repo: string): Promise<string> {
+  try {
+    const response = await fetch(
+      `https://api.github.com/repos/${repo}/contents/.github/PULL_REQUEST_TEMPLATE.md`
+    );
+    const data = await response.json();
+    if (data.content) {
+      return atob(data.content);
+    } else {
+      return "";
+    }
+  } catch (error) {
+    console.error(error);
+    return "";
+  }
 }
 
 async function getBranches(repo: string): Promise<string[]> {
@@ -201,4 +304,21 @@ function extractGitHubOwnerAndRepo(url: string): [string, string] {
   if (!match || !(match.groups?.owner && match.groups?.name))
     return ["URL not found", ""];
   return [match.groups.owner, match.groups.name];
+}
+
+async function getFileContent(repo: string, filename: string): Promise<string> {
+  try {
+    const response = await fetch(
+      `https://api.github.com/repos/${repo}/contents/${filename}`
+    );
+    const data = await response.json();
+    if (data.content) {
+      return atob(data.content);
+    } else {
+      return "";
+    }
+  } catch (error) {
+    console.error(error);
+    return "";
+  }
 }

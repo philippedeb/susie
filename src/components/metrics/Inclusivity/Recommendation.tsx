@@ -33,14 +33,14 @@ function Recommendation(props: Props) {
                 props.title +
                 '" was found in the following branches, issues, commits or pull requests:'
               : "Based on the following branches, issues, commits or pull requests:"}
-            <ul>
-              {props.locations.map((location) => (
-                <li key={location} className="mt-2">
-                  {location}
-                </li>
-              ))}
-            </ul>
           </p>
+          <ul>
+            {props.locations.map((location) => (
+              <li key={location} className="mt-2">
+                {location}
+              </li>
+            ))}
+          </ul>
         </div>
       </Collapse>
     </div>

@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { ListGroup } from "react-bootstrap";
+import { ListGroup, OverlayTrigger, Tooltip } from "react-bootstrap";
 import "../../css/Sidebar.css";
 
 interface SidebarProps {
@@ -16,8 +16,15 @@ function Sidebar(props: SidebarProps) {
     }
   };
 
+  const tooltip = <Tooltip id="sidebar-tooltip">Click any section 🛸 </Tooltip>;
+
   return (
     <div className="sidebar">
+      <div className="sidebar-title">
+        <OverlayTrigger placement="top" overlay={tooltip}>
+          <h6>Sections</h6>
+        </OverlayTrigger>
+      </div>
       <ListGroup>
         {props.sections.map((section, index) => (
           <ListGroup.Item

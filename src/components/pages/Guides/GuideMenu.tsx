@@ -21,8 +21,8 @@ function Guides() {
         />
         <Guide
           guideTitle="Programming Languages"
-          description="How efficient are they? 📈"
-          guideKey={"programming-languages-efficiency"}
+          description="How much energy do they consume? 📈"
+          guideKey={"programming-languages"}
         />
       </div>
     </Container>

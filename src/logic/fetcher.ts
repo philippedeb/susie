@@ -6,6 +6,14 @@ async function getData(searchValue: string): Promise<{
   pull_requests: string[];
   languages: { [key: string]: number };
   issues: string[];
+  runs: string[];
+  readme: string;
+  license: string;
+  changelog: string;
+  codeOfConduct: string;
+  contributingGuidelines: string;
+  issueTemplate: string;
+  prTemplate: string;
 }> {
   try {
     const repo = extractGitHubRepoPath(searchValue);
@@ -14,10 +22,46 @@ async function getData(searchValue: string): Promise<{
     const pull_requests = await getPullRequests(repo);
     const languages = await getLanguages(repo);
     const issues = await getIssues(repo);
-    return { branches, commits, pull_requests, languages, issues };
+    const runs = await getRuns(repo);
+    const readme = await getFileContent(repo, "README.md");
+    const license = await getFileContent(repo, "LICENSE");
+    const changelog = await getFileContent(repo, "CHANGELOG.md");
+    const codeOfConduct = await getCodeOfConduct(repo);
+    const contributingGuidelines = await getContributingGuidelines(repo);
+    const issueTemplate = await getIssueTemplate(repo);
+    const prTemplate = await getPrTemplate(repo);
+    return {
+      branches,
+      commits,
+      pull_requests,
+      languages,
+      issues,
+      runs,
+      readme,
+      license,
+      changelog,
+      codeOfConduct,
+      contributingGuidelines,
+      issueTemplate,
+      prTemplate,
+    };
   } catch (error) {
     console.error(error);
-    return { branches: [], commits: [], pull_requests: [], languages: {}, issues: [] };
+    return {
+      branches: [],
+      commits: [],
+      pull_requests: [],
+      languages: {},
+      issues: [],
+      runs: [],
+      readme: "",
+      license: "",
+      changelog: "",
+      codeOfConduct: "",
+      contributingGuidelines: "",
+      issueTemplate: "",
+      prTemplate: "",
+    };
   }
 }
 
@@ -40,6 +84,78 @@ interface GitPull {
 
 interface GitIssue {
   title: string;
+}
+
+interface WorkflowRuns {
+  workflow_runs: [{ conclusion: string }];
+}
+
+async function getCodeOfConduct(repo: string): Promise<string> {
+  try {
+    const response = await fetch(
+      `https://api.github.com/repos/${repo}/community/code_of_conduct`
+    );
+    const data = await response.json();
+    if (data.code_of_conduct) {
+      return atob(data.code_of_conduct.body);
+    } else {
+      return "";
+    }
+  } catch (error) {
+    console.error(error);
+    return "";
+  }
+}
+
+async function getContributingGuidelines(repo: string): Promise<string> {
+  try {
+    const response = await fetch(
+      `https://api.github.com/repos/${repo}/contents/CONTRIBUTING.md`
+    );
+    const data = await response.json();
+    if (data.content) {
+      return atob(data.content);
+    } else {
+      return "";
+    }
+  } catch (error) {
+    console.error(error);
+    return "";
+  }
+}
+
+async function getIssueTemplate(repo: string): Promise<string> {
+  try {
+    const response = await fetch(
+      `https://api.github.com/repos/${repo}/contents/.github/ISSUE_TEMPLATE.md`
+    );
+    const data = await response.json();
+    if (data.content) {
+      return atob(data.content);
+    } else {
+      return "";
+    }
+  } catch (error) {
+    console.error(error);
+    return "";
+  }
+}
+
+async function getPrTemplate(repo: string): Promise<string> {
+  try {
+    const response = await fetch(
+      `https://api.github.com/repos/${repo}/contents/.github/PULL_REQUEST_TEMPLATE.md`
+    );
+    const data = await response.json();
+    if (data.content) {
+      return atob(data.content);
+    } else {
+      return "";
+    }
+  } catch (error) {
+    console.error(error);
+    return "";
+  }
 }
 
 async function getBranches(repo: string): Promise<string[]> {
@@ -72,10 +188,16 @@ async function getPullRequests(repo: string): Promise<string[]> {
   }
 }
 
-async function getCommits(repo: string, since: string = "2008-02-08T12:00:00Z"): Promise<string[]> {
+async function getCommits(
+  repo: string,
+  since: string = "2008-02-08T12:00:00Z"
+): Promise<string[]> {
   try {
     const response = await fetch(
-      "https://api.github.com/repos/" + repo + "/commits?per_page=100&since=" + since
+      "https://api.github.com/repos/" +
+        repo +
+        "/commits?per_page=100&since=" +
+        since
     );
     const data: GitCommit[] = await response.json();
     const commitNames = data.map((item) => item.commit.message.toLowerCase());
@@ -100,10 +222,16 @@ async function getLanguages(repo: string): Promise<{ [key: string]: number }> {
   }
 }
 
-async function getIssues(repo: string, since: string = "2008-02-08T12:00:00Z"): Promise<string[]> {
+async function getIssues(
+  repo: string,
+  since: string = "2008-02-08T12:00:00Z"
+): Promise<string[]> {
   try {
     const response = await fetch(
-      "https://api.github.com/repos/" + repo + "/issues?per_page=100&since=" + since
+      "https://api.github.com/repos/" +
+        repo +
+        "/issues?per_page=100&since=" +
+        since
     );
     const data: GitIssue[] = await response.json();
     const issueNames = data.map((item) => item.title.toLowerCase());
@@ -138,6 +266,23 @@ async function getSlash(url: string, param: string): Promise<boolean> {
   }
 }
 
+async function getRuns(repo: string): Promise<string[]> {
+  try {
+    const response = await fetch(
+      "https://api.github.com/repos/" + repo + "/actions/runs?per_page=100"
+    );
+    const data: WorkflowRuns = await response.json();
+    const statusses = data.workflow_runs.map((item) =>
+      item.conclusion.toLowerCase()
+    );
+    console.log("Runs Found");
+    return statusses;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
 /**
  * https://www.seancdavis.com/posts/extract-github-repo-name-from-url-using-javascript/
  */
@@ -159,4 +304,21 @@ function extractGitHubOwnerAndRepo(url: string): [string, string] {
   if (!match || !(match.groups?.owner && match.groups?.name))
     return ["URL not found", ""];
   return [match.groups.owner, match.groups.name];
+}
+
+async function getFileContent(repo: string, filename: string): Promise<string> {
+  try {
+    const response = await fetch(
+      `https://api.github.com/repos/${repo}/contents/${filename}`
+    );
+    const data = await response.json();
+    if (data.content) {
+      return atob(data.content);
+    } else {
+      return "";
+    }
+  } catch (error) {
+    console.error(error);
+    return "";
+  }
 }

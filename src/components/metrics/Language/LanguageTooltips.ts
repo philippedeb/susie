@@ -1,9 +1,4 @@
-interface LanguageTooltips {
-    data: Record<string, string>;
-}
-
-export const LanguageTooltips: LanguageTooltips = {
-    data: {
+export const LanguageTooltips: Record<string, string> = {
         "C": "C code is very energy efficient!", 
         "Rust": "Rust code is very energy efficient!",
         "C++": "C++ code almost as energy efficient as C code.",
@@ -31,5 +26,4 @@ export const LanguageTooltips: LanguageTooltips = {
         // "Ruby":69.91, 
         "Python": "Python is very energy inefficient. Maybe Java would also be feasible for future projects instead of Python?",
         "Perl": "Perl is very energy inefficient. If you'd like to make more sustainable software, consider using another language such as C or Rust! They are 75x more efficient energy-wise."
-    }
 };

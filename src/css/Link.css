@@ -1,0 +1,21 @@
+.susie-link {
+  color: #7bc7ed;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.susie-link:hover {
+  color: #7bc7ed;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.susie-link-light {
+  color: #7bc7ed;
+  text-decoration: none;
+}
+
+.susie-link-light:hover {
+  color: #7bc7ed;
+  text-decoration: underline;
+}

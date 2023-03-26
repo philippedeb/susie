@@ -1,4 +1,5 @@
 import { Alert } from "react-bootstrap";
+import DropDown from "../../structure/DropDown";
 import { LanguageTooltips } from "./LanguageTooltips";
 
 interface Props {
@@ -7,7 +8,7 @@ interface Props {
 }
 
 function analyseLanguage([language, usagePercentage]: [string, number]) {
-  const tooltip = LanguageTooltips.data[language];
+  const tooltip = LanguageTooltips[language];
   return `${usagePercentage}% of your code is ${language}. ${tooltip}`;
 }
 
@@ -22,21 +23,24 @@ function LanguageAdvise(props: Props) {
     .map((label, index) => [label, percentages[index]])
     .filter(([label, percentage]) => {
       // Only show languages that are above the threshold and have a tooltip
-      return +percentage >= props.threshold && label in LanguageTooltips.data;
+      return +percentage >= props.threshold && label in LanguageTooltips;
     });
 
   return (
     <>
-      <h4>Analysis</h4>
+      <h5 className="mt-3">Insights</h5>
       {filteredLabels.length == 0 ? (
         <Alert variant="success">
           You are using efficient languages, well done!
         </Alert>
       ) : (
         filteredLabels.map(([label, usagePercentage], index) => (
-          <Alert key={index} variant="primary">
-            {analyseLanguage([label, +usagePercentage])}
-          </Alert>
+          <DropDown
+            key={index}
+            header={label}
+            collapsed={false}
+            children={<p>{analyseLanguage([label, +usagePercentage])}</p>}
+          ></DropDown>
         ))
       )}
     </>

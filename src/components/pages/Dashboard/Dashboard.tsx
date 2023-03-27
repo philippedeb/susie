@@ -33,64 +33,132 @@ function Dashboard() {
 
   const [inclusiveData, setInclusiveData] = useState<string[]>([]);
 
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
   const [isLoading, setIsLoading] = useState(true);
-  const [successLoading, setSuccessLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await getData(searchValue);
-      setBranches(data.branches);
-      setPullRequests(data.pull_requests);
-      setCommits(data.commits);
-      setLanguages(data.languages);
-      setIssues(data.issues);
-      setWorkflows(data.runs);
+    const handleErrorMsg = (error: Error) => {
+      if (!errorMsg.includes("API rate limit")) {
+        setErrorMsg(error.message);
+      }
+    };
 
-      setReadMe(data.readme);
-      setLicense(data.license);
-      setChangeLog(data.changelog);
-      setCodeOfConduct(data.codeOfConduct);
-      setContributing(data.contributingGuidelines);
-      setIssueTemplate(data.issueTemplate);
-      setPullRequestTemplate(data.prTemplate);
+    const fetchData = async () => {
+      try {
+        const data = await getData(searchValue);
+
+        if (data instanceof Error) {
+          throw data;
+        }
+
+        var dataIsError: boolean = false;
+        if (!(data.branches instanceof Error)) {
+          setBranches(data.branches as string[]);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.branches);
+        }
+        if (!(data.pull_requests instanceof Error)) {
+          setPullRequests(data.pull_requests as string[]);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.pull_requests);
+        }
+        if (!(data.commits instanceof Error)) {
+          setCommits(data.commits as string[]);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.commits);
+        }
+        if (!(data.languages instanceof Error)) {
+          setLanguages(data.languages as { [key: string]: number });
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.languages);
+        }
+        if (!(data.issues instanceof Error)) {
+          setIssues(data.issues as string[]);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.issues);
+        }
+        if (!(data.runs instanceof Error)) {
+          setWorkflows(data.runs as string[]);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.runs);
+        }
+
+        if (!(data.readme instanceof Error)) {
+          setReadMe(data.readme as string);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.readme);
+        }
+        if (!(data.license instanceof Error)) {
+          setLicense(data.license as string);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.license);
+        }
+        if (!(data.changelog instanceof Error)) {
+          setChangeLog(data.changelog as string);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.changelog);
+        }
+        if (!(data.codeOfConduct instanceof Error)) {
+          setCodeOfConduct(data.codeOfConduct as string);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.codeOfConduct);
+        }
+        if (!(data.contributingGuidelines instanceof Error)) {
+          setContributing(data.contributingGuidelines as string);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.contributingGuidelines);
+        }
+        if (!(data.issueTemplate instanceof Error)) {
+          setIssueTemplate(data.issueTemplate as string);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.issueTemplate);
+        }
+        if (!(data.prTemplate instanceof Error)) {
+          setPullRequestTemplate(data.prTemplate as string);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.prTemplate);
+        }
+
+        if (!dataIsError) {
+          const inclusiveArray = [
+            ...branches,
+            ...pullRequests,
+            ...commits,
+            ...issues,
+            ...workflows,
+            readme,
+            // license,
+            changeLog,
+            codeOfConduct,
+            contributing,
+            issueTemplate,
+            pullRequestTemplate,
+          ];
+          setInclusiveData(inclusiveArray);
+        }
+      } catch (error) {
+        setErrorMsg(error instanceof Error ? error.message : "Unknown error");
+      }
 
       // ! Must be last in fetchData to ensure all data is fetched before setting isLoading to false (loading icon) and successLoading to true (no error message)
-      setSuccessLoading(branches.length > 0);
       setIsLoading(false);
     };
     fetchData();
   }, [searchValue]); // only run when searchValue changes
-
-  useEffect(() => {
-    const inclusiveArray = [
-      ...branches,
-      ...pullRequests,
-      ...commits,
-      ...issues,
-      ...workflows,
-      readme,
-      // license,
-      changeLog,
-      codeOfConduct,
-      contributing,
-      issueTemplate,
-      pullRequestTemplate,
-    ];
-    setInclusiveData(inclusiveArray);
-  }, [
-    branches,
-    pullRequests,
-    commits,
-    issues,
-    workflows,
-    readme,
-    license,
-    changeLog,
-    codeOfConduct,
-    contributing,
-    issueTemplate,
-    pullRequestTemplate,
-  ]); // only run when any of the inclusive data changes (license is not excluded as it makes sense to mention "owner" from legal perspective)
 
   const sections = [
     {
@@ -138,7 +206,7 @@ function Dashboard() {
       <DashboardComponents
         sections={sections}
         isLoading={isLoading}
-        successLoading={successLoading}
+        errorMsg={errorMsg}
       />
     </>
   );

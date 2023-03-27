@@ -6,7 +6,7 @@ import Sidebar from "../../structure/Sidebar";
 interface Props {
   sections: { title: string; content: JSX.Element }[];
   isLoading: boolean;
-  successLoading: boolean;
+  errorMsg: string;
 }
 
 function DashboardComponents(props: Props) {
@@ -45,20 +45,58 @@ function DashboardComponents(props: Props) {
 
   const listOfSections: JSX.Element = <> {sections} </>;
 
-  // Unused: caused a bug with useEffect updates and state management.
-  // TODO: Implement this in a better way.
-  const couldNotLoad: JSX.Element = (
+  const rateLimited: JSX.Element = (
     <>
-      <Alert variant="danger">Could not load data.. 😭</Alert>
-      <Alert variant="warning">
-        💡 You might have searched for a non-existing repository.{" "}
+      <Alert variant="danger">
+        You have been rate-limited by the API for exceeding the number of
+        requests allowed per hour per IP.. 😭
       </Alert>
       <Alert variant="warning">
-        💡 You might have been rate limited by the API for exceeding the number
-        of requests allowed per hour per IP.{" "}
+        Why does this happen? Learn more{" "}
+        <a href="https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting">
+          about GitHub rate-limiting here
+        </a>
+        .{" "}
+      </Alert>
+      <Alert variant="success">
+        Fix it by switching IPs or contact the developers for a (paid) secret
+        key.. 🔑{" "}
       </Alert>
     </>
   );
+
+  const couldNotLoad = (errorMessage: string) => {
+    return (
+      <>
+        <Alert variant="danger">Could not load data.. 😭</Alert>
+        <Alert variant="warning">
+          💡 You might have searched for a non-existing repository.{" "}
+        </Alert>
+        <Alert variant="warning">
+          💡 You might have been rate limited by the API for exceeding the
+          number of requests allowed per hour per IP.{" "}
+        </Alert>
+        <Alert variant="warning">
+          💡 An unfortunate 404 error occurred.. {errorMessage}
+        </Alert>
+      </>
+    ) as JSX.Element;
+  };
+
+  const getErrorDisplay = (errorMessage: string) => {
+    if (errorMessage.includes("API rate limit")) {
+      return rateLimited as JSX.Element;
+    }
+    if (errorMessage.includes("ERROR in fetching data")) {
+      return couldNotLoad(errorMessage) as JSX.Element;
+    }
+    return (
+      <Alert variant="danger">
+        <b>ERROR 💀</b> <br></br>
+        {"Details: " + errorMessage}
+      </Alert>
+    ) as JSX.Element;
+  };
 
   return (
     <div>
@@ -74,6 +112,8 @@ function DashboardComponents(props: Props) {
               <div className="d-flex justify-content-center">
                 <Spinner animation="border" />
               </div>
+            ) : props.errorMsg !== "" ? (
+              getErrorDisplay(props.errorMsg)
             ) : (
               listOfSections
             )}

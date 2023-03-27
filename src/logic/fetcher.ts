@@ -1,20 +1,23 @@
 export { extractGitHubOwnerAndRepo, getData, getSlash };
 
-async function getData(searchValue: string): Promise<{
-  branches: string[];
-  commits: string[];
-  pull_requests: string[];
-  languages: { [key: string]: number };
-  issues: string[];
-  runs: string[];
-  readme: string;
-  license: string;
-  changelog: string;
-  codeOfConduct: string;
-  contributingGuidelines: string;
-  issueTemplate: string;
-  prTemplate: string;
-}> {
+async function getData(searchValue: string): Promise<
+  | {
+      branches: string[] | Error;
+      commits: string[] | Error;
+      pull_requests: string[] | Error;
+      languages: { [key: string]: number } | Error;
+      issues: string[] | Error;
+      runs: string[] | Error;
+      readme: string | Error;
+      license: string | Error;
+      changelog: string | Error;
+      codeOfConduct: string | Error;
+      contributingGuidelines: string | Error;
+      issueTemplate: string | Error;
+      prTemplate: string | Error;
+    }
+  | Error
+> {
   try {
     const repo = extractGitHubRepoPath(searchValue);
     const branches = await getBranches(repo);
@@ -46,22 +49,7 @@ async function getData(searchValue: string): Promise<{
       prTemplate,
     };
   } catch (error) {
-    console.error(error);
-    return {
-      branches: [],
-      commits: [],
-      pull_requests: [],
-      languages: {},
-      issues: [],
-      runs: [],
-      readme: "",
-      license: "",
-      changelog: "",
-      codeOfConduct: "",
-      contributingGuidelines: "",
-      issueTemplate: "",
-      prTemplate: "",
-    };
+    return new Error(error instanceof Error ? error.message : "Unknown error");
   }
 }
 
@@ -90,11 +78,17 @@ interface WorkflowRuns {
   workflow_runs: [{ conclusion: string }];
 }
 
-async function getCodeOfConduct(repo: string): Promise<string> {
+async function getCodeOfConduct(repo: string): Promise<string | Error> {
   try {
     const response = await fetch(
       `https://api.github.com/repos/${repo}/community/code_of_conduct`
     );
+    if (response.status === 403) {
+      return new Error("API rate limit exceeded");
+    }
+    if (response.status === 404) {
+      return new Error("ERROR in fetching data");
+    }
     const data = await response.json();
     if (data.code_of_conduct) {
       return atob(data.code_of_conduct.body);
@@ -102,16 +96,23 @@ async function getCodeOfConduct(repo: string): Promise<string> {
       return "";
     }
   } catch (error) {
-    console.error(error);
-    return "";
+    return new Error(error instanceof Error ? error.message : "Unknown error");
   }
 }
 
-async function getContributingGuidelines(repo: string): Promise<string> {
+async function getContributingGuidelines(
+  repo: string
+): Promise<string | Error> {
   try {
     const response = await fetch(
       `https://api.github.com/repos/${repo}/contents/CONTRIBUTING.md`
     );
+    if (response.status === 403) {
+      return new Error("API rate limit exceeded");
+    }
+    if (response.status === 404) {
+      return new Error("ERROR in fetching data");
+    }
     const data = await response.json();
     if (data.content) {
       return atob(data.content);
@@ -119,16 +120,21 @@ async function getContributingGuidelines(repo: string): Promise<string> {
       return "";
     }
   } catch (error) {
-    console.error(error);
-    return "";
+    return new Error(error instanceof Error ? error.message : "Unknown error");
   }
 }
 
-async function getIssueTemplate(repo: string): Promise<string> {
+async function getIssueTemplate(repo: string): Promise<string | Error> {
   try {
     const response = await fetch(
       `https://api.github.com/repos/${repo}/contents/.github/ISSUE_TEMPLATE.md`
     );
+    if (response.status === 403) {
+      return new Error("API rate limit exceeded");
+    }
+    if (response.status === 404) {
+      return new Error("ERROR in fetching data");
+    }
     const data = await response.json();
     if (data.content) {
       return atob(data.content);
@@ -136,16 +142,21 @@ async function getIssueTemplate(repo: string): Promise<string> {
       return "";
     }
   } catch (error) {
-    console.error(error);
-    return "";
+    return new Error(error instanceof Error ? error.message : "Unknown error");
   }
 }
 
-async function getPrTemplate(repo: string): Promise<string> {
+async function getPrTemplate(repo: string): Promise<string | Error> {
   try {
     const response = await fetch(
       `https://api.github.com/repos/${repo}/contents/.github/PULL_REQUEST_TEMPLATE.md`
     );
+    if (response.status === 403) {
+      return new Error("API rate limit exceeded");
+    }
+    if (response.status === 404) {
+      return new Error("ERROR in fetching data");
+    }
     const data = await response.json();
     if (data.content) {
       return atob(data.content);
@@ -153,45 +164,52 @@ async function getPrTemplate(repo: string): Promise<string> {
       return "";
     }
   } catch (error) {
-    console.error(error);
-    return "";
+    return new Error(error instanceof Error ? error.message : "Unknown error");
   }
 }
 
-async function getBranches(repo: string): Promise<string[]> {
+async function getBranches(repo: string): Promise<string[] | Error> {
   try {
     const response = await fetch(
       "https://api.github.com/repos/" + repo + "/branches?per_page=100"
     );
+    if (response.status === 403) {
+      return new Error("API rate limit exceeded");
+    }
+    if (response.status === 404) {
+      return new Error("ERROR in fetching data");
+    }
     const data: GitBranch[] = await response.json();
     const branchNames = data.map((item) => item.name.toLowerCase());
-    console.log("Branches Found");
     return branchNames;
   } catch (error) {
-    console.error(error);
-    return [];
+    return new Error(error instanceof Error ? error.message : "Unknown error");
   }
 }
 
-async function getPullRequests(repo: string): Promise<string[]> {
+async function getPullRequests(repo: string): Promise<string[] | Error> {
   try {
     const response = await fetch(
       "https://api.github.com/repos/" + repo + "/pulls?per_page=100&state=all"
     );
+    if (response.status === 403) {
+      return new Error("API rate limit exceeded");
+    }
+    if (response.status === 404) {
+      return new Error("ERROR in fetching data");
+    }
     const data: GitPull[] = await response.json();
     const pullNames = data.map((item) => item.title.toLowerCase());
-    console.log("Pull Requests Found");
     return pullNames;
   } catch (error) {
-    console.error(error);
-    return [];
+    return new Error(error instanceof Error ? error.message : "Unknown error");
   }
 }
 
 async function getCommits(
   repo: string,
   since: string = "2008-02-08T12:00:00Z"
-): Promise<string[]> {
+): Promise<string[] | Error> {
   try {
     const response = await fetch(
       "https://api.github.com/repos/" +
@@ -199,33 +217,44 @@ async function getCommits(
         "/commits?per_page=100&since=" +
         since
     );
+    if (response.status === 403) {
+      return new Error("API rate limit exceeded");
+    }
+    if (response.status === 404) {
+      return new Error("ERROR in fetching data");
+    }
     const data: GitCommit[] = await response.json();
     const commitNames = data.map((item) => item.commit.message.toLowerCase());
-    console.log("Commits Found");
     return commitNames;
   } catch (error) {
-    console.error(error);
-    return [];
+    return new Error(error instanceof Error ? error.message : "Unknown error");
   }
 }
 
-async function getLanguages(repo: string): Promise<{ [key: string]: number }> {
+async function getLanguages(
+  repo: string
+): Promise<{ [key: string]: number } | Error> {
   try {
     const response = await fetch(
       "https://api.github.com/repos/" + repo + "/languages"
     );
+    if (response.status === 403) {
+      return new Error("API rate limit exceeded");
+    }
+    if (response.status === 404) {
+      return new Error("ERROR in fetching data");
+    }
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error(error);
-    return {};
+    return new Error(error instanceof Error ? error.message : "Unknown error");
   }
 }
 
 async function getIssues(
   repo: string,
   since: string = "2008-02-08T12:00:00Z"
-): Promise<string[]> {
+): Promise<string[] | Error> {
   try {
     const response = await fetch(
       "https://api.github.com/repos/" +
@@ -233,13 +262,17 @@ async function getIssues(
         "/issues?per_page=100&since=" +
         since
     );
+    if (response.status === 403) {
+      return new Error("API rate limit exceeded");
+    }
+    if (response.status === 404) {
+      return new Error("ERROR in fetching data");
+    }
     const data: GitIssue[] = await response.json();
     const issueNames = data.map((item) => item.title.toLowerCase());
-    console.log("Issues Found");
     return issueNames;
   } catch (error) {
-    console.error(error);
-    return [];
+    return new Error(error instanceof Error ? error.message : "Unknown error");
   }
 }
 
@@ -247,12 +280,18 @@ async function getIssues(
  * Use param "readme" to check for a README file
  * Use param "license" to check for a LICENSE file
  */
-async function getSlash(url: string, param: string): Promise<boolean> {
+async function getSlash(url: string, param: string): Promise<boolean | Error> {
   const [owner, repo] = extractGitHubOwnerAndRepo(url);
   try {
     const response = await fetch(
       `https://api.github.com/repos/${owner}/${repo}/${param}`
     );
+    if (response.status === 403) {
+      return new Error("API rate limit exceeded");
+    }
+    if (response.status === 404) {
+      return new Error("ERROR in fetching data");
+    }
     const data = await response.json();
     if (data.message && data.message === "Not Found") {
       return false;
@@ -261,25 +300,28 @@ async function getSlash(url: string, param: string): Promise<boolean> {
     }
     return false;
   } catch (error) {
-    console.error(error);
-    return false;
+    return new Error(error instanceof Error ? error.message : "Unknown error");
   }
 }
 
-async function getRuns(repo: string): Promise<string[]> {
+async function getRuns(repo: string): Promise<string[] | Error> {
   try {
     const response = await fetch(
       "https://api.github.com/repos/" + repo + "/actions/runs?per_page=100"
     );
+    if (response.status === 403) {
+      return new Error("API rate limit exceeded");
+    }
+    if (response.status === 404) {
+      return new Error("ERROR in fetching data");
+    }
     const data: WorkflowRuns = await response.json();
     const statusses = data.workflow_runs.map((item) =>
       item.conclusion.toLowerCase()
     );
-    console.log("Runs Found");
     return statusses;
   } catch (error) {
-    console.error(error);
-    return [];
+    return new Error(error instanceof Error ? error.message : "Unknown error");
   }
 }
 
@@ -306,11 +348,20 @@ function extractGitHubOwnerAndRepo(url: string): [string, string] {
   return [match.groups.owner, match.groups.name];
 }
 
-async function getFileContent(repo: string, filename: string): Promise<string> {
+async function getFileContent(
+  repo: string,
+  filename: string
+): Promise<string | Error> {
   try {
     const response = await fetch(
       `https://api.github.com/repos/${repo}/contents/${filename}`
     );
+    if (response.status === 403) {
+      return new Error("API rate limit exceeded");
+    }
+    if (response.status === 404) {
+      return new Error("ERROR in fetching data");
+    }
     const data = await response.json();
     if (data.content) {
       return atob(data.content);
@@ -318,7 +369,6 @@ async function getFileContent(repo: string, filename: string): Promise<string> {
       return "";
     }
   } catch (error) {
-    console.error(error);
-    return "";
+    return new Error(error instanceof Error ? error.message : "Unknown error");
   }
 }

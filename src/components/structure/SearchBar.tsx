@@ -73,7 +73,7 @@ function SearchBar(props: Props) {
           <FontAwesomeIcon icon={faSearch} />
         </Button>
       </InputGroup>
-      <div className="mt-2 w-75">
+      <div className={`mt-2 ${isMobile ? "w-100" : "w-75"}`}>
         {showWarning && (
           <Alert
             variant="danger"

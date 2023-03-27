@@ -88,7 +88,7 @@ function DashboardComponents(props: Props) {
       return rateLimited as JSX.Element;
     }
     if (errorMessage.includes("ERROR in fetching data")) {
-      return couldNotLoad(errorMessage) as JSX.Element;
+      return listOfSections;
     }
     return (
       <Alert variant="danger">

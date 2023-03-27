@@ -33,9 +33,6 @@ function Dashboard() {
 
   const [inclusiveData, setInclusiveData] = useState<string[]>([]);
 
-  const [hasReadme, setHasReadme] = useState(false);
-  const [hasLicense, setHasLicense] = useState(false);
-
   const [isLoading, setIsLoading] = useState(true);
   const [successLoading, setSuccessLoading] = useState(true);
 
@@ -56,11 +53,6 @@ function Dashboard() {
       setContributing(data.contributingGuidelines);
       setIssueTemplate(data.issueTemplate);
       setPullRequestTemplate(data.prTemplate);
-
-      const hasReadme = await getSlash(searchValue, "readme");
-      const hasLicense = await getSlash(searchValue, "license");
-      setHasReadme(hasReadme);
-      setHasLicense(hasLicense);
 
       // ! Must be last in fetchData to ensure all data is fetched before setting isLoading to false (loading icon) and successLoading to true (no error message)
       setSuccessLoading(branches.length > 0);
@@ -124,8 +116,6 @@ function Dashboard() {
       title: "Governance",
       content: (
         <Governance
-          hasReadme={hasReadme}
-          hasLicense={hasLicense}
           readme={readme}
           license={license}
           changeLog={changeLog}

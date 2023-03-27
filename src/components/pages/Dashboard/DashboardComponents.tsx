@@ -45,6 +45,8 @@ function DashboardComponents(props: Props) {
 
   const listOfSections: JSX.Element = <> {sections} </>;
 
+  // Unused: caused a bug with useEffect updates and state management.
+  // TODO: Implement this in a better way.
   const couldNotLoad: JSX.Element = (
     <>
       <Alert variant="danger">Could not load data.. 😭</Alert>
@@ -72,10 +74,8 @@ function DashboardComponents(props: Props) {
               <div className="d-flex justify-content-center">
                 <Spinner animation="border" />
               </div>
-            ) : props.successLoading ? (
-              listOfSections
             ) : (
-              couldNotLoad
+              listOfSections
             )}
           </Col>
         </Row>

@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 
 interface Props {
-  hasReadme: boolean;
-  hasLicense: boolean;
   readme: string;
   license: string;
   changeLog: string;

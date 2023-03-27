@@ -19,7 +19,7 @@ function Sidebar(props: SidebarProps) {
   const tooltip = <Tooltip id="sidebar-tooltip">Click any section 🛸 </Tooltip>;
 
   return (
-    <div className="sidebar">
+    <div className="sidebar d-none d-xl-block">
       <div className="sidebar-title">
         <OverlayTrigger placement="top" overlay={tooltip}>
           <h6>Sections</h6>

@@ -85,11 +85,14 @@ function DashboardComponents(props: Props) {
 
   const getErrorDisplay = (errorMessage: string) => {
     if (errorMessage.includes("API rate limit")) {
+      console.log("Rate limited! (403)");
       return rateLimited as JSX.Element;
     }
     if (errorMessage.includes("ERROR in fetching data")) {
+      console.log("Uh oh, could not load all data (404)..");
       return listOfSections;
     }
+    console.log("*unknown error appeared* 💀");
     return (
       <Alert variant="danger">
         <b>ERROR 💀</b> <br></br>

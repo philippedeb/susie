@@ -281,14 +281,27 @@ async function getIssues(
 }
 
 
-async function getDates(repo: string): Promise<string[]> {
+async function getDates(
+  repo: string,
+  since: string = "2008-02-08T12:00:00Z"
+  ): Promise<string[] | Error> {
   let n: number = 1;
   let dateList: string[] = []
   while (n < 5) {
     try {
-      const link: string = 'https://api.github.com/repos/' + repo + '/commits?page=' + n.toString();
-      console.log(link)
-      const response = await fetch(link)
+      const response = await fetch(
+        "https://api.github.com/repos/" + 
+          repo +
+          "/commits?per_page=100&page=" +
+          n.toString() +
+          "/since=" + since
+      );
+      if (response.status === 403) {
+        return new Error("API rate limit exceeded");
+      }
+      if (response.status === 404) {
+        return new Error("ERROR in fetching data");
+      }
       const data: GitCommit[] = await response.json();
       const commitDates = data.map((item) => item.commit.author.date);
       dateList = dateList.concat(commitDates)
@@ -297,8 +310,7 @@ async function getDates(repo: string): Promise<string[]> {
       }
       n++
     } catch (error) {
-      console.error(error);
-      return ["No Dates Found"];
+      return new Error(error instanceof Error ? error.message : "Unknown error");
     }
   }
   return dateList;

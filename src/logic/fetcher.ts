@@ -3,11 +3,11 @@ export { extractGitHubOwnerAndRepo, getData, getSlash };
 async function getData(searchValue: string): Promise<
   | {
       branches: string[] | Error;
-      commits: string[] | Error;
+      commitMessages: string[] | Error;
       pull_requests: string[] | Error;
       languages: { [key: string]: number } | Error;
       issues: string[] | Error;
-      dates: string[] | Error;
+      commitAuthorDates: [string, string][] | Error;
       runs: string[] | Error;
       readme: string | Error;
       license: string | Error;
@@ -22,11 +22,11 @@ async function getData(searchValue: string): Promise<
   try {
     const repo = extractGitHubRepoPath(searchValue);
     const branches = await getBranches(repo);
-    const commits = await getCommits(repo);
+    const commitMessages = await getCommitMessages(repo);
     const pull_requests = await getPullRequests(repo);
     const languages = await getLanguages(repo);
     const issues = await getIssues(repo);
-    const dates = await getDates(repo);
+    const commitAuthorDates = await getCommitAuthorDates(repo);
     const runs = await getRuns(repo);
     const readme = await getFileContent(repo, "README.md");
     const license = await getFileContent(repo, "LICENSE");
@@ -37,11 +37,11 @@ async function getData(searchValue: string): Promise<
     const prTemplate = await getPrTemplate(repo);
     return {
       branches,
-      commits,
+      commitMessages,
       pull_requests,
       languages,
       issues,
-      dates,
+      commitAuthorDates,
       runs,
       readme,
       license,
@@ -64,6 +64,7 @@ interface GitCommit {
   commit: {
     message: string;
     author: {
+      name: string;
       date: string;
     };
     date: string;
@@ -210,7 +211,7 @@ async function getPullRequests(repo: string): Promise<string[] | Error> {
   }
 }
 
-async function getCommits(
+async function getCommitMessages(
   repo: string,
   since: string = "2008-02-08T12:00:00Z"
 ): Promise<string[] | Error> {
@@ -281,12 +282,12 @@ async function getIssues(
 }
 
 
-async function getDates(
+async function getCommitAuthorDates(
   repo: string,
   since: string = "2008-02-08T12:00:00Z"
   ): Promise<string[] | Error> {
   let n: number = 1;
-  let dateList: string[] = []
+  let dateList: [string, string][] = []
   while (n < 5) {
     try {
       const response = await fetch(
@@ -303,8 +304,8 @@ async function getDates(
         return new Error("ERROR in fetching data");
       }
       const data: GitCommit[] = await response.json();
-      const commitDates = data.map((item) => item.commit.author.date);
-      dateList = dateList.concat(commitDates)
+      const commitDates = data.map((item) => ([item.commit.author.name, item.commit.author.date]));
+      dateList = dateList + commitDates;
       if (commitDates.length < 30) {
         break;
       }

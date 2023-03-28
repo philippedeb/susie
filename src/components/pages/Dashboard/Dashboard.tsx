@@ -10,6 +10,7 @@ import Governance from "../../metrics/Governance/Governance";
 import DashboardComponents from "./DashboardComponents";
 import "../../../css/Link.css";
 import ProgrammingLanguage from "../../metrics/Language/ProgrammingLanguage";
+import Contributors from "../../metrics/Contributors/Contributors";
 
 function Dashboard() {
   const location = useLocation();
@@ -18,10 +19,12 @@ function Dashboard() {
 
   const [branches, setBranches] = useState<string[]>([]);
   const [pullRequests, setPullRequests] = useState<string[]>([]);
-  const [commits, setCommits] = useState<string[]>([]);
+  const [commitMessages, setCommitMessages] = useState<string[]>([]);
   const [languages, setLanguages] = useState<{ [key: string]: number }>({});
   const [issues, setIssues] = useState<string[]>([]);
   const [workflows, setWorkflows] = useState<string[]>([]);
+
+  const [contributorData, setContributorData] = useState<[string, string][]>([]);
 
   const [readme, setReadMe] = useState<string>(""); // README.md
   const [license, setLicense] = useState<string>(""); // LICENSE.md
@@ -65,11 +68,11 @@ function Dashboard() {
           dataIsError = true;
           handleErrorMsg(data.pull_requests);
         }
-        if (!(data.commits instanceof Error)) {
-          setCommits(data.commits as string[]);
+        if (!(data.commitMessages instanceof Error)) {
+          setCommitMessages(data.commitMessages);
         } else {
           dataIsError = true;
-          handleErrorMsg(data.commits);
+          handleErrorMsg(data.commitMessages);
         }
         if (!(data.languages instanceof Error)) {
           setLanguages(data.languages as { [key: string]: number });
@@ -132,12 +135,18 @@ function Dashboard() {
           dataIsError = true;
           handleErrorMsg(data.prTemplate);
         }
+        if (!(data.commitAuthorDates instanceof Error)) {
+          setContributorData(data.commitAuthorDates as [string, string][]);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.commitAuthorDates);
+        }
 
         if (!dataIsError) {
           const inclusiveArray = [
             ...branches,
             ...pullRequests,
-            ...commits,
+            ...commitMessages,
             ...issues,
             ...workflows,
             readme,
@@ -165,7 +174,7 @@ function Dashboard() {
       title: "Info",
       content: (
         <Info
-          commits={commits.length}
+          commits={commitMessages.length}
           pullRequests={pullRequests.length}
           branches={branches.length}
           issues={issues.length}
@@ -175,6 +184,10 @@ function Dashboard() {
     {
       title: "Inclusive Language",
       content: <Inclusive data={inclusiveData} />,
+    },
+    {
+      title: "Contributors",
+      content: <Contributors commitAuthorDates={contributorData} />,
     },
     {
       title: "Workflow",

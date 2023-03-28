@@ -91,10 +91,12 @@ function Home() {
         <p
           className="text-center font-weight-bold mb-4"
           style={{
-            fontSize: "18px",
+            fontSize: isMobile ? "16px" : "18px",
           }}
         >
-          How sustainable is your GitHub repository?
+          {isMobile
+            ? "How sustainable is your repository?"
+            : "How sustainable is your GitHub repository?"}
         </p>
         <SearchBar onSearch={handleSubmit} />
       </Container>
@@ -122,12 +124,16 @@ function Home() {
           Guides 📰
         </h3>
         <p
-          className="text-center font-weight-bold mb-4"
+          className={`text-center font-weight-bold ${
+            isMobile ? "mb-3" : "mb-4"
+          }`}
           style={{
-            fontSize: "18px",
+            fontSize: isMobile ? "16px" : "18px",
           }}
         >
-          Perhaps you want to learn more about sustainability? Look no further!
+          {isMobile
+            ? "Learn more about sustainability!"
+            : "Perhaps you want to learn more about sustainability? Look no further!"}
         </p>
         <Button
           variant="outline-light"

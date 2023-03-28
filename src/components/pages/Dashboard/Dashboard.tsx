@@ -56,85 +56,85 @@ function Dashboard() {
         }
 
         var dataIsError: boolean = false;
-        if (!(data.branches instanceof Error)) {
-          setBranches(data.branches as string[]);
-        } else {
-          dataIsError = true;
-          handleErrorMsg(data.branches);
-        }
-        if (!(data.pull_requests instanceof Error)) {
-          setPullRequests(data.pull_requests as string[]);
-        } else {
-          dataIsError = true;
-          handleErrorMsg(data.pull_requests);
-        }
-        if (!(data.commitMessages instanceof Error)) {
-          setCommitMessages(data.commitMessages);
-        } else {
-          dataIsError = true;
-          handleErrorMsg(data.commitMessages);
-        }
-        if (!(data.languages instanceof Error)) {
-          setLanguages(data.languages as { [key: string]: number });
-        } else {
-          dataIsError = true;
-          handleErrorMsg(data.languages);
-        }
-        if (!(data.issues instanceof Error)) {
-          setIssues(data.issues as string[]);
-        } else {
-          dataIsError = true;
-          handleErrorMsg(data.issues);
-        }
-        if (!(data.runs instanceof Error)) {
-          setWorkflows(data.runs as string[]);
-        } else {
-          dataIsError = true;
-          handleErrorMsg(data.runs);
-        }
+        // if (!(data.branches instanceof Error)) {
+        //   setBranches(data.branches as string[]);
+        // } else {
+        //   dataIsError = true;
+        //   handleErrorMsg(data.branches);
+        // }
+        // if (!(data.pull_requests instanceof Error)) {
+        //   setPullRequests(data.pull_requests as string[]);
+        // } else {
+        //   dataIsError = true;
+        //   handleErrorMsg(data.pull_requests);
+        // }
+        // if (!(data.commitMessages instanceof Error)) {
+        //   setCommitMessages(data.commitMessages);
+        // } else {
+        //   dataIsError = true;
+        //   handleErrorMsg(data.commitMessages);
+        // }
+        // if (!(data.languages instanceof Error)) {
+        //   setLanguages(data.languages as { [key: string]: number });
+        // } else {
+        //   dataIsError = true;
+        //   handleErrorMsg(data.languages);
+        // }
+        // if (!(data.issues instanceof Error)) {
+        //   setIssues(data.issues as string[]);
+        // } else {
+        //   dataIsError = true;
+        //   handleErrorMsg(data.issues);
+        // }
+        // if (!(data.runs instanceof Error)) {
+        //   setWorkflows(data.runs as string[]);
+        // } else {
+        //   dataIsError = true;
+        //   handleErrorMsg(data.runs);
+        // }
 
-        if (!(data.readme instanceof Error)) {
-          setReadMe(data.readme as string);
-        } else {
-          dataIsError = true;
-          handleErrorMsg(data.readme);
-        }
-        if (!(data.license instanceof Error)) {
-          setLicense(data.license as string);
-        } else {
-          dataIsError = true;
-          handleErrorMsg(data.license);
-        }
-        if (!(data.changelog instanceof Error)) {
-          setChangeLog(data.changelog as string);
-        } else {
-          dataIsError = true;
-          handleErrorMsg(data.changelog);
-        }
-        if (!(data.codeOfConduct instanceof Error)) {
-          setCodeOfConduct(data.codeOfConduct as string);
-        } else {
-          dataIsError = true;
-          handleErrorMsg(data.codeOfConduct);
-        }
-        if (!(data.contributingGuidelines instanceof Error)) {
-          setContributing(data.contributingGuidelines as string);
-        } else {
-          dataIsError = true;
-          handleErrorMsg(data.contributingGuidelines);
-        }
-        if (!(data.issueTemplate instanceof Error)) {
-          setIssueTemplate(data.issueTemplate as string);
-        } else {
-          dataIsError = true;
-          handleErrorMsg(data.issueTemplate);
-        }
-        if (!(data.prTemplate instanceof Error)) {
-          setPullRequestTemplate(data.prTemplate as string);
-        } else {
-          dataIsError = true;
-          handleErrorMsg(data.prTemplate);
-        }
+        // if (!(data.readme instanceof Error)) {
+        //   setReadMe(data.readme as string);
+        // } else {
+        //   dataIsError = true;
+        //   handleErrorMsg(data.readme);
+        // }
+        // if (!(data.license instanceof Error)) {
+        //   setLicense(data.license as string);
+        // } else {
+        //   dataIsError = true;
+        //   handleErrorMsg(data.license);
+        // }
+        // if (!(data.changelog instanceof Error)) {
+        //   setChangeLog(data.changelog as string);
+        // } else {
+        //   dataIsError = true;
+        //   handleErrorMsg(data.changelog);
+        // }
+        // if (!(data.codeOfConduct instanceof Error)) {
+        //   setCodeOfConduct(data.codeOfConduct as string);
+        // } else {
+        //   dataIsError = true;
+        //   handleErrorMsg(data.codeOfConduct);
+        // }
+        // if (!(data.contributingGuidelines instanceof Error)) {
+        //   setContributing(data.contributingGuidelines as string);
+        // } else {
+        //   dataIsError = true;
+        //   handleErrorMsg(data.contributingGuidelines);
+        // }
+        // if (!(data.issueTemplate instanceof Error)) {
+        //   setIssueTemplate(data.issueTemplate as string);
+        // } else {
+        //   dataIsError = true;
+        //   handleErrorMsg(data.issueTemplate);
+        // }
+        // if (!(data.prTemplate instanceof Error)) {
+        //   setPullRequestTemplate(data.prTemplate as string);
+        // } else {
+        //   dataIsError = true;
+        //   handleErrorMsg(data.prTemplate);
+        // }
         if (!(data.commitAuthorDates instanceof Error)) {
           setContributorData(data.commitAuthorDates as [string, string][]);
         } else {
@@ -142,23 +142,23 @@ function Dashboard() {
           handleErrorMsg(data.commitAuthorDates);
         }
 
-        if (!dataIsError) {
-          const inclusiveArray = [
-            ...branches,
-            ...pullRequests,
-            ...commitMessages,
-            ...issues,
-            ...workflows,
-            readme,
-            // license,
-            changeLog,
-            codeOfConduct,
-            contributing,
-            issueTemplate,
-            pullRequestTemplate,
-          ];
-          setInclusiveData(inclusiveArray);
-        }
+        // if (!dataIsError) {
+        //   const inclusiveArray = [
+        //     ...branches,
+        //     ...pullRequests,
+        //     ...commitMessages,
+        //     ...issues,
+        //     ...workflows,
+        //     readme,
+        //     // license,
+        //     changeLog,
+        //     codeOfConduct,
+        //     contributing,
+        //     issueTemplate,
+        //     pullRequestTemplate,
+        //   ];
+        //   setInclusiveData(inclusiveArray);
+        // }
       } catch (error) {
         setErrorMsg(error instanceof Error ? error.message : "Unknown error");
       }

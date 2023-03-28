@@ -2,54 +2,54 @@ export { extractGitHubOwnerAndRepo, getData, getSlash };
 
 async function getData(searchValue: string): Promise<
   | {
-      branches: string[] | Error;
-      commitMessages: string[] | Error;
-      pull_requests: string[] | Error;
-      languages: { [key: string]: number } | Error;
-      issues: string[] | Error;
+      // branches: string[] | Error;
+      // commitMessages: string[] | Error;
+      // pull_requests: string[] | Error;
+      // languages: { [key: string]: number } | Error;
+      // issues: string[] | Error;
       commitAuthorDates: [string, string][] | Error;
-      runs: string[] | Error;
-      readme: string | Error;
-      license: string | Error;
-      changelog: string | Error;
-      codeOfConduct: string | Error;
-      contributingGuidelines: string | Error;
-      issueTemplate: string | Error;
-      prTemplate: string | Error;
+      // runs: string[] | Error;
+      // readme: string | Error;
+      // license: string | Error;
+      // changelog: string | Error;
+      // codeOfConduct: string | Error;
+      // contributingGuidelines: string | Error;
+      // issueTemplate: string | Error;
+      // prTemplate: string | Error;
     }
   | Error
 > {
   try {
     const repo = extractGitHubRepoPath(searchValue);
-    const branches = await getBranches(repo);
-    const commitMessages = await getCommitMessages(repo);
-    const pull_requests = await getPullRequests(repo);
-    const languages = await getLanguages(repo);
-    const issues = await getIssues(repo);
+    // const branches = await getBranches(repo);
+    // const commitMessages = await getCommitMessages(repo);
+    // const pull_requests = await getPullRequests(repo);
+    // const languages = await getLanguages(repo);
+    // const issues = await getIssues(repo);
     const commitAuthorDates = await getCommitAuthorDates(repo);
-    const runs = await getRuns(repo);
-    const readme = await getFileContent(repo, "README.md");
-    const license = await getFileContent(repo, "LICENSE");
-    const changelog = await getFileContent(repo, "CHANGELOG.md");
-    const codeOfConduct = await getCodeOfConduct(repo);
-    const contributingGuidelines = await getContributingGuidelines(repo);
-    const issueTemplate = await getIssueTemplate(repo);
-    const prTemplate = await getPrTemplate(repo);
+    // const runs = await getRuns(repo);
+    // const readme = await getFileContent(repo, "README.md");
+    // const license = await getFileContent(repo, "LICENSE");
+    // const changelog = await getFileContent(repo, "CHANGELOG.md");
+    // const codeOfConduct = await getCodeOfConduct(repo);
+    // const contributingGuidelines = await getContributingGuidelines(repo);
+    // const issueTemplate = await getIssueTemplate(repo);
+    // const prTemplate = await getPrTemplate(repo);
     return {
-      branches,
-      commitMessages,
-      pull_requests,
-      languages,
-      issues,
+      // branches,
+      // commitMessages,
+      // pull_requests,
+      // languages,
+      // issues,
       commitAuthorDates,
-      runs,
-      readme,
-      license,
-      changelog,
-      codeOfConduct,
-      contributingGuidelines,
-      issueTemplate,
-      prTemplate,
+      // runs,
+      // readme,
+      // license,
+      // changelog,
+      // codeOfConduct,
+      // contributingGuidelines,
+      // issueTemplate,
+      // prTemplate,
     };
   } catch (error) {
     return new Error(error instanceof Error ? error.message : "Unknown error");

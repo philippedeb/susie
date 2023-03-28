@@ -5,13 +5,15 @@ function getContributorPercentages(commitAuthorDates: [string, string][]): { [ke
 
   for (let i of commitAuthorDates) {
     if (i[0] in authorCommitCount) {
-      console.log(i)
+      // console.log(i)
       authorCommitCount[i[0]] += 1;
     } else {
       authorCommitCount[i[0]] = 1
     }
+    // console.log(i, authorCommitCount[i[0]]);
   }
-  console.log("AutthorCommitCount = " + authorCommitCount);
+  console.log("ehehhehe")
+  console.log(authorCommitCount);
   return authorCommitCount;
 }
 

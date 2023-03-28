@@ -6,6 +6,17 @@ import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [loaded, setLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 800);
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,18 +29,25 @@ function Home() {
 
   return (
     <div
-      className="mt-5"
+      className={isMobile ? "mt-3" : "mt-5"}
       style={{
         marginTop: "50px",
         paddingLeft: "20px",
         paddingRight: "20px",
       }}
     >
-      <Container className="d-flex flex-column justify-content-center align-items-center mb-5">
+      <Container
+        className={
+          "d-flex flex-column justify-content-center align-items-center " +
+          isMobile
+            ? "mb-4"
+            : "mb-5"
+        }
+      >
         <h1
           className="text-center"
           style={{
-            fontSize: "60px",
+            fontSize: isMobile ? "50px" : "60px",
             fontFamily: "Playfair Display, sans-serif",
             fontWeight: 900,
           }}
@@ -39,7 +57,7 @@ function Home() {
         <h2
           className="text-center"
           style={{
-            fontSize: "40px",
+            fontSize: isMobile ? "28px" : "40px",
             fontFamily: "Playfair Display, sans-serif",
             fontWeight: "light",
           }}

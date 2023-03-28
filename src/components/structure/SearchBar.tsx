@@ -11,7 +11,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import "../../css/fade-in.css";
-import "../../css/SearchBar.css";
 
 interface Props {
   onSearch: (value: string) => void;

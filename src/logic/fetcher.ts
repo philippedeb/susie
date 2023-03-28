@@ -285,7 +285,7 @@ async function getIssues(
 async function getCommitAuthorDates(
   repo: string,
   since: string = "2008-02-08T12:00:00Z"
-  ): Promise<string[] | Error> {
+  ): Promise<[string, string][] | Error> {
   let n: number = 1;
   let dateList: [string, string][] = []
   while (n < 5) {
@@ -304,8 +304,9 @@ async function getCommitAuthorDates(
         return new Error("ERROR in fetching data");
       }
       const data: GitCommit[] = await response.json();
-      const commitDates = data.map((item) => ([item.commit.author.name, item.commit.author.date]));
-      dateList = dateList + commitDates;
+      
+      const commitDates: [string, string][] = data.map(item => [item.commit.author.name, item.commit.author.date]);
+      dateList = dateList.concat(commitDates);
       if (commitDates.length < 30) {
         break;
       }

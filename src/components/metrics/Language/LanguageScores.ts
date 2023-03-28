@@ -1,10 +1,5 @@
-interface LanguageScores {
-    data: Record<string, number>;
-}
-
 // https://greenlab.di.uminho.pt/wp-content/uploads/2017/10/sleFinal.pdf
-export const LanguageScores: LanguageScores = {
-    data: {
+export const LanguageScores: Record<string, number> = {
         "C": 1, 
         "Rust": 1.03,
         "C++": 1.34,
@@ -32,5 +27,4 @@ export const LanguageScores: LanguageScores = {
         "Ruby":69.91, 
         "Python":75.88,
         "Perl":79.58
-    }
 };

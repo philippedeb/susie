@@ -4,11 +4,12 @@ import { getData, getSlash } from "../../../logic/fetcher";
 import Inclusive from "../../metrics/Inclusivity/Inclusive";
 import "../../../css/Dashboard.css";
 import DashboardInfo from "./DashboardInfo";
-import LanguagePiechart from "../../metrics/Language/LanguagePiechart";
-import LanguageAdvise from "../../metrics/Language/LanguageAdvise";
+import WorkflowAnalysis from "../../metrics/Workflows/WorkflowAnalysis";
 import Info from "../../metrics/General/Info";
 import Governance from "../../metrics/Governance/Governance";
 import DashboardComponents from "./DashboardComponents";
+import "../../../css/Link.css";
+import ProgrammingLanguage from "../../metrics/Language/ProgrammingLanguage";
 
 function Dashboard() {
   const location = useLocation();
@@ -20,38 +21,144 @@ function Dashboard() {
   const [commits, setCommits] = useState<string[]>([]);
   const [languages, setLanguages] = useState<{ [key: string]: number }>({});
   const [issues, setIssues] = useState<string[]>([]);
+  const [workflows, setWorkflows] = useState<string[]>([]);
+
+  const [readme, setReadMe] = useState<string>(""); // README.md
+  const [license, setLicense] = useState<string>(""); // LICENSE.md
+  const [changeLog, setChangeLog] = useState<string>(""); // CHANGELOG.md
+  const [codeOfConduct, setCodeOfConduct] = useState<string>(""); // CODE_OF_CONDUCT.md
+  const [contributing, setContributing] = useState<string>(""); // CONTRIBUTING.md
+  const [issueTemplate, setIssueTemplate] = useState<string>(""); // ISSUE_TEMPLATE.md
+  const [pullRequestTemplate, setPullRequestTemplate] = useState<string>(""); // PULL_REQUEST_TEMPLATE.md
 
   const [inclusiveData, setInclusiveData] = useState<string[]>([]);
 
-  const [hasReadme, setHasReadme] = useState(false);
-  const [hasLicense, setHasLicense] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const handleErrorMsg = (error: Error) => {
+      if (!errorMsg.includes("API rate limit")) {
+        setErrorMsg(error.message);
+      }
+    };
+
     const fetchData = async () => {
-      const data = await getData(searchValue);
-      setBranches(data.branches);
-      setPullRequests(data.pull_requests);
-      setCommits(data.commits);
-      setLanguages(data.languages);
-      setIssues(data.issues);
+      try {
+        const data = await getData(searchValue);
 
-      const hasReadme = await getSlash(searchValue, "readme");
-      const hasLicense = await getSlash(searchValue, "license");
-      setHasReadme(hasReadme);
-      setHasLicense(hasLicense);
+        if (data instanceof Error) {
+          throw data;
+        }
 
-      // ! Must be last in fetchData to ensure all data is fetched before setting isLoading to false
+        var dataIsError: boolean = false;
+        if (!(data.branches instanceof Error)) {
+          setBranches(data.branches as string[]);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.branches);
+        }
+        if (!(data.pull_requests instanceof Error)) {
+          setPullRequests(data.pull_requests as string[]);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.pull_requests);
+        }
+        if (!(data.commits instanceof Error)) {
+          setCommits(data.commits as string[]);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.commits);
+        }
+        if (!(data.languages instanceof Error)) {
+          setLanguages(data.languages as { [key: string]: number });
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.languages);
+        }
+        if (!(data.issues instanceof Error)) {
+          setIssues(data.issues as string[]);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.issues);
+        }
+        if (!(data.runs instanceof Error)) {
+          setWorkflows(data.runs as string[]);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.runs);
+        }
+
+        if (!(data.readme instanceof Error)) {
+          setReadMe(data.readme as string);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.readme);
+        }
+        if (!(data.license instanceof Error)) {
+          setLicense(data.license as string);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.license);
+        }
+        if (!(data.changelog instanceof Error)) {
+          setChangeLog(data.changelog as string);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.changelog);
+        }
+        if (!(data.codeOfConduct instanceof Error)) {
+          setCodeOfConduct(data.codeOfConduct as string);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.codeOfConduct);
+        }
+        if (!(data.contributingGuidelines instanceof Error)) {
+          setContributing(data.contributingGuidelines as string);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.contributingGuidelines);
+        }
+        if (!(data.issueTemplate instanceof Error)) {
+          setIssueTemplate(data.issueTemplate as string);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.issueTemplate);
+        }
+        if (!(data.prTemplate instanceof Error)) {
+          setPullRequestTemplate(data.prTemplate as string);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.prTemplate);
+        }
+
+        if (!dataIsError) {
+          const inclusiveArray = [
+            ...branches,
+            ...pullRequests,
+            ...commits,
+            ...issues,
+            ...workflows,
+            readme,
+            // license,
+            changeLog,
+            codeOfConduct,
+            contributing,
+            issueTemplate,
+            pullRequestTemplate,
+          ];
+          setInclusiveData(inclusiveArray);
+        }
+      } catch (error) {
+        setErrorMsg(error instanceof Error ? error.message : "Unknown error");
+      }
+
+      // ! Must be last in fetchData to ensure all data is fetched before setting isLoading to false (loading icon) and successLoading to true (no error message)
       setIsLoading(false);
     };
     fetchData();
-  }, [searchValue]);
-
-  useEffect(() => {
-    const inclusiveArray = [...branches, ...pullRequests, ...commits, ...issues];
-    setInclusiveData(inclusiveArray);
-  }, [branches, pullRequests, commits]);
+  }, [searchValue]); // only run when searchValue changes
 
   const sections = [
     {
@@ -70,24 +177,37 @@ function Dashboard() {
       content: <Inclusive data={inclusiveData} />,
     },
     {
-      title: "Programming Languages",
-      content: (
-        <>
-          <LanguagePiechart languages={languages} />
-          <LanguageAdvise languages={languages} threshold={20.0} />
-        </>
-      ),
+      title: "Workflow",
+      content: <WorkflowAnalysis statusses={workflows} />,
     },
     {
       title: "Governance",
-      content: <Governance hasReadme={hasReadme} hasLicense={hasLicense} />,
+      content: (
+        <Governance
+          readme={readme}
+          license={license}
+          changeLog={changeLog}
+          codeOfConduct={codeOfConduct}
+          contributing={contributing}
+          issueTemplate={issueTemplate}
+          pullRequestTemplate={pullRequestTemplate}
+        />
+      ),
+    },
+    {
+      title: "Sustainable Programming Languages",
+      content: <ProgrammingLanguage languages={languages} />,
     },
   ];
 
   return (
     <>
       <DashboardInfo repoLink={searchValue} />
-      <DashboardComponents sections={sections} isLoading={isLoading} />
+      <DashboardComponents
+        sections={sections}
+        isLoading={isLoading}
+        errorMsg={errorMsg}
+      />
     </>
   );
 }

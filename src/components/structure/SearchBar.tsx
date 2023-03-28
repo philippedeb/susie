@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../../css/fade-in.css";
 
 interface Props {
@@ -19,6 +19,16 @@ interface Props {
 function SearchBar(props: Props) {
   const [searchValue, setSearchValue] = useState("");
   const [showWarning, setShowWarning] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 800);
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   function handleSearch() {
     if (isValidUrl(searchValue)) {
@@ -39,12 +49,16 @@ function SearchBar(props: Props) {
     return regex.test(url);
   }
 
+  const formInput = isMobile
+    ? "Enter Github Repository URL"
+    : "Enter GitHub repository URL here";
+
   return (
     <>
-      <InputGroup className="mb-3 w-75">
+      <InputGroup className={`mb-3 ${isMobile ? "w-100" : "w-75"}`}>
         <Form.Control
-          placeholder="Enter GitHub repository URL here"
-          aria-label="Enter GitHub repository URL here"
+          placeholder={formInput}
+          aria-label={formInput}
           aria-describedby="basic-addon2"
           value={searchValue}
           onChange={handleChange}
@@ -59,7 +73,7 @@ function SearchBar(props: Props) {
           <FontAwesomeIcon icon={faSearch} />
         </Button>
       </InputGroup>
-      <div className="mt-2 w-75">
+      <div className={`mt-2 ${isMobile ? "w-100" : "w-75"}`}>
         {showWarning && (
           <Alert
             variant="danger"

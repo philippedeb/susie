@@ -13,6 +13,7 @@ function Section(props: SectionProps) {
       className="section mb-3"
     >
       <h3>{props.title}</h3>
+      <hr />
       <div className="section-content">{props.children}</div>
     </div>
   );

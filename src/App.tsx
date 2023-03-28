@@ -4,7 +4,6 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useParams,
   useLocation,
 } from "react-router-dom";
 import Dashboard from "./components/pages/Dashboard/Dashboard";

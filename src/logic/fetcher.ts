@@ -5,7 +5,7 @@ async function getData(searchValue: string): Promise<
       // branches: string[] | Error;
       // commitMessages: string[] | Error;
       // pull_requests: string[] | Error;
-      // languages: { [key: string]: number } | Error;
+      languages: { [key: string]: number } | Error;
       // issues: string[] | Error;
       commitAuthorDates: [string, string][] | Error;
       // runs: string[] | Error;
@@ -24,7 +24,7 @@ async function getData(searchValue: string): Promise<
     // const branches = await getBranches(repo);
     // const commitMessages = await getCommitMessages(repo);
     // const pull_requests = await getPullRequests(repo);
-    // const languages = await getLanguages(repo);
+    const languages = await getLanguages(repo);
     // const issues = await getIssues(repo);
     const commitAuthorDates = await getCommitAuthorDates(repo);
     // const runs = await getRuns(repo);
@@ -39,7 +39,7 @@ async function getData(searchValue: string): Promise<
       // branches,
       // commitMessages,
       // pull_requests,
-      // languages,
+      languages,
       // issues,
       commitAuthorDates,
       // runs,

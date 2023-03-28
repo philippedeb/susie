@@ -74,12 +74,12 @@ function Dashboard() {
         //   dataIsError = true;
         //   handleErrorMsg(data.commitMessages);
         // }
-        // if (!(data.languages instanceof Error)) {
-        //   setLanguages(data.languages as { [key: string]: number });
-        // } else {
-        //   dataIsError = true;
-        //   handleErrorMsg(data.languages);
-        // }
+        if (!(data.languages instanceof Error)) {
+          setLanguages(data.languages as { [key: string]: number });
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.languages);
+        }
         // if (!(data.issues instanceof Error)) {
         //   setIssues(data.issues as string[]);
         // } else {

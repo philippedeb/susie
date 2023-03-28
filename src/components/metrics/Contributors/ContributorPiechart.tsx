@@ -8,17 +8,49 @@ interface Props {
   commitAuthorDates: { [key: string]: number };
 }
 
+interface contributor {
+  name: string;
+  amount: number;
+}
+
+function sortAndPruneTupleList(labels: string[], data: number[], n: number): contributor[] {
+    const labelDataArray: contributor[] = labels.map((label, index) => ({ name: label, amount: data[index] }));
+    labelDataArray.sort((b, a) => a.amount - b.amount);
+
+    const otherList = labelDataArray.slice(n, labelDataArray.length);
+    console.log(otherList);
+    const otherpercentage = otherList.reduce((acc, value) => acc + value.amount, 0);
+    console.log(otherpercentage);
+    const other: contributor = {name: "other", amount: otherpercentage};
+    console.log(other);
+
+    const prunedArray = labelDataArray.slice(0, n);
+    console.log(prunedArray);
+
+    prunedArray.push(other);
+    console.log(prunedArray);
+
+    return prunedArray;
+}
+
 const ContributorPiechart: React.FC<Props> = ({ commitAuthorDates }) => {
   const labels = Object.keys(commitAuthorDates);
   const data = Object.values(commitAuthorDates);
+  
+
+  const labelDataArray = sortAndPruneTupleList(labels, data, 8);
+
+  // Separate the label and data values into separate arrays again
+  const sortedLabels = labelDataArray.map(obj => obj.name);
+  const sortedData = labelDataArray.map(obj => obj.amount);
 
   const total = data.reduce((acc, curr) => acc + curr, 0);
 
   const chartData = {
-    labels: labels,
+    labels: sortedLabels,
     datasets: [
       {
-        data: data,
+        data: sortedData,
         backgroundColor: [
           "#e60049",
           "#0bb4ff",

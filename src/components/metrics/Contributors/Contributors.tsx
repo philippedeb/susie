@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
-import LanguagePiechart from "../Language/LanguagePiechart";
-import { getContributorPercentages } from "./ContributorPercentage";
+import { getBusFactor, getContributionCounts } from "./ContributorLogic";
+import ContributorPiechart from "./ContributorPiechart";
 
 interface Props {
   commitAuthorDates: [string, string][];
@@ -9,21 +8,31 @@ interface Props {
 
 function Contributors(props: Props) {
   const [contributors, setContributors] = useState<{ [key: string]: number }>({});
+  const [busFactor, setBusFactor] = useState<number>(0);
 
   useEffect(() => {
     async function fetchData() {
-      const contributors: { [key: string]: number } = getContributorPercentages(props.commitAuthorDates);
+      const contributors: { [key: string]: number } = getContributionCounts(props.commitAuthorDates);
       setContributors(contributors);
+
+      const busFactor: number = getBusFactor(props.commitAuthorDates);
+      setBusFactor(busFactor);
     }
+
     fetchData();
   }, [props.commitAuthorDates]);
 
   return (
-    <div>
-            <LanguagePiechart languages={contributors}
+    <>
+      <div>
+          <ContributorPiechart commitAuthorDates={contributors}
 
-            ></LanguagePiechart>
-    </div>
+          ></ContributorPiechart>
+      </div>
+      <div>
+        {busFactor}
+      </div>
+    </>
   );
 }
 

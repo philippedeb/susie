@@ -2,7 +2,7 @@
     <img src='public/susie.svg' style="display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 5%;">
+  width: 75px;">
 </p>
 
 
@@ -59,5 +59,14 @@ Contributions are always welcome! 👋
 
 Read the [contribution guidelines](CONTRIBUTING.md) and [code of conduct](CODE_OF_CONDUCT.md). 
 
+If you like the project, but just don’t have time to contribute, that’s fine. There are other easy ways to support the project and show your appreciation, which we would also be very happy about:
+
+* ⭐ Star the project
+* ✉️ Post about it (e.g. Twitter, LinkedIn, Reddit, etc.)
+* 🔗 Refer this project in your project’s readme
+* 💬 Mention the project at local meetups and tell your friends/colleagues
+
+> Note: early contributions of the maintainers did not follow the [contribution guidelines](CONTRIBUTING.md) due to a rushed production environment (Susie started as a university project!). We are working on improving the codebase and will be following these guidelines from now on.
+
 ## License
-This project is licensed under the terms of the **[GNU AGPLv3](https://choosealicense.com/licenses/agpl-3.0/)** license.
+This project is licensed under the terms of the **[GNU AGPLv3](LICENSE)** license.

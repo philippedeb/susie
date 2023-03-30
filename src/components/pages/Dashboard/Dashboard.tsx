@@ -10,6 +10,7 @@ import Governance from "../../metrics/Governance/Governance";
 import DashboardComponents from "./DashboardComponents";
 import "../../../css/Link.css";
 import ProgrammingLanguage from "../../metrics/Language/ProgrammingLanguage";
+import IssuesSentiment from "../../metrics/Sentiment/IssuesSentiment";
 
 function Dashboard() {
   const location = useLocation();
@@ -195,6 +196,10 @@ function Dashboard() {
       title: "Sustainable Programming Languages",
       content: <ProgrammingLanguage languages={languages} />,
     },
+    {
+      title: "Sentiment",
+      content: <IssuesSentiment data={issues} />,
+    }
   ];
 
   return (

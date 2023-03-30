@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from "react";
 import { Alert, Badge, Spinner } from "react-bootstrap";
-import { checkLanguage, Recommendations, TermRecommendation } from "./Check";
+import { checkLanguage, Recommendations, TermRecommendation } from "./checkLanguage"
 import Recommendation from "./Recommendation";
 import "../../../css/Link.css";
 

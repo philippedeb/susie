@@ -17,7 +17,11 @@ function App() {
     <Router>
       <div
         className="App"
-        style={{ background: "#292a2d", color: "#fff", minHeight: "100vh" }}
+        style={{
+          background: "#292a2d",
+          color: "#fff",
+          minHeight: "100vh",
+        }}
       >
         <Header />
         <Routes>

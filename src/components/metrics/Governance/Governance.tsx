@@ -12,6 +12,16 @@ interface Props {
 
 function Governance(props: Props) {
   const [hasEnergyStatement, setHasEnergyStatement] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 800);
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     // Check for energy statement keywords in readme and license files
@@ -54,7 +64,7 @@ function Governance(props: Props) {
   }, [props.readme, props.license]);
 
   return (
-    <ul style={{ columns: "2" }}>
+    <ul style={{ columns: isMobile ? "1" : "2" }}>
       <li key={1} title={"README.md"}>
         <strong>Readme:</strong> {props.readme === "" ? "⛔" : "✅"}
       </li>

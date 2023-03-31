@@ -64,8 +64,10 @@ function IssuesSentiment(props: Props) {
           </p>
           {/* Create a Badge with the amount of positive sentiments */}
           <h5>
-            {"Positive Issues "}{" "}
+            {Object.keys(positiveSentiments.sentiments).length > 0 ? "Positive Issues " : ""}
+            {Object.keys(positiveSentiments.sentiments).length > 0 ? 
             <Badge bg="success">{Object.keys(positiveSentiments.sentiments).length}</Badge>
+            : ""}
           </h5>
           <p>
             {Object.keys(positiveSentiments.sentiments).length > 0 ? "The list below shows the issues that have the highest positive sentiment." : "" }
@@ -82,9 +84,11 @@ function IssuesSentiment(props: Props) {
           )}
           {/* Create a Badge with the amount of negative sentiments */}
           <h5>
-            {"Negative Issues "}{" "}
+            {Object.keys(negativeSentiments.sentiments).length > 0 ? "Negative Issues " : ""}
+            {Object.keys(negativeSentiments.sentiments).length > 0 ?
             <Badge bg="danger">{Object.keys(negativeSentiments.sentiments).length}</Badge>
-          </h5>
+            : ""}
+            </h5>
           <p>
             {Object.keys(negativeSentiments.sentiments).length > 0 ? "The list below shows the issues that have the lowest negative sentiment." : "" }
           </p>

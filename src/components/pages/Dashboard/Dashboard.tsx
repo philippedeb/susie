@@ -10,6 +10,7 @@ import Governance from "../../metrics/Governance/Governance";
 import DashboardComponents from "./DashboardComponents";
 import "../../../css/Link.css";
 import ProgrammingLanguage from "../../metrics/Language/ProgrammingLanguage";
+import IssuesSentiment from "../../metrics/Sentiment/IssuesSentiment";
 
 function Dashboard() {
   const location = useLocation();
@@ -51,22 +52,27 @@ function Dashboard() {
         if (data instanceof Error) {
           throw data;
         }
+        
+        var inclusiveArray = [];
 
         var dataIsError: boolean = false;
         if (!(data.branches instanceof Error)) {
           setBranches(data.branches as string[]);
+          inclusiveArray.push(...data.branches);
         } else {
           dataIsError = true;
           handleErrorMsg(data.branches);
         }
         if (!(data.pull_requests instanceof Error)) {
           setPullRequests(data.pull_requests as string[]);
+          inclusiveArray.push(...data.pull_requests);
         } else {
           dataIsError = true;
           handleErrorMsg(data.pull_requests);
         }
         if (!(data.commits instanceof Error)) {
           setCommits(data.commits as string[]);
+          inclusiveArray.push(...data.commits);
         } else {
           dataIsError = true;
           handleErrorMsg(data.commits);
@@ -79,12 +85,14 @@ function Dashboard() {
         }
         if (!(data.issues instanceof Error)) {
           setIssues(data.issues as string[]);
+          inclusiveArray.push(...data.issues);
         } else {
           dataIsError = true;
           handleErrorMsg(data.issues);
         }
         if (!(data.runs instanceof Error)) {
           setWorkflows(data.runs as string[]);
+          inclusiveArray.push(...data.runs);
         } else {
           dataIsError = true;
           handleErrorMsg(data.runs);
@@ -92,6 +100,7 @@ function Dashboard() {
 
         if (!(data.readme instanceof Error)) {
           setReadMe(data.readme as string);
+          inclusiveArray.push(data.readme);
         } else {
           dataIsError = true;
           handleErrorMsg(data.readme);
@@ -104,52 +113,41 @@ function Dashboard() {
         }
         if (!(data.changelog instanceof Error)) {
           setChangeLog(data.changelog as string);
+          inclusiveArray.push(data.changelog);
         } else {
           dataIsError = true;
           handleErrorMsg(data.changelog);
         }
         if (!(data.codeOfConduct instanceof Error)) {
           setCodeOfConduct(data.codeOfConduct as string);
+          inclusiveArray.push(data.codeOfConduct);
         } else {
           dataIsError = true;
           handleErrorMsg(data.codeOfConduct);
         }
         if (!(data.contributingGuidelines instanceof Error)) {
           setContributing(data.contributingGuidelines as string);
+          inclusiveArray.push(data.contributingGuidelines);
         } else {
           dataIsError = true;
           handleErrorMsg(data.contributingGuidelines);
         }
         if (!(data.issueTemplate instanceof Error)) {
           setIssueTemplate(data.issueTemplate as string);
+          inclusiveArray.push(data.issueTemplate);
         } else {
           dataIsError = true;
           handleErrorMsg(data.issueTemplate);
         }
         if (!(data.prTemplate instanceof Error)) {
           setPullRequestTemplate(data.prTemplate as string);
+          inclusiveArray.push(data.prTemplate);
         } else {
           dataIsError = true;
           handleErrorMsg(data.prTemplate);
         }
-
-        if (!dataIsError) {
-          const inclusiveArray = [
-            ...branches,
-            ...pullRequests,
-            ...commits,
-            ...issues,
-            ...workflows,
-            readme,
-            // license,
-            changeLog,
-            codeOfConduct,
-            contributing,
-            issueTemplate,
-            pullRequestTemplate,
-          ];
-          setInclusiveData(inclusiveArray);
-        }
+        
+        setInclusiveData(inclusiveArray);
       } catch (error) {
         setErrorMsg(error instanceof Error ? error.message : "Unknown error");
       }
@@ -198,6 +196,10 @@ function Dashboard() {
       title: "Sustainable Programming Languages",
       content: <ProgrammingLanguage languages={languages} />,
     },
+    {
+      title: "Issue Sentiment",
+      content: <IssuesSentiment data={issues} />,
+    }
   ];
 
   return (

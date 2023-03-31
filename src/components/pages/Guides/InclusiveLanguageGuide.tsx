@@ -132,11 +132,11 @@ function InclusiveLanguageGuide() {
           <p>
             <b> Source: </b>
             <a
-            href="https://support.apple.com/en-gb/guide/applestyleguide/apdcb2a65d68/web"
+            href="https://www.aswf.io/blog/inclusive-language/"
             className="susie-link-light"
             >
               {" "}
-              https://support.apple.com/en-gb/guide/applestyleguide/apdcb2a65d68/web{" "}
+              https://www.aswf.io/blog/inclusive-language/{" "}
             </a>
           </p>
         </Col>

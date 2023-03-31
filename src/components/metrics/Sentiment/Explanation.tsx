@@ -22,17 +22,12 @@ function Explanation(props: Props) {
                 <h6>
                     {props.title}{" "}
                     {props.calculation.length > 0
-                        ? " → " + props.score
+                        ? " → Sentiment Score: " + props.score
                         : ""}
                 </h6>
             </div>
             <Collapse in={isOpen}>
                 <div className="recommendation-body">
-                    <p>
-                        {props.calculation.length > 0
-                            ? 'The sentiment scores of the words can be found in the table below'
-                        : ""}
-                    </p>
                     <table className="table table-dark table-striped">
                         <thead>
                             <tr>

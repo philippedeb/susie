@@ -49,19 +49,26 @@ function IssuesSentiment(props: Props) {
         </div>
       ) : (
         <div>
-          <Alert show={showAlert} variant="success">
-            Based on our analysis, the average sentiment in your issues is positive! 💚
-          </Alert>
-          <Alert show={!showAlert} variant='warning'>
-            Based on our analysis, the average sentiment in your issues is negative. 😢
-          </Alert>
+          <p>
+            We have analyzed the sentiment in your issues and have found the 
+            following issues that may be considered as positive or negative. 
+            Click on an issue to see the sentiment analysis. 
+            (
+              <a
+                className="susie-link"
+                href="https://www.npmjs.com/package/sentiment"
+              >
+              Source
+              </a>
+            )
+          </p>
           {/* Create a Badge with the amount of positive sentiments */}
           <h5>
-            {"Positive Sentiments "}{" "}
+            {"Positive Issues "}{" "}
             <Badge bg="success">{Object.keys(positiveSentiments.sentiments).length}</Badge>
           </h5>
           {Object.entries(positiveSentiments.sentiments).map(
-            ([title, { score, comparative, calculation, tokens, words, positive, negative }]) => (
+            ([title, { score, calculation }]) => (
               <Explanation
                 key={title}
                 title={title}
@@ -72,12 +79,12 @@ function IssuesSentiment(props: Props) {
           )}
           {/* Create a Badge with the amount of negative sentiments */}
           <h5>
-            {"Negative Sentiments "}{" "}
+            {"Negative Issues "}{" "}
             <Badge bg="danger">{Object.keys(negativeSentiments.sentiments).length}</Badge>
           </h5>
           {/* Here is the list of all negative sentiments */}
           {Object.entries(negativeSentiments.sentiments).map(
-            ([title, { score, comparative, calculation, tokens, words, positive, negative }]) => (
+            ([title, { score, calculation }]) => (
               <Explanation
                 key={title}
                 title={title}
@@ -86,6 +93,12 @@ function IssuesSentiment(props: Props) {
                 />
             )
           )}
+          <Alert show={showAlert} variant="success">
+            Based on our analysis, the average sentiment in your issues is positive! 💚
+          </Alert>
+          <Alert show={!showAlert} variant='warning'>
+            Based on our analysis, the average sentiment in your issues is negative. 😢
+          </Alert>
         </div>)}
     </div>
   );

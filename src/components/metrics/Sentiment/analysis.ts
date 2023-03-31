@@ -8,10 +8,6 @@ interface SentenceSentiments {
     sentiments: { [sentence: string]: Sentiment.AnalysisResult };
 }
 
-// interface Calculations {
-//     calculations: { [word: string]: number };
-// }
-
 function getSentiment(data: string[]): SentenceSentiments {
     const sentiments: SentenceSentiments = {
         sentiments: {},
@@ -21,23 +17,6 @@ function getSentiment(data: string[]): SentenceSentiments {
     }
     return sentiments;
 }
-
-// This function returns the calculations for each sentence and filters it based on the direction variable where True is positive and False is negative
-// function getCalculations(sentiments: SentenceSentiment[], direction: boolean = true): Calculations[] {
-//     const calculations: { [word: string]: number }[][] = [];
-//     for (const item of sentiments) {
-//         const calculation: { [word: string]: number }[] = [];
-//         for (const word of item.result.calculation) {
-//             if (word.score > 0 && direction) {
-//                 calculation.push({ [word.token]: word.score });
-//             } else if (word.score < 0 && !direction) {
-//                 calculation.push({ [word.token]: word.score });
-//             }
-//         }
-//         calculations.push(calculation);
-//     }
-//     return calculations;
-// }
 
 function calcAverageSentiment(sentiments: SentenceSentiments): number {
     let total = 0;
@@ -49,24 +28,38 @@ function calcAverageSentiment(sentiments: SentenceSentiments): number {
     return total / count;
 }
 
-function getPositiveSentiment(sentiments: SentenceSentiments, n_sentiments: number = 5): SentenceSentiments {
+function getPositiveSentiment(sentiments: SentenceSentiments, n_sentiments: number = 3): SentenceSentiments {
     const positiveSentiments: SentenceSentiments = {
         sentiments: {},
     };
-    const sortedSentiments = Object.entries(sentiments.sentiments).sort((a, b) => b[1].score - a[1].score);
+    // Filter the sentiments to only include them if the length of calculation is greater than 0
+    const filteredSentiments = Object.entries(sentiments.sentiments).filter((item) => item[1].calculation.length > 0&& item[1].score > 0).sort((a, b) => b[1].score - a[1].score);
+    
+    // Check if legnth of filtered sentiments is less than n_sentiments
+    if (filteredSentiments.length < n_sentiments) {
+        n_sentiments = filteredSentiments.length;
+    }
+
     for (let i = 0; i < n_sentiments; i++) {
-        positiveSentiments.sentiments[sortedSentiments[i][0]] = sortedSentiments[i][1];
+        positiveSentiments.sentiments[filteredSentiments[i][0]] = filteredSentiments[i][1];
     }
     return positiveSentiments;
 }
 
-function getNegativeSentiment(sentiments: SentenceSentiments, n_sentiments: number = 5): SentenceSentiments {
+function getNegativeSentiment(sentiments: SentenceSentiments, n_sentiments: number = 3): SentenceSentiments {
     const negativeSentiments: SentenceSentiments = {
         sentiments: {},
     };
-    const sortedSentiments = Object.entries(sentiments.sentiments).sort((a, b) => a[1].score - b[1].score);
+    // Filter the sentiments to only include them if the length of calculation is greater than 0
+    const filteredSentiments = Object.entries(sentiments.sentiments).filter((item) => item[1].calculation.length > 0 && item[1].score < 0).sort((a, b) => a[1].score - b[1].score);
+        
+    // Check if legnth of filtered sentiments is less than n_sentiments
+    if (filteredSentiments.length < n_sentiments) {
+        n_sentiments = filteredSentiments.length;
+    }
+
     for (let i = 0; i < n_sentiments; i++) {
-        negativeSentiments.sentiments[sortedSentiments[i][0]] = sortedSentiments[i][1];
+        negativeSentiments.sentiments[filteredSentiments[i][0]] = filteredSentiments[i][1];
     }
     return negativeSentiments;
 }

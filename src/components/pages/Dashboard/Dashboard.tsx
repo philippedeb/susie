@@ -197,7 +197,7 @@ function Dashboard() {
       content: <ProgrammingLanguage languages={languages} />,
     },
     {
-      title: "Sentiment",
+      title: "Issue Sentiment",
       content: <IssuesSentiment data={issues} />,
     }
   ];

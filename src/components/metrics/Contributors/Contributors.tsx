@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getBusFactor, getContributionCounts } from "./ContributorLogic";
 import ContributorPiechart from "./ContributorPiechart";
+import DropDown from "../../structure/DropDown";
 
 interface Props {
   commitAuthorDates: [string, string][];
@@ -24,14 +25,26 @@ function Contributors(props: Props) {
 
   return (
     <>
+      <p>Contributors of the repository 👩‍💻</p>
+      <>
+        The 
+      </>
       <div>
           <ContributorPiechart commitAuthorDates={contributors}
 
           ></ContributorPiechart>
-      </div>
+      </div>  
+    
+    <DropDown header={"Bus Factor of the repository 🚌"} collapsed={false}>
       <div>
-        {busFactor}
+        <p>The <b>Bus Factor</b> of this project is: {busFactor}.</p>
       </div>
+
+      <div>
+        A project's bus factor (or truck factor) is a number equal to the number of team members who, if run over by a bus, would put the project in jeopardy. The smallest bus factor is 1. Larger numbers are preferable. Essentially, a low bus factor represents a single point of failure within the team. And of course, buses aren't usually the biggest threat to teams: illness, vacation, and departure from the company are all frequent occurrences on projects. Thus, efforts should be made to increase bus factor on any project that is critical to the organization.
+        </div>
+    </DropDown>
+    
     </>
   );
 }

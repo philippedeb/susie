@@ -18,18 +18,11 @@ function sortAndPruneTupleList(labels: string[], data: number[], n: number): con
     labelDataArray.sort((b, a) => a.amount - b.amount);
 
     const otherList = labelDataArray.slice(n, labelDataArray.length);
-    console.log(otherList);
     const otherpercentage = otherList.reduce((acc, value) => acc + value.amount, 0);
-    console.log(otherpercentage);
     const other: contributor = {name: "other", amount: otherpercentage};
-    console.log(other);
-
     const prunedArray = labelDataArray.slice(0, n);
-    console.log(prunedArray);
 
     prunedArray.push(other);
-    console.log(prunedArray);
-
     return prunedArray;
 }
 

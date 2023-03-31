@@ -13,6 +13,12 @@ function getContributionCounts(commitAuthorDates: [string, string][]): { [key: s
   return authorCommitCount;
 }
 
+function latestCommitDate(commitAuthorDates: [string, string][]): string {
+  return commitAuthorDates[0][1];
+}
+
+// function 
+
 function getBusFactor(commitAuthorDates: [string, string][]): number {
   const authorCommitCount = getContributionCounts(commitAuthorDates);
   const sum = Object.values(authorCommitCount).reduce((acc, val) => acc + val, 0);

@@ -57,6 +57,8 @@ function SearchBar(props: Props) {
     <>
       <InputGroup className={`mb-3 ${isMobile ? "w-100" : "w-75"}`}>
         <Form.Control
+          type="text"
+          size="sm"
           placeholder={formInput}
           aria-label={formInput}
           aria-describedby="basic-addon2"
@@ -69,14 +71,19 @@ function SearchBar(props: Props) {
             }
           }}
         />
-        <Button variant="success" id="button-addon2" onClick={handleSearch}>
+        <Button
+          variant="secondary"
+          id="button-addon2"
+          onClick={handleSearch}
+          onTouchEnd={handleSearch}
+        >
           <FontAwesomeIcon icon={faSearch} />
         </Button>
       </InputGroup>
       <div className={`mt-2 ${isMobile ? "w-100" : "w-75"}`}>
         {showWarning && (
           <Alert
-            variant="danger"
+            variant="warning"
             className="fade-in-up"
             dismissible
             onClose={() => setShowWarning(false)}

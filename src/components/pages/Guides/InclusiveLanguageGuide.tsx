@@ -132,8 +132,8 @@ function InclusiveLanguageGuide() {
           <p>
             <b> Source: </b>
             <a
-            href="https://www.aswf.io/blog/inclusive-language/"
-            className="susie-link-light"
+              href="https://www.aswf.io/blog/inclusive-language/"
+              className="susie-link-light"
             >
               {" "}
               https://www.aswf.io/blog/inclusive-language/{" "}

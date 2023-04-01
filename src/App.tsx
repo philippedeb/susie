@@ -38,7 +38,6 @@ function App() {
 }
 
 function GuidePageRoute() {
-  console.log("Trying to render guide page");
   const location = useLocation();
   const guideKey = new URLSearchParams(location.search).get("name");
   if (guideKey === null) {

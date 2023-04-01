@@ -15,7 +15,6 @@ function WorkflowAnalysis(props: Props) {
     occurrences[props.statusses[i]] =
       (occurrences[props.statusses[i]] || 0) + 1;
   }
-  // console.log("occurrences", occurrences);
   const successes =
     props.statusses.length > 0 && occurrences["success"]
       ? occurrences["success"] / props.statusses.length
@@ -25,10 +24,6 @@ function WorkflowAnalysis(props: Props) {
       ? occurrences["failure"] / props.statusses.length
       : 0.0;
   const other = 1.0 - successes - failures;
-
-  // console.log("successes", successes);
-  // console.log("failures", failures);
-  // console.log("other", other);
 
   const progressBar = (
     <>

@@ -116,8 +116,6 @@ function checkLanguage(data: string[]): Recommendations {
     for (const check of inclusiveLanguageChecks) {
       const checkRegex = new RegExp("\\b" + check.word + "\\b");
       if (checkRegex.test(item)) {
-        console.log("Name:", item, "Target Word:", check.word);
-
         if (recommendations.terms[check.word]) {
           recommendations.terms[check.word].locations.push(item);
         } else {

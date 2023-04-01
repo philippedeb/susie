@@ -36,8 +36,6 @@ function getPonyFactor(commitAuthorDates: [string, string][]): number {
     (a, b) => b[1] - a[1]
   );
 
-  console.log(sortedContributors);
-
   var ponyFactor = 0;
   var commitCount = 0;
   for (let i = 0; i < sortedContributors.length; i++) {

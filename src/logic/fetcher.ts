@@ -2,54 +2,54 @@ export { extractGitHubOwnerAndRepo, getData, getSlash };
 
 async function getData(searchValue: string): Promise<
   | {
-      // branches: string[] | Error;
-      // commitMessages: string[] | Error;
-      // pull_requests: string[] | Error;
+      branches: string[] | Error;
+      commitMessages: string[] | Error;
+      pull_requests: string[] | Error;
       languages: { [key: string]: number } | Error;
-      // issues: string[] | Error;
+      issues: string[] | Error;
       commitAuthorDates: [string, string][] | Error;
-      // runs: string[] | Error;
-      // readme: string | Error;
-      // license: string | Error;
-      // changelog: string | Error;
-      // codeOfConduct: string | Error;
-      // contributingGuidelines: string | Error;
-      // issueTemplate: string | Error;
-      // prTemplate: string | Error;
+      runs: string[] | Error;
+      readme: string | Error;
+      license: string | Error;
+      changelog: string | Error;
+      codeOfConduct: string | Error;
+      contributingGuidelines: string | Error;
+      issueTemplate: string | Error;
+      prTemplate: string | Error;
     }
   | Error
 > {
   try {
     const repo = extractGitHubRepoPath(searchValue);
-    // const branches = await getBranches(repo);
-    // const commitMessages = await getCommitMessages(repo);
-    // const pull_requests = await getPullRequests(repo);
+    const branches = await getBranches(repo);
+    const commitMessages = await getCommitMessages(repo);
+    const pull_requests = await getPullRequests(repo);
     const languages = await getLanguages(repo);
-    // const issues = await getIssues(repo);
+    const issues = await getIssues(repo);
     const commitAuthorDates = await getCommitAuthorDates(repo);
-    // const runs = await getRuns(repo);
-    // const readme = await getFileContent(repo, "README.md");
-    // const license = await getFileContent(repo, "LICENSE");
-    // const changelog = await getFileContent(repo, "CHANGELOG.md");
-    // const codeOfConduct = await getCodeOfConduct(repo);
-    // const contributingGuidelines = await getContributingGuidelines(repo);
-    // const issueTemplate = await getIssueTemplate(repo);
-    // const prTemplate = await getPrTemplate(repo);
+    const runs = await getRuns(repo);
+    const readme = await getFileContent(repo, "README.md");
+    const license = await getFileContent(repo, "LICENSE");
+    const changelog = await getFileContent(repo, "CHANGELOG.md");
+    const codeOfConduct = await getCodeOfConduct(repo);
+    const contributingGuidelines = await getContributingGuidelines(repo);
+    const issueTemplate = await getIssueTemplate(repo);
+    const prTemplate = await getPrTemplate(repo);
     return {
-      // branches,
-      // commitMessages,
-      // pull_requests,
+      branches,
+      commitMessages,
+      pull_requests,
       languages,
-      // issues,
+      issues,
       commitAuthorDates,
-      // runs,
-      // readme,
-      // license,
-      // changelog,
-      // codeOfConduct,
-      // contributingGuidelines,
-      // issueTemplate,
-      // prTemplate,
+      runs,
+      readme,
+      license,
+      changelog,
+      codeOfConduct,
+      contributingGuidelines,
+      issueTemplate,
+      prTemplate,
     };
   } catch (error) {
     return new Error(error instanceof Error ? error.message : "Unknown error");
@@ -281,21 +281,21 @@ async function getIssues(
   }
 }
 
-
 async function getCommitAuthorDates(
   repo: string,
   since: string = "2008-02-08T12:00:00Z"
-  ): Promise<[string, string][] | Error> {
+): Promise<[string, string][] | Error> {
   let n: number = 1;
-  let dateList: [string, string][] = []
+  let dateList: [string, string][] = [];
   while (n < 5) {
     try {
       const response = await fetch(
-        "https://api.github.com/repos/" + 
+        "https://api.github.com/repos/" +
           repo +
           "/commits?per_page=100&page=" +
           n.toString() +
-          "/since=" + since
+          "/since=" +
+          since
       );
       if (response.status === 403) {
         return new Error("API rate limit exceeded");
@@ -304,15 +304,20 @@ async function getCommitAuthorDates(
         return new Error("ERROR in fetching data");
       }
       const data: GitCommit[] = await response.json();
-      
-      const commitDates: [string, string][] = data.map(item => [item.commit.author.name, item.commit.author.date]);
+
+      const commitDates: [string, string][] = data.map((item) => [
+        item.commit.author.name,
+        item.commit.author.date,
+      ]);
       dateList = dateList.concat(commitDates);
       if (commitDates.length < 30) {
         break;
       }
-      n++
+      n++;
     } catch (error) {
-      return new Error(error instanceof Error ? error.message : "Unknown error");
+      return new Error(
+        error instanceof Error ? error.message : "Unknown error"
+      );
     }
   }
   return dateList;

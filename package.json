@@ -11,6 +11,7 @@
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@types/sentiment": "^5.0.1",
     "bad-words": "^3.0.4",
     "bootstrap": "^5.2.3",
     "chart.js": "^4.2.1",
@@ -21,7 +22,8 @@
     "react-native": "^0.71.4",
     "react-native-paper": "^5.5.1",
     "react-native-progress": "^5.0.0",
-    "react-router-dom": "^6.9.0"
+    "react-router-dom": "^6.9.0",
+    "sentiment": "^5.0.2"
   },
   "devDependencies": {
     "@types/bad-words": "^3.0.1",

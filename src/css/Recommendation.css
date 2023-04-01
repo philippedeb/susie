@@ -6,6 +6,7 @@
   padding-top: 10px;
   padding-bottom: 5px;
   margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .recommendation-header {
@@ -21,5 +22,6 @@
 
 .recommendation-body {
   margin-top: 10px;
+  margin-bottom: 10px;
   color: #dedede;
 }

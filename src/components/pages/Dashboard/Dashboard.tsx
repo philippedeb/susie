@@ -11,6 +11,7 @@ import DashboardComponents from "./DashboardComponents";
 import "../../../css/Link.css";
 import ProgrammingLanguage from "../../metrics/Language/ProgrammingLanguage";
 import Contributors from "../../metrics/Contributors/Contributors";
+import IssuesSentiment from "../../metrics/Sentiment/IssuesSentiment";
 
 function Dashboard() {
   const location = useLocation();
@@ -24,7 +25,9 @@ function Dashboard() {
   const [issues, setIssues] = useState<string[]>([]);
   const [workflows, setWorkflows] = useState<string[]>([]);
 
-  const [contributorData, setContributorData] = useState<[string, string][]>([]);
+  const [contributorData, setContributorData] = useState<[string, string][]>(
+    []
+  );
 
   const [readme, setReadMe] = useState<string>(""); // README.md
   const [license, setLicense] = useState<string>(""); // LICENSE.md
@@ -55,110 +58,107 @@ function Dashboard() {
           throw data;
         }
 
+        var inclusiveArray = [];
+
         var dataIsError: boolean = false;
-        // if (!(data.branches instanceof Error)) {
-        //   setBranches(data.branches as string[]);
-        // } else {
-        //   dataIsError = true;
-        //   handleErrorMsg(data.branches);
-        // }
-        // if (!(data.pull_requests instanceof Error)) {
-        //   setPullRequests(data.pull_requests as string[]);
-        // } else {
-        //   dataIsError = true;
-        //   handleErrorMsg(data.pull_requests);
-        // }
-        // if (!(data.commitMessages instanceof Error)) {
-        //   setCommitMessages(data.commitMessages);
-        // } else {
-        //   dataIsError = true;
-        //   handleErrorMsg(data.commitMessages);
-        // }
+        if (!(data.branches instanceof Error)) {
+          setBranches(data.branches as string[]);
+          inclusiveArray.push(...data.branches);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.branches);
+        }
+        if (!(data.pull_requests instanceof Error)) {
+          setPullRequests(data.pull_requests as string[]);
+          inclusiveArray.push(...data.pull_requests);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.pull_requests);
+        }
+        if (!(data.commitMessages instanceof Error)) {
+          setCommitMessages(data.commitMessages as string[]);
+          inclusiveArray.push(...data.commitMessages);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.commitMessages);
+        }
         if (!(data.languages instanceof Error)) {
           setLanguages(data.languages as { [key: string]: number });
         } else {
           dataIsError = true;
           handleErrorMsg(data.languages);
         }
-        // if (!(data.issues instanceof Error)) {
-        //   setIssues(data.issues as string[]);
-        // } else {
-        //   dataIsError = true;
-        //   handleErrorMsg(data.issues);
-        // }
-        // if (!(data.runs instanceof Error)) {
-        //   setWorkflows(data.runs as string[]);
-        // } else {
-        //   dataIsError = true;
-        //   handleErrorMsg(data.runs);
-        // }
-
-        // if (!(data.readme instanceof Error)) {
-        //   setReadMe(data.readme as string);
-        // } else {
-        //   dataIsError = true;
-        //   handleErrorMsg(data.readme);
-        // }
-        // if (!(data.license instanceof Error)) {
-        //   setLicense(data.license as string);
-        // } else {
-        //   dataIsError = true;
-        //   handleErrorMsg(data.license);
-        // }
-        // if (!(data.changelog instanceof Error)) {
-        //   setChangeLog(data.changelog as string);
-        // } else {
-        //   dataIsError = true;
-        //   handleErrorMsg(data.changelog);
-        // }
-        // if (!(data.codeOfConduct instanceof Error)) {
-        //   setCodeOfConduct(data.codeOfConduct as string);
-        // } else {
-        //   dataIsError = true;
-        //   handleErrorMsg(data.codeOfConduct);
-        // }
-        // if (!(data.contributingGuidelines instanceof Error)) {
-        //   setContributing(data.contributingGuidelines as string);
-        // } else {
-        //   dataIsError = true;
-        //   handleErrorMsg(data.contributingGuidelines);
-        // }
-        // if (!(data.issueTemplate instanceof Error)) {
-        //   setIssueTemplate(data.issueTemplate as string);
-        // } else {
-        //   dataIsError = true;
-        //   handleErrorMsg(data.issueTemplate);
-        // }
-        // if (!(data.prTemplate instanceof Error)) {
-        //   setPullRequestTemplate(data.prTemplate as string);
-        // } else {
-        //   dataIsError = true;
-        //   handleErrorMsg(data.prTemplate);
-        // }
+        if (!(data.issues instanceof Error)) {
+          setIssues(data.issues as string[]);
+          inclusiveArray.push(...data.issues);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.issues);
+        }
         if (!(data.commitAuthorDates instanceof Error)) {
           setContributorData(data.commitAuthorDates as [string, string][]);
         } else {
           dataIsError = true;
           handleErrorMsg(data.commitAuthorDates);
         }
+        if (!(data.runs instanceof Error)) {
+          setWorkflows(data.runs as string[]);
+          inclusiveArray.push(...data.runs);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.runs);
+        }
 
-        // if (!dataIsError) {
-        //   const inclusiveArray = [
-        //     ...branches,
-        //     ...pullRequests,
-        //     ...commitMessages,
-        //     ...issues,
-        //     ...workflows,
-        //     readme,
-        //     // license,
-        //     changeLog,
-        //     codeOfConduct,
-        //     contributing,
-        //     issueTemplate,
-        //     pullRequestTemplate,
-        //   ];
-        //   setInclusiveData(inclusiveArray);
-        // }
+        if (!(data.readme instanceof Error)) {
+          setReadMe(data.readme as string);
+          inclusiveArray.push(data.readme);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.readme);
+        }
+        if (!(data.license instanceof Error)) {
+          setLicense(data.license as string);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.license);
+        }
+        if (!(data.changelog instanceof Error)) {
+          setChangeLog(data.changelog as string);
+          inclusiveArray.push(data.changelog);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.changelog);
+        }
+        if (!(data.codeOfConduct instanceof Error)) {
+          setCodeOfConduct(data.codeOfConduct as string);
+          inclusiveArray.push(data.codeOfConduct);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.codeOfConduct);
+        }
+        if (!(data.contributingGuidelines instanceof Error)) {
+          setContributing(data.contributingGuidelines as string);
+          inclusiveArray.push(data.contributingGuidelines);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.contributingGuidelines);
+        }
+        if (!(data.issueTemplate instanceof Error)) {
+          setIssueTemplate(data.issueTemplate as string);
+          inclusiveArray.push(data.issueTemplate);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.issueTemplate);
+        }
+        if (!(data.prTemplate instanceof Error)) {
+          setPullRequestTemplate(data.prTemplate as string);
+          inclusiveArray.push(data.prTemplate);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.prTemplate);
+        }
+
+        setInclusiveData(inclusiveArray);
       } catch (error) {
         setErrorMsg(error instanceof Error ? error.message : "Unknown error");
       }
@@ -210,6 +210,10 @@ function Dashboard() {
     {
       title: "Sustainable Programming Languages",
       content: <ProgrammingLanguage languages={languages} />,
+    },
+    {
+      title: "Issue Sentiment",
+      content: <IssuesSentiment data={issues} />,
     },
   ];
 

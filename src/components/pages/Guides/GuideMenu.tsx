@@ -15,13 +15,18 @@ function Guides() {
       </div>
       <div className="guides-container fade-in-after">
         <Guide
+          guideTitle="Sustainability Types"
+          description="No, it's not all environmental.. 🌱"
+          guideKey={"types-of-sustainability"}
+        />
+        <Guide
           guideTitle="Inclusive Language"
           description="Change your lingo! 💬"
           guideKey={"inclusive-language"}
         />
         <Guide
           guideTitle="Programming Languages"
-          description="How much energy do they consume? 📈"
+          description="How much energy do they consume? 🔬"
           guideKey={"programming-languages"}
         />
       </div>

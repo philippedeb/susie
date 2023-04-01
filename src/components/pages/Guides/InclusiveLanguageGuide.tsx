@@ -132,11 +132,11 @@ function InclusiveLanguageGuide() {
           <p>
             <b> Source: </b>
             <a
-            // href=""
-            // className="susie-link-light"
+              href="https://www.aswf.io/blog/inclusive-language/"
+              className="susie-link-light"
             >
               {" "}
-              not available{" "}
+              https://www.aswf.io/blog/inclusive-language/{" "}
             </a>
           </p>
         </Col>

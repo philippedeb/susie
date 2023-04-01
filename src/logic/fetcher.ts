@@ -3,10 +3,11 @@ export { extractGitHubOwnerAndRepo, getData, getSlash };
 async function getData(searchValue: string): Promise<
   | {
       branches: string[] | Error;
-      commits: string[] | Error;
+      commitMessages: string[] | Error;
       pull_requests: string[] | Error;
       languages: { [key: string]: number } | Error;
       issues: string[] | Error;
+      commitAuthorDates: [string, string][] | Error;
       runs: string[] | Error;
       readme: string | Error;
       license: string | Error;
@@ -21,10 +22,11 @@ async function getData(searchValue: string): Promise<
   try {
     const repo = extractGitHubRepoPath(searchValue);
     const branches = await getBranches(repo);
-    const commits = await getCommits(repo);
+    const commitMessages = await getCommitMessages(repo);
     const pull_requests = await getPullRequests(repo);
     const languages = await getLanguages(repo);
     const issues = await getIssues(repo);
+    const commitAuthorDates = await getCommitAuthorDates(repo);
     const runs = await getRuns(repo);
     const readme = await getFileContent(repo, "README.md");
     const license = await getFileContent(repo, "LICENSE");
@@ -35,10 +37,11 @@ async function getData(searchValue: string): Promise<
     const prTemplate = await getPrTemplate(repo);
     return {
       branches,
-      commits,
+      commitMessages,
       pull_requests,
       languages,
       issues,
+      commitAuthorDates,
       runs,
       readme,
       license,
@@ -61,8 +64,10 @@ interface GitCommit {
   commit: {
     message: string;
     author: {
+      name: string;
       date: string;
     };
+    date: string;
   };
 }
 
@@ -206,7 +211,7 @@ async function getPullRequests(repo: string): Promise<string[] | Error> {
   }
 }
 
-async function getCommits(
+async function getCommitMessages(
   repo: string,
   since: string = "2008-02-08T12:00:00Z"
 ): Promise<string[] | Error> {
@@ -274,6 +279,48 @@ async function getIssues(
   } catch (error) {
     return new Error(error instanceof Error ? error.message : "Unknown error");
   }
+}
+
+async function getCommitAuthorDates(
+  repo: string,
+  since: string = "2008-02-08T12:00:00Z"
+): Promise<[string, string][] | Error> {
+  let n: number = 1;
+  let dateList: [string, string][] = [];
+  while (n < 5) {
+    try {
+      const response = await fetch(
+        "https://api.github.com/repos/" +
+          repo +
+          "/commits?per_page=100&page=" +
+          n.toString() +
+          "/since=" +
+          since
+      );
+      if (response.status === 403) {
+        return new Error("API rate limit exceeded");
+      }
+      if (response.status === 404) {
+        return new Error("ERROR in fetching data");
+      }
+      const data: GitCommit[] = await response.json();
+
+      const commitDates: [string, string][] = data.map((item) => [
+        item.commit.author.name,
+        item.commit.author.date,
+      ]);
+      dateList = dateList.concat(commitDates);
+      if (commitDates.length < 30) {
+        break;
+      }
+      n++;
+    } catch (error) {
+      return new Error(
+        error instanceof Error ? error.message : "Unknown error"
+      );
+    }
+  }
+  return dateList;
 }
 
 /*

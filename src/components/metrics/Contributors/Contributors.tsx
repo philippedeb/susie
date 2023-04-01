@@ -46,7 +46,6 @@ function Contributors(props: Props) {
         ></ContributorPiechart>
       </div>
 
-      <br />
       <hr />
       <h5>Bus Factor 🚌</h5>
       <div>

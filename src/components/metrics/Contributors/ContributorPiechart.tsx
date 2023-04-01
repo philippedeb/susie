@@ -142,32 +142,35 @@ const ContributorPiechart: React.FC<Props> = ({ commitAuthorDates }) => {
   };
 
   return (
-    <Container>
-      <Row>
-        <Table style={{ color: "#fff" }}>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Percentage</th>
-              <th>Commits</th>
-              <th>Color</th>
-            </tr>
-          </thead>
-          <tbody>{tableRows}</tbody>
-        </Table>
-      </Row>
-      <Row>
-        <DropDown header="Contributor Piechart 🍰" collapsed={true}>
-          <Container>
-            <Row>
-              <Col>
-                <Pie data={chartData} options={options} />
-              </Col>
-            </Row>
-          </Container>
-        </DropDown>
-      </Row>
-    </Container>
+    <>
+      <Container>
+        <Row>
+          <Table style={{ color: "#fff" }}>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Percentage</th>
+                <th>Commits</th>
+                <th>Color</th>
+              </tr>
+            </thead>
+            <tbody>{tableRows}</tbody>
+          </Table>
+        </Row>
+        <Row>
+          <DropDown header="Contributor Piechart 🍰" collapsed={true}>
+            <Container>
+              <Row>
+                <Col>
+                  <Pie data={chartData} options={options} />
+                </Col>
+              </Row>
+            </Container>
+          </DropDown>
+        </Row>
+      </Container>
+      <br />
+    </>
   );
 };
 

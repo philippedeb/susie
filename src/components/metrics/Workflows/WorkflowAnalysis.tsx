@@ -64,7 +64,7 @@ function WorkflowAnalysis(props: Props) {
 
   const workflowSuggestion =
     failures > THRESHOLD ? (
-      <Alert variant="failing_builds">
+      <Alert variant="warning">
         Your builds are failing quite often {"(> 10%)"}, please consider running
         them locally before pushing!
       </Alert>

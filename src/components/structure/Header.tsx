@@ -34,6 +34,12 @@ function Header() {
             <Link to="/susie/guides/" style={{ textDecoration: "none" }}>
               <div className="nav-link-style header-button">Guides</div>
             </Link>
+            <Link
+              to="https://github.com/philippedeb/susie/blob/main/CONTRIBUTING.md"
+              style={{ textDecoration: "none" }}
+            >
+              <div className="nav-link-style header-button">Contribute</div>
+            </Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

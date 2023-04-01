@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { Container, Row, Col, Table, Alert } from "react-bootstrap";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
@@ -54,6 +54,17 @@ function sortAndPruneTupleList(
 }
 
 const ContributorPiechart: React.FC<Props> = ({ commitAuthorDates }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 800);
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const labels = Object.keys(commitAuthorDates);
   const data = Object.values(commitAuthorDates);
 
@@ -84,17 +95,19 @@ const ContributorPiechart: React.FC<Props> = ({ commitAuthorDates }) => {
         %
       </td>
       <td>{contributor.amount}</td>
-      <td>
-        <span
-          style={{
-            backgroundColor: contributor.color,
-            display: "inline-block",
-            width: 16,
-            height: 16,
-            borderRadius: "50%",
-          }}
-        />
-      </td>
+      {!isMobile && (
+        <td>
+          <span
+            style={{
+              backgroundColor: contributor.color,
+              display: "inline-block",
+              width: 16,
+              height: 16,
+              borderRadius: "50%",
+            }}
+          />
+        </td>
+      )}
     </tr>
   ));
 
@@ -105,8 +118,16 @@ const ContributorPiechart: React.FC<Props> = ({ commitAuthorDates }) => {
 
   const total = data.reduce((acc, curr) => acc + curr, 0);
 
+  const mobileWidthLegendLabels = 11; // Max width of legend labels in mobile view, in characters
   const chartData = {
-    labels: sortedLabels,
+    labels: sortedLabels.map(
+      (lbl) =>
+        `${
+          lbl.length > mobileWidthLegendLabels
+            ? `${lbl.slice(0, mobileWidthLegendLabels)}..`
+            : lbl
+        }`
+    ),
     datasets: [
       {
         data: sortedData,
@@ -151,7 +172,7 @@ const ContributorPiechart: React.FC<Props> = ({ commitAuthorDates }) => {
                 <th>Name</th>
                 <th>Percentage</th>
                 <th>Commits</th>
-                <th>Color</th>
+                {!isMobile && <th>Color</th>}
               </tr>
             </thead>
             <tbody>{tableRows}</tbody>

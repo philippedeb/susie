@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { getBusFactor, getContributionCounts } from "./ContributorLogic";
+import {
+  getPonyFactor,
+  getContributionCounts,
+  getTopContributorPower,
+} from "./ContributorLogic";
 import ContributorPiechart from "./ContributorPiechart";
 import DropDown from "../../structure/DropDown";
 import { Badge } from "react-bootstrap";
@@ -12,7 +16,8 @@ function Contributors(props: Props) {
   const [contributors, setContributors] = useState<{ [key: string]: number }>(
     {}
   );
-  const [busFactor, setBusFactor] = useState<number>(0);
+  const [ponyFactor, setPonyFactor] = useState<number>(0);
+  const [topContributorPower, setTopContributorPower] = useState<number>(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -21,8 +26,13 @@ function Contributors(props: Props) {
       );
       setContributors(contributors);
 
-      const busFactor: number = getBusFactor(props.commitAuthorDates);
-      setBusFactor(busFactor);
+      const ponyFactor: number = getPonyFactor(props.commitAuthorDates);
+      setPonyFactor(ponyFactor);
+
+      const topContributorPower: number = getTopContributorPower(
+        props.commitAuthorDates
+      );
+      setTopContributorPower(topContributorPower);
     }
 
     fetchData();
@@ -52,10 +62,10 @@ function Contributors(props: Props) {
         critical to the organization.
         <br />
         <br />
-        <Badge bg="secondary">Note</Badge> There are different metrics below for
+        <Badge bg="secondary">Note</Badge> There are different ways to calculate
         the bus factor, click on them to learn more.
       </div>
-      <DropDown header={`🐴 Pony factor: ${busFactor}`} collapsed={false}>
+      <DropDown header={`🐴 Pony factor: ${ponyFactor}`} collapsed={true}>
         <p>
           The pony factor is the number of top contributors covering 50% or more
           of all time contributions (
@@ -66,6 +76,26 @@ function Contributors(props: Props) {
             source
           </a>
           ).
+        </p>
+      </DropDown>
+      <DropDown
+        header={`⚡Top contributor power: ${topContributorPower.toFixed(1)}`}
+        collapsed={true}
+      >
+        <p>Number of contributors as the factor of the biggest contributor.</p>
+      </DropDown>
+      <DropDown header={`📂 Ownership detection: -`} collapsed={true}>
+        <p>
+          Detect file ownership, for example, by looking at developer aliases
+          and trace change history (
+          <a href="https://arxiv.org/pdf/1604.06766.pdf" className="susie-link">
+            source
+          </a>
+          ). Help us implement this by contributing to our{" "}
+          <a href="https://github.com/philippedeb/susie" className="susie-link">
+            open-source repository
+          </a>
+          !
         </p>
       </DropDown>
     </>

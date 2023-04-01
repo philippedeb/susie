@@ -1,4 +1,4 @@
-export { getContributionCounts, getBusFactor };
+export { getContributionCounts, getPonyFactor as getBusFactor };
 
 function getContributionCounts(commitAuthorDates: [string, string][]): {
   [key: string]: number;
@@ -19,7 +19,14 @@ function latestCommitDate(commitAuthorDates: [string, string][]): string {
   return commitAuthorDates[0][1];
 }
 
-function getBusFactor(commitAuthorDates: [string, string][]): number {
+/**
+ * Get the pony factor of a repository.
+ * The pony factor is the number of contributors needed to replace the current top contributor.
+ *
+ * @param commitAuthorDates
+ * @returns
+ */
+function getPonyFactor(commitAuthorDates: [string, string][]): number {
   const authorCommitCount = getContributionCounts(commitAuthorDates);
   const totalCommits = Object.values(authorCommitCount).reduce(
     (acc, val) => acc + val,
@@ -31,16 +38,16 @@ function getBusFactor(commitAuthorDates: [string, string][]): number {
 
   console.log(sortedContributors);
 
-  var busFactor = 0;
+  var ponyFactor = 0;
   var commitCount = 0;
   for (let i = 0; i < sortedContributors.length; i++) {
     const [_, amount] = sortedContributors[i];
     commitCount += amount;
-    busFactor += 1;
+    ponyFactor += 1;
 
     if (commitCount >= totalCommits / 2.0) {
       break;
     }
   }
-  return busFactor;
+  return ponyFactor;
 }

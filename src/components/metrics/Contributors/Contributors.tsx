@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getBusFactor, getContributionCounts } from "./ContributorLogic";
 import ContributorPiechart from "./ContributorPiechart";
 import DropDown from "../../structure/DropDown";
+import { Badge } from "react-bootstrap";
 
 interface Props {
   commitAuthorDates: [string, string][];
@@ -29,31 +30,43 @@ function Contributors(props: Props) {
 
   return (
     <>
-      <p>Contributors of the repository 🧑‍💻</p>
+      <h5>Overview of contributors 🧑‍💻</h5>
       <div>
         <ContributorPiechart
           commitAuthorDates={contributors}
         ></ContributorPiechart>
       </div>
 
-      <DropDown header={"Bus Factor of the repository 🚌"} collapsed={false}>
-        <div>
-          <p>
-            The <b>Bus Factor</b> of this project is: {busFactor}.
-          </p>
-        </div>
-
-        <div>
-          A project's bus factor (or truck factor) is a number equal to the
-          number of team members who, if run over by a bus, would put the
-          project in jeopardy. The smallest bus factor is 1. Larger numbers are
-          preferable. Essentially, a low bus factor represents a single point of
-          failure within the team. And of course, buses aren't usually the
-          biggest threat to teams: illness, vacation, and departure from the
-          company are all frequent occurrences on projects. Thus, efforts should
-          be made to increase bus factor on any project that is critical to the
-          organization.
-        </div>
+      <br />
+      <hr />
+      <h5>Bus Factor 🚌</h5>
+      <div>
+        The bus factor (or truck factor) of a project is the number of team
+        members whose absence would jeopardize the project (
+        <i>hypothetically speaking</i>, hit by a bus). The smallest bus factor
+        is 1 and any low number represents a crucial point of failure within the
+        team, thus, larger values are preferred. And of course, buses aren't
+        usually the biggest threat to teams: illness, vacation, and departure
+        from the company are all frequent occurrences on projects. Therefore,
+        efforts should be made to increase the bus factor on any project that is
+        critical to the organization.
+        <br />
+        <br />
+        <Badge bg="secondary">Note</Badge> There are different metrics below for
+        the bus factor, click on them to learn more.
+      </div>
+      <DropDown header={`🐴 Pony factor: ${busFactor}`} collapsed={false}>
+        <p>
+          The pony factor is the number of top contributors covering 50% or more
+          of all time contributions (
+          <a
+            href="https://humbedooh.com/Chapter%203,%20part%20one_%20Codebase%20development%20resilience.pdf"
+            className="susie-link"
+          >
+            source
+          </a>
+          ).
+        </p>
       </DropDown>
     </>
   );

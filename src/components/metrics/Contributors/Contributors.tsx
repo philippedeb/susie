@@ -40,7 +40,6 @@ function Contributors(props: Props) {
 
   return (
     <>
-      <h5>Overview of contributors 🧑‍💻</h5>
       <div>
         <ContributorPiechart
           commitAuthorDates={contributors}

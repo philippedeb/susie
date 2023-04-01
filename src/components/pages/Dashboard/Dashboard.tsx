@@ -36,6 +36,7 @@ function Dashboard() {
   const [contributing, setContributing] = useState<string>(""); // CONTRIBUTING.md
   const [issueTemplate, setIssueTemplate] = useState<string>(""); // ISSUE_TEMPLATE.md
   const [pullRequestTemplate, setPullRequestTemplate] = useState<string>(""); // PULL_REQUEST_TEMPLATE.md
+  const [communityProfile, setCommunityProfile] = useState<any>(null); // community_profile.md
 
   const [inclusiveData, setInclusiveData] = useState<string[]>([]);
 
@@ -157,6 +158,12 @@ function Dashboard() {
           dataIsError = true;
           handleErrorMsg(data.prTemplate);
         }
+        if (!(data.communityCheck instanceof Error)) {
+          setCommunityProfile(data.communityCheck as any);
+        } else {
+          dataIsError = true;
+          handleErrorMsg(data.communityCheck);
+        }
 
         setInclusiveData(inclusiveArray);
       } catch (error) {
@@ -204,6 +211,7 @@ function Dashboard() {
           contributing={contributing}
           issueTemplate={issueTemplate}
           pullRequestTemplate={pullRequestTemplate}
+          communityProfile={communityProfile}
         />
       ),
     },

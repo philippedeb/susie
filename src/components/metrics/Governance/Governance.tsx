@@ -1,4 +1,7 @@
+import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
+import { Badge } from "react-bootstrap";
 import DropDown from "../../structure/DropDown";
 
 interface Props {
@@ -9,6 +12,7 @@ interface Props {
   contributing: string;
   issueTemplate: string;
   pullRequestTemplate: string;
+  communityProfile: any;
 }
 
 function Governance(props: Props) {
@@ -64,6 +68,189 @@ function Governance(props: Props) {
     }
   }, [props.readme, props.license]);
 
+  const communityProfile = props.communityProfile !== null;
+  const communityProfileHealthPercentage =
+    communityProfile &&
+    "health_percentage" in props.communityProfile &&
+    props.communityProfile.health_percentage !== null;
+  const communityProfileDocumentation =
+    communityProfile &&
+    "documentation" in props.communityProfile &&
+    props.communityProfile.documentation !== null;
+  const communityProfileFiles =
+    communityProfile &&
+    "files" in props.communityProfile &&
+    props.communityProfile.files !== null;
+  const communityProfileReadme =
+    communityProfileFiles &&
+    "readme" in props.communityProfile.files &&
+    props.communityProfile.files.readme !== null;
+  const communityProfileLicense =
+    communityProfileFiles &&
+    "license" in props.communityProfile.files &&
+    props.communityProfile.files.license !== null;
+  const communityProfileCodeOfConduct =
+    communityProfileFiles &&
+    "code_of_conduct_file" in props.communityProfile.files &&
+    props.communityProfile.files.code_of_conduct_file !== null;
+  const communityProfileContributing =
+    communityProfileFiles &&
+    "contributing" in props.communityProfile.files &&
+    props.communityProfile.files.contributing !== null;
+  const communityProfileIssueTemplate =
+    communityProfileFiles &&
+    "issue_template" in props.communityProfile.files &&
+    props.communityProfile.files.issue_template !== null;
+  const communityProfilePullRequestTemplate =
+    communityProfileFiles &&
+    "pull_request_template" in props.communityProfile.files &&
+    props.communityProfile.files.pull_request_template !== null;
+
+  const includedGovernance: JSX.Element = (
+    <>
+      <h6>
+        ➡️ The repository <b>includes</b> the following:
+      </h6>
+      <ul>
+        {communityProfileDocumentation && (
+          <li key={0}>
+            <a
+              href={props.communityProfile.documentation}
+              className="susie-link"
+            >
+              Website <FontAwesomeIcon icon={faExternalLinkAlt} />
+            </a>
+          </li>
+        )}
+        {communityProfileReadme && (
+          <li key={1}>
+            <a
+              href={props.communityProfile.files.readme.html_url}
+              className="susie-link"
+            >
+              Readme <FontAwesomeIcon icon={faExternalLinkAlt} />
+            </a>
+          </li>
+        )}
+        {communityProfileLicense && (
+          <li key={2}>
+            <a
+              href={props.communityProfile.files.license.html_url}
+              className="susie-link"
+            >
+              License <FontAwesomeIcon icon={faExternalLinkAlt} />
+            </a>{" "}
+            ({props.communityProfile.files.license.name})
+          </li>
+        )}
+        {communityProfileCodeOfConduct && (
+          <li key={3}>
+            <a
+              href={props.communityProfile.files.code_of_conduct_file.html_url}
+              className="susie-link"
+            >
+              Code of Conduct <FontAwesomeIcon icon={faExternalLinkAlt} />
+            </a>
+          </li>
+        )}
+        {communityProfileContributing && (
+          <li key={4}>
+            <a
+              href={props.communityProfile.files.contributing.html_url}
+              className="susie-link"
+            >
+              Contributing <FontAwesomeIcon icon={faExternalLinkAlt} />
+            </a>
+          </li>
+        )}
+        {communityProfileIssueTemplate && (
+          <li key={5}>
+            <a
+              href={props.communityProfile.files.issue_template.html_url}
+              className="susie-link"
+            >
+              Issue Template <FontAwesomeIcon icon={faExternalLinkAlt} />
+            </a>
+          </li>
+        )}
+        {communityProfilePullRequestTemplate && (
+          <li key={6}>
+            <a
+              href={props.communityProfile.files.pull_request_template.html_url}
+              className="susie-link"
+            >
+              Pull Request Template <FontAwesomeIcon icon={faExternalLinkAlt} />
+            </a>
+          </li>
+        )}
+        {props.changeLog !== "" && <li key={7}>Changelog</li>}
+      </ul>
+    </>
+  );
+
+  const excludedGovernance: JSX.Element = (
+    <>
+      <h6>
+        ➡️ The repository seems to <b>miss</b> the following:
+      </h6>
+      <ul>
+        {!communityProfileDocumentation && <li key={0}>Website</li>}
+        {!communityProfileReadme && <li key={1}>Readme</li>}
+        {!communityProfileLicense && <li key={2}>License</li>}
+        {!communityProfileCodeOfConduct && <li key={3}>Code of Conduct</li>}
+        {!communityProfileContributing && <li key={4}>Contributing</li>}
+        {!communityProfileIssueTemplate && <li key={5}>Issue Template</li>}
+        {!communityProfilePullRequestTemplate && (
+          <li key={6}>Pull Request Template</li>
+        )}
+        {props.changeLog === "" && <li key={7}>Changelog</li>}
+      </ul>
+    </>
+  );
+
+  const scoreGovernance: JSX.Element = (
+    <>
+      <h5 className="mb-3">
+        Governance Score:{" "}
+        <Badge
+          bg={
+            communityProfileHealthPercentage
+              ? props.communityProfile.health_percentage <= 50
+                ? "danger"
+                : props.communityProfile.health_percentage <= 75
+                ? "warning"
+                : "success"
+              : "secondary"
+          }
+        >
+          {communityProfileHealthPercentage
+            ? props.communityProfile.health_percentage
+            : "N/A"}
+        </Badge>
+      </h5>
+    </>
+  );
+
+  const somethingIsIncluded =
+    communityProfileDocumentation ||
+    communityProfileReadme ||
+    communityProfileLicense ||
+    communityProfileCodeOfConduct ||
+    communityProfileContributing ||
+    communityProfileIssueTemplate ||
+    communityProfilePullRequestTemplate ||
+    props.changeLog !== "";
+
+  const somethingIsExcluded =
+    !communityProfileDocumentation ||
+    !communityProfileReadme ||
+    !communityProfileLicense ||
+    !communityProfileCodeOfConduct ||
+    !communityProfileContributing ||
+    !communityProfileIssueTemplate ||
+    !communityProfilePullRequestTemplate ||
+    props.changeLog === "";
+
   return (
     <>
       <p>
@@ -71,39 +258,26 @@ function Governance(props: Props) {
         use in your own work by looking at the commitment of a repository to
         sustainability.
       </p>
-      <ul style={{ columns: isMobile ? "1" : "2" }}>
-        <li key={1} title={"README.md"}>
-          <strong>Readme:</strong> {props.readme === "" ? "⛔" : "✅"}
-        </li>
-        <li key={2} title={"LICENSE"}>
-          <strong>License:</strong> {props.license === "" ? "⛔" : "✅"}
-        </li>
-        <li key={3} title={"CHANGELOG.md"}>
-          <strong>Changelog:</strong> {props.changeLog === "" ? "⛔" : "✅"}
-        </li>
-        <li key={4} title={"CODE_OF_CONDUCT.md"}>
-          <strong>Code of Conduct:</strong>{" "}
-          {props.codeOfConduct === "" ? "⛔" : "✅"}
-        </li>
-        <li key={5} title={"CONTRIBUTING.md"}>
-          <strong>Contributing:</strong>{" "}
-          {props.contributing === "" ? "⛔" : "✅"}
-        </li>
-        <li key={6} title={"README.md"}>
-          <strong>Issue Template:</strong>{" "}
-          {props.issueTemplate === "" ? "⛔" : "✅"}
-        </li>
-        <li key={7} title={"PULL_REQUEST_TEMPLATE.md"}>
-          <strong>Pull Request Template:</strong>{" "}
-          {props.pullRequestTemplate === "" ? "⛔" : "✅"}
-        </li>
-        <li key={8} title={"Keyterms in README.md"}>
-          <strong>Addresses sustainability:</strong>{" "}
-          {hasEnergyStatement ? "✅" : "⛔"}
-        </li>
-      </ul>
+
+      {scoreGovernance}
+      {somethingIsIncluded && includedGovernance}
+      {somethingIsExcluded && excludedGovernance}
+      {hasEnergyStatement ? (
+        <h6>➡️ The repository addresses sustainability 👌</h6>
+      ) : (
+        <h6>➡️ The repository does not seem to address sustainability ⛔</h6>
+      )}
+      <hr />
+      <DropDown header={"How is the score calculated? 🧮"} collapsed={true}>
+        <p>
+          Based on the components present in a GitHub's community profile, the
+          GitHub API can return this health percentage for any repository. The
+          score is between 0 and 100. Below, you can find more details on which
+          components are present or absent in the repository.
+        </p>
+      </DropDown>
       <DropDown
-        header="💭 When does a project address sustainability?"
+        header="When does a project address sustainability? 💭"
         collapsed={true}
       >
         <p>

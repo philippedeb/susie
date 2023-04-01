@@ -16,6 +16,7 @@ async function getData(searchValue: string): Promise<
       contributingGuidelines: string | Error;
       issueTemplate: string | Error;
       prTemplate: string | Error;
+      communityCheck: any | Error;
     }
   | Error
 > {
@@ -35,6 +36,7 @@ async function getData(searchValue: string): Promise<
     const contributingGuidelines = await getContributingGuidelines(repo);
     const issueTemplate = await getIssueTemplate(repo);
     const prTemplate = await getPrTemplate(repo);
+    const communityCheck = await getCommunityProfile(repo);
     return {
       branches,
       commitMessages,
@@ -50,6 +52,7 @@ async function getData(searchValue: string): Promise<
       contributingGuidelines,
       issueTemplate,
       prTemplate,
+      communityCheck,
     };
   } catch (error) {
     return new Error(error instanceof Error ? error.message : "Unknown error");
@@ -367,6 +370,24 @@ async function getRuns(repo: string): Promise<string[] | Error> {
       item.conclusion.toLowerCase()
     );
     return statusses;
+  } catch (error) {
+    return new Error(error instanceof Error ? error.message : "Unknown error");
+  }
+}
+
+async function getCommunityProfile(repo: string): Promise<any | Error> {
+  try {
+    const response = await fetch(
+      "https://api.github.com/repos/" + repo + "/community/profile"
+    );
+    if (response.status === 403) {
+      return new Error("API rate limit exceeded");
+    }
+    if (response.status === 404) {
+      return new Error("ERROR in fetching data");
+    }
+    const data = await response.json();
+    return data;
   } catch (error) {
     return new Error(error instanceof Error ? error.message : "Unknown error");
   }

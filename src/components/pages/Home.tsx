@@ -48,7 +48,7 @@ function Home() {
           className="text-center"
           style={{
             fontSize: isMobile ? "50px" : "60px",
-            fontFamily: "Playfair Display, sans-serif",
+            fontFamily: "Playfair Display, serif",
             fontWeight: 900,
           }}
         >
@@ -58,7 +58,7 @@ function Home() {
           className="text-center"
           style={{
             fontSize: isMobile ? "28px" : "40px",
-            fontFamily: "Playfair Display, sans-serif",
+            fontFamily: "Playfair Display, serif",
             fontWeight: "light",
           }}
         >

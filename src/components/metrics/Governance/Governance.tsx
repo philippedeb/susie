@@ -289,7 +289,7 @@ function Governance(props: Props) {
         <p>
           Based on the components present in a GitHub's community profile, the
           GitHub API can return this health percentage for any repository. The
-          score is between 0 and 100. Below, you can find more details on which
+          score is between 0 and 100. Above, you can find more details on which
           components are present or absent in the repository.
         </p>
       </DropDown>

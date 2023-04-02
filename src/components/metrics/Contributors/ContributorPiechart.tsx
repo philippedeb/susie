@@ -190,7 +190,6 @@ const ContributorPiechart: React.FC<Props> = ({ commitAuthorDates }) => {
           </DropDown>
         </Row>
       </Container>
-      <br />
     </>
   );
 };

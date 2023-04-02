@@ -70,6 +70,8 @@ function Contributors(props: Props) {
           <a
             href="https://humbedooh.com/Chapter%203,%20part%20one_%20Codebase%20development%20resilience.pdf"
             className="susie-link"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             source
           </a>
@@ -86,11 +88,21 @@ function Contributors(props: Props) {
         <p>
           Detect file ownership, for example, by looking at developer aliases
           and trace change history (
-          <a href="https://arxiv.org/pdf/1604.06766.pdf" className="susie-link">
+          <a
+            href="https://arxiv.org/pdf/1604.06766.pdf"
+            className="susie-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             source
           </a>
           ). Help us implement this by contributing to our{" "}
-          <a href="https://github.com/philippedeb/susie" className="susie-link">
+          <a
+            href="https://github.com/philippedeb/susie"
+            className="susie-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             open-source repository
           </a>
           !

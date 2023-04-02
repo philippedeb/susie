@@ -33,7 +33,12 @@ function ProgrammingLanguage(props: ProgrammingLanguageProps) {
         Did you know that your choice of programming language can have an
         enviromental impact? 🌱
         <br /> Read more about the topic in{" "}
-        <a className="susie-link" href="./guide?name=inclusive-language">
+        <a
+          className="susie-link"
+          href="./guide?name=inclusive-language"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           this guide
         </a>{" "}
         or look at what Susie has found:

@@ -144,6 +144,8 @@ function EnergyConsumptionGuide() {
             <a
               href="https://greenlab.di.uminho.pt/wp-content/uploads/2017/10/sleFinal.pdf."
               className="susie-link-light"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               {" "}
               https://greenlab.di.uminho.pt/wp-content/uploads/2017/10/sleFinal.pdf.{" "}

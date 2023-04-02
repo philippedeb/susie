@@ -134,6 +134,8 @@ function InclusiveLanguageGuide() {
             <a
               href="https://www.aswf.io/blog/inclusive-language/"
               className="susie-link-light"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               {" "}
               https://www.aswf.io/blog/inclusive-language/{" "}

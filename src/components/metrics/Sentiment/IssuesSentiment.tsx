@@ -69,6 +69,8 @@ function IssuesSentiment(props: Props) {
             <a
               className="susie-link"
               href="https://github.com/philippedeb/susie"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               open-source repository
             </a>{" "}
@@ -82,6 +84,8 @@ function IssuesSentiment(props: Props) {
             <a
               className="susie-link"
               href="https://www.npmjs.com/package/sentiment"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Source
             </a>

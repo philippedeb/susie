@@ -117,6 +117,8 @@ function Governance(props: Props) {
             <a
               href={props.communityProfile.documentation}
               className="susie-link"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Website <FontAwesomeIcon icon={faExternalLinkAlt} />
             </a>
@@ -127,6 +129,8 @@ function Governance(props: Props) {
             <a
               href={props.communityProfile.files.readme.html_url}
               className="susie-link"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Readme <FontAwesomeIcon icon={faExternalLinkAlt} />
             </a>
@@ -137,6 +141,8 @@ function Governance(props: Props) {
             <a
               href={props.communityProfile.files.license.html_url}
               className="susie-link"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               License <FontAwesomeIcon icon={faExternalLinkAlt} />
             </a>{" "}
@@ -148,6 +154,8 @@ function Governance(props: Props) {
             <a
               href={props.communityProfile.files.code_of_conduct_file.html_url}
               className="susie-link"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Code of Conduct <FontAwesomeIcon icon={faExternalLinkAlt} />
             </a>
@@ -158,6 +166,8 @@ function Governance(props: Props) {
             <a
               href={props.communityProfile.files.contributing.html_url}
               className="susie-link"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Contributing <FontAwesomeIcon icon={faExternalLinkAlt} />
             </a>
@@ -168,6 +178,8 @@ function Governance(props: Props) {
             <a
               href={props.communityProfile.files.issue_template.html_url}
               className="susie-link"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Issue Template <FontAwesomeIcon icon={faExternalLinkAlt} />
             </a>
@@ -178,6 +190,8 @@ function Governance(props: Props) {
             <a
               href={props.communityProfile.files.pull_request_template.html_url}
               className="susie-link"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Pull Request Template <FontAwesomeIcon icon={faExternalLinkAlt} />
             </a>
@@ -215,10 +229,10 @@ function Governance(props: Props) {
         <Badge
           bg={
             communityProfileHealthPercentage
-              ? props.communityProfile.health_percentage <= 50
+              ? props.communityProfile.health_percentage < 40
                 ? "danger"
-                : props.communityProfile.health_percentage <= 75
-                ? "warning"
+                : props.communityProfile.health_percentage < 75
+                ? "primary"
                 : "success"
               : "secondary"
           }
@@ -263,9 +277,12 @@ function Governance(props: Props) {
       {somethingIsIncluded && includedGovernance}
       {somethingIsExcluded && excludedGovernance}
       {hasEnergyStatement ? (
-        <h6>➡️ The repository addresses sustainability 👌</h6>
+        <h6>➡️ The repository addresses environmental sustainability 👌</h6>
       ) : (
-        <h6>➡️ The repository does not seem to address sustainability ⛔</h6>
+        <h6>
+          ➡️ The repository does not seem to address environmental
+          sustainability ⛔
+        </h6>
       )}
       <hr />
       <DropDown header={"How is the score calculated? 🧮"} collapsed={true}>
@@ -322,7 +339,12 @@ function Governance(props: Props) {
         <p>
           If you want to help improving Susie by implementing NLP to detect
           sustainability statements, please contribute to our{" "}
-          <a href="https://github.com/philippedeb/susie" className="susie-link">
+          <a
+            href="https://github.com/philippedeb/susie"
+            className="susie-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             open-source repository
           </a>
           !

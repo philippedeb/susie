@@ -1,6 +1,10 @@
 import { ReactElement, useEffect, useState } from "react";
 import { Alert, Badge, Spinner } from "react-bootstrap";
-import { checkLanguage, Recommendations, TermRecommendation } from "./checkLanguage"
+import {
+  checkLanguage,
+  Recommendations,
+  TermRecommendation,
+} from "./checkLanguage";
 import Recommendation from "./Recommendation";
 import "../../../css/Link.css";
 
@@ -21,6 +25,8 @@ function inclusiveStatement(children: React.ReactNode): ReactElement {
         <a
           className="susie-link"
           href="https://publicdocumentcentre.education.tas.gov.au/Documents/Guidelines-for-Inclusive-Language.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           Source
         </a>
@@ -30,7 +36,12 @@ function inclusiveStatement(children: React.ReactNode): ReactElement {
         Susie checks your repository for common terms that may be considered as
         not inclusive, though it is not an exhaustive list. To learn more about
         inclusive language, please visit{" "}
-        <a className="susie-link" href="./guide?name=inclusive-language">
+        <a
+          className="susie-link"
+          href="./guide?name=inclusive-language"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           our guide
         </a>
         .

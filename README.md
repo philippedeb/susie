@@ -21,7 +21,7 @@
 
 </p>
 
-**Susie** is a <a href="https://philippedeb.github.io/susie/">website</a> aimed at Sustainable Software Development and consists of:
+**Susie** is a <a href="https://philippedeb.github.io/susie/" target="_blank" rel="noopener noreferrer">website</a> aimed at Sustainable Software Development and consists of:
 
 * **Analysis Tool 🔍** - Check the sustainability of a GitHub repository
 * **Guides 📰** - Learn more about sustainable software development

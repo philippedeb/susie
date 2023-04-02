@@ -53,7 +53,11 @@ function DashboardComponents(props: Props) {
       </Alert>
       <Alert variant="warning">
         Why does this happen? Learn more{" "}
-        <a href="https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting">
+        <a
+          href="https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           about GitHub rate-limiting here
         </a>
         .{" "}

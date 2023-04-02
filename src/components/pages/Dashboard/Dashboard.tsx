@@ -38,7 +38,7 @@ function Dashboard() {
   const [pullRequestTemplate, setPullRequestTemplate] = useState<string>(""); // PULL_REQUEST_TEMPLATE.md
   const [communityProfile, setCommunityProfile] = useState<any>(null); // community_profile.md
 
-  const [inclusiveData, setInclusiveData] = useState<string[]>([]);
+  const [inclusiveData, setInclusiveData] = useState<[string, string][]>([]);
 
   const [errorMsg, setErrorMsg] = useState<string>("");
 
@@ -59,26 +59,36 @@ function Dashboard() {
           throw data;
         }
 
-        var inclusiveArray = [];
+        var inclusiveArray: [string, string][] = [];
 
         var dataIsError: boolean = false;
         if (!(data.branches instanceof Error)) {
           setBranches(data.branches as string[]);
-          inclusiveArray.push(...data.branches);
+          inclusiveArray.push(
+            ...data.branches.map((item) => ["branch", item] as [string, string])
+          );
         } else {
           dataIsError = true;
           handleErrorMsg(data.branches);
         }
         if (!(data.pull_requests instanceof Error)) {
           setPullRequests(data.pull_requests as string[]);
-          inclusiveArray.push(...data.pull_requests);
+          inclusiveArray.push(
+            ...data.pull_requests.map(
+              (item) => ["pull_request", item] as [string, string]
+            )
+          );
         } else {
           dataIsError = true;
           handleErrorMsg(data.pull_requests);
         }
         if (!(data.commitMessages instanceof Error)) {
           setCommitMessages(data.commitMessages as string[]);
-          inclusiveArray.push(...data.commitMessages);
+          inclusiveArray.push(
+            ...data.commitMessages.map(
+              (item) => ["commit_message", item] as [string, string]
+            )
+          );
         } else {
           dataIsError = true;
           handleErrorMsg(data.commitMessages);
@@ -91,7 +101,9 @@ function Dashboard() {
         }
         if (!(data.issues instanceof Error)) {
           setIssues(data.issues as string[]);
-          inclusiveArray.push(...data.issues);
+          inclusiveArray.push(
+            ...data.issues.map((item) => ["issue", item] as [string, string])
+          );
         } else {
           dataIsError = true;
           handleErrorMsg(data.issues);
@@ -104,7 +116,9 @@ function Dashboard() {
         }
         if (!(data.runs instanceof Error)) {
           setWorkflows(data.runs as string[]);
-          inclusiveArray.push(...data.runs);
+          inclusiveArray.push(
+            ...data.runs.map((item) => ["workflow", item] as [string, string])
+          );
         } else {
           dataIsError = true;
           handleErrorMsg(data.runs);
@@ -112,7 +126,7 @@ function Dashboard() {
 
         if (!(data.readme instanceof Error)) {
           setReadMe(data.readme as string);
-          inclusiveArray.push(data.readme);
+          inclusiveArray.push(["readme", data.readme]);
         } else {
           dataIsError = true;
           handleErrorMsg(data.readme);
@@ -125,35 +139,35 @@ function Dashboard() {
         }
         if (!(data.changelog instanceof Error)) {
           setChangeLog(data.changelog as string);
-          inclusiveArray.push(data.changelog);
+          inclusiveArray.push(["changelog", data.changelog]);
         } else {
           dataIsError = true;
           handleErrorMsg(data.changelog);
         }
         if (!(data.codeOfConduct instanceof Error)) {
           setCodeOfConduct(data.codeOfConduct as string);
-          inclusiveArray.push(data.codeOfConduct);
+          inclusiveArray.push(["code_of_conduct", data.codeOfConduct]);
         } else {
           dataIsError = true;
           handleErrorMsg(data.codeOfConduct);
         }
         if (!(data.contributingGuidelines instanceof Error)) {
           setContributing(data.contributingGuidelines as string);
-          inclusiveArray.push(data.contributingGuidelines);
+          inclusiveArray.push(["contributing", data.contributingGuidelines]);
         } else {
           dataIsError = true;
           handleErrorMsg(data.contributingGuidelines);
         }
         if (!(data.issueTemplate instanceof Error)) {
           setIssueTemplate(data.issueTemplate as string);
-          inclusiveArray.push(data.issueTemplate);
+          inclusiveArray.push(["issue_template", data.issueTemplate]);
         } else {
           dataIsError = true;
           handleErrorMsg(data.issueTemplate);
         }
         if (!(data.prTemplate instanceof Error)) {
           setPullRequestTemplate(data.prTemplate as string);
-          inclusiveArray.push(data.prTemplate);
+          inclusiveArray.push(["pull_request_template", data.prTemplate]);
         } else {
           dataIsError = true;
           handleErrorMsg(data.prTemplate);

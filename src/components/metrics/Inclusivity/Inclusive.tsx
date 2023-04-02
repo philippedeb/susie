@@ -9,7 +9,7 @@ import Recommendation from "./Recommendation";
 import "../../../css/Link.css";
 
 interface Props {
-  data: string[];
+  data: [string, string][];
 }
 
 function inclusiveStatement(children: React.ReactNode): ReactElement {

@@ -97,38 +97,38 @@ const inclusiveLanguageChecks = [
 
 interface Recommendations {
   terms: { [key: string]: TermRecommendation };
-  profanity_locations: string[];
+  profanity_locations: [string, string][];
 }
 
 interface TermRecommendation {
   replacements: string[];
-  locations: string[];
+  locations: [string, string][];
 }
 
-function checkLanguage(data: string[]): Recommendations {
+function checkLanguage(data: [string, string][]): Recommendations {
   const recommendations: Recommendations = {
     terms: {},
     profanity_locations: [],
   };
 
-  for (const item of data) {
+  for (const [type_item, item] of data) {
     // Check if the item contains any of the target words
     for (const check of inclusiveLanguageChecks) {
       const checkRegex = new RegExp("\\b" + check.word + "\\b");
       if (checkRegex.test(item)) {
         if (recommendations.terms[check.word]) {
-          recommendations.terms[check.word].locations.push(item);
+          recommendations.terms[check.word].locations.push([type_item, item]);
         } else {
           recommendations.terms[check.word] = {
             replacements: check.replacements,
-            locations: [item],
+            locations: [[type_item, item]],
           };
         }
       }
     }
     // Check if the item contains any profanity
     if (filter.isProfane(item)) {
-      recommendations.profanity_locations.push(item);
+      recommendations.profanity_locations.push([type_item, item]);
     }
   }
   return recommendations;

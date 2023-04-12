@@ -64,7 +64,7 @@ function DashboardComponents(props: Props) {
       className="d-flex flex-column align-items-center justify-content-center mb-3"
     >
       <DropDown header={"See experimental metrics 🛸"} collapsed={true}>
-        <Alert variant="light" id="experimental-info" className="mt-3">
+        <Alert variant="secondary" id="experimental-info" className="mt-3">
           <Alert.Heading>Important Note ⚠️</Alert.Heading>
           <p>
             Some of the ongoing developments for Susie's dashboard have
@@ -77,8 +77,8 @@ function DashboardComponents(props: Props) {
             <br /> <br />
             Please consider contributing to our{" "}
             <a
-              className="susie-link"
-              href=""
+              className="susie-link-dark"
+              href="https://github.com/philippedeb/susie"
               target="_blank"
               rel="noopener noreferrer"
             >

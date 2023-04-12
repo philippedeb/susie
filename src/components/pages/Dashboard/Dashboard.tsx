@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getData, getSlash } from "../../../logic/fetcher";
+import { getData } from "../../../logic/fetcher";
 import Inclusive from "../../metrics/Inclusivity/Inclusive";
 import "../../../css/Dashboard.css";
 import DashboardInfo from "./DashboardInfo";
@@ -233,6 +233,9 @@ function Dashboard() {
       title: "Sustainable Programming Languages",
       content: <ProgrammingLanguage languages={languages} />,
     },
+  ];
+
+  const experimental_sections = [
     {
       title: "Issue Sentiment",
       content: <IssuesSentiment data={issues} />,
@@ -244,6 +247,7 @@ function Dashboard() {
       <DashboardInfo repoLink={searchValue} />
       <DashboardComponents
         sections={sections}
+        experimentalSections={experimental_sections}
         isLoading={isLoading}
         errorMsg={errorMsg}
       />

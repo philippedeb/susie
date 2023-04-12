@@ -4,6 +4,8 @@ import "../../css/Sidebar.css";
 
 interface SidebarProps {
   sections: { title: string; content: ReactNode }[];
+  experimentalSections: { title: string; content: ReactNode }[];
+  experimentalMode: boolean;
 }
 
 function Sidebar(props: SidebarProps) {
@@ -34,6 +36,24 @@ function Sidebar(props: SidebarProps) {
             {section.title}
           </ListGroup.Item>
         ))}
+        {props.experimentalMode ? (
+          props.experimentalSections.map((section, index) => (
+            <ListGroup.Item
+              onClick={() => handleClick(section.title)}
+              key={props.sections.length + index}
+            >
+              {section.title}
+            </ListGroup.Item>
+          ))
+        ) : (
+          <ListGroup.Item
+            onClick={() => handleClick("Experimental metrics")}
+            key={props.sections.length + props.experimentalSections.length}
+          >
+            {" "}
+            Experimental metrics{" "}
+          </ListGroup.Item>
+        )}
       </ListGroup>
     </div>
   );

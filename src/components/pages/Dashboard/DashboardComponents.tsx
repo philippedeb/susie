@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
-import { Container, Row, Col, Spinner, Alert } from "react-bootstrap";
+import { Container, Row, Col, Spinner, Alert, Button } from "react-bootstrap";
+import DropDown from "../../structure/DropDown";
 import Section from "../../structure/Section";
 import Sidebar from "../../structure/Sidebar";
 
 interface Props {
   sections: { title: string; content: JSX.Element }[];
+  experimentalSections: { title: string; content: JSX.Element }[];
   isLoading: boolean;
   errorMsg: string;
 }
 
 function DashboardComponents(props: Props) {
   const [isMobile, setIsMobile] = useState(false);
+  const [experimentalMode, setExperimentalMode] = useState(false);
 
   const checkIfMobile = function () {
     let check = false;
@@ -43,7 +46,70 @@ function DashboardComponents(props: Props) {
     </Section>
   ));
 
-  const listOfSections: JSX.Element = <> {sections} </>;
+  const experimentalSections = props.experimentalSections.map(
+    (section, index) => (
+      <Section key={props.sections.length + index} title={section.title}>
+        {section.content}
+      </Section>
+    )
+  );
+
+  function toggleExperimentalMode() {
+    setExperimentalMode(!experimentalMode);
+  }
+
+  const experimentalButton = (
+    <Container
+      id="experimental-metrics"
+      className="d-flex flex-column align-items-center justify-content-center mb-3"
+    >
+      <DropDown header={"See experimental metrics 🛸"} collapsed={true}>
+        <Alert variant="light" id="experimental-info" className="mt-3">
+          <Alert.Heading>Important Note ⚠️</Alert.Heading>
+          <p>
+            Some of the ongoing developments for Susie's dashboard have
+            suboptimal accuracy or a non-evident purpose. Therefore, to keep
+            Susie credible, these are omitted by default.
+            <br /> <br />
+            However, who are we to stop you from exploring them? 🤷‍♂️ If you are
+            cautious yet curious, you can enable them by clicking the button
+            below. Just know, there is no way back.. until the next analysis.{" "}
+            <br /> <br />
+            Please consider contributing to our{" "}
+            <a
+              className="susie-link"
+              href=""
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub repository
+            </a>{" "}
+            to help us improve and expand Susie. Together, we can make a
+            difference! 🤝
+          </p>
+        </Alert>
+        <Row>
+          <Col>
+            <Button
+              variant="secondary"
+              onClick={toggleExperimentalMode}
+              className="experimental-button"
+            >
+              {" "}
+              Enter experimental space 👽{" "}
+            </Button>
+          </Col>
+        </Row>
+      </DropDown>
+    </Container>
+  );
+
+  const listOfSections: JSX.Element = (
+    <>
+      {sections}
+      {experimentalMode ? experimentalSections : experimentalButton}
+    </>
+  );
 
   const rateLimited: JSX.Element = (
     <>
@@ -69,24 +135,6 @@ function DashboardComponents(props: Props) {
     </>
   );
 
-  const couldNotLoad = (errorMessage: string) => {
-    return (
-      <>
-        <Alert variant="danger">Could not load data.. 😭</Alert>
-        <Alert variant="warning">
-          💡 You might have searched for a non-existing repository.{" "}
-        </Alert>
-        <Alert variant="warning">
-          💡 You might have been rate limited by the API for exceeding the
-          number of requests allowed per hour per IP.{" "}
-        </Alert>
-        <Alert variant="warning">
-          💡 An unfortunate 404 error occurred.. {errorMessage}
-        </Alert>
-      </>
-    ) as JSX.Element;
-  };
-
   const getErrorDisplay = (errorMessage: string) => {
     if (errorMessage.includes("API rate limit")) {
       console.log("Rate limited! (403)");
@@ -111,7 +159,11 @@ function DashboardComponents(props: Props) {
         <Row>
           {window.innerWidth > 800 && !isMobile && (
             <Col sm={4}>
-              <Sidebar sections={props.sections} />
+              <Sidebar
+                sections={props.sections}
+                experimentalSections={props.experimentalSections}
+                experimentalMode={experimentalMode}
+              />
             </Col>
           )}
           <Col sm={{ span: 8, offset: 2 }} className="sections-col">

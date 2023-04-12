@@ -6,3 +6,18 @@
 .dashboard-info {
   margin-top: 40px;
 }
+
+.experimental-button {
+  border-radius: 20px !important;
+  padding: 5px 15px !important;
+  background: #343a40 !important;
+  border-color: #484e54 !important;
+  border: none !important;
+  color: #b9c1c9 !important;
+  font-weight: 500 !important;
+  transition: transform 0.3s ease-in-out !important;
+}
+
+.experimental-button:hover {
+  transform: scale(1.05);
+}

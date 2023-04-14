@@ -7,7 +7,7 @@
 
 
 <p align="center">
-    <img src='https://img.shields.io/badge/version-soon%20releasing-yellow'>
+    <img src='https://img.shields.io/badge/version-v1.0.0-yellow'>
     <img src='https://img.shields.io/badge/release%20date-april%202023-red'>
     <img src='https://img.shields.io/website-up-down-green-red/http/philippedeb.github.io/susie/.svg'>
 </p>

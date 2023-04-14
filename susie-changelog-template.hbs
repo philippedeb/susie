@@ -1,0 +1,30 @@
+<p align="center">
+    <img src='public/susie.svg' style="display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 5%;">
+</p>
+
+## Changelog
+All notable changes to Susie will be documented in this file.
+
+To update after using `npm version`, run the following command:
+
+```bash
+auto-changelog --template susie-changelog-template.hbs --commit-limit 500 --backfill-limit 500 --sort-commits date-desc
+```
+
+> Note: be aware of the manually entered limit, you might need to increase it.
+
+{{#each releases}}
+  {{#if href}}
+    ## [{{title}}]({{href}}){{#if tag}} - {{isoDate}}{{/if}}
+  {{else}}
+    ## {{title}}{{#if tag}} - {{isoDate}}{{/if}}
+  {{/if}}
+
+  {{#commit-list commits heading='### Commits'}}
+    - {{#if breaking}}**Breaking change:** {{/if}}{{subject}} {{#if href}}[`{{shorthash}}`]({{href}}){{/if}}
+  {{/commit-list}}
+
+{{/each}}

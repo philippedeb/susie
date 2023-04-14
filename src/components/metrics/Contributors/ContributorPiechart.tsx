@@ -20,23 +20,29 @@ function sortAndPruneTupleList(
   data: number[],
   n: number
 ): contributor[] {
+  const backgroundColors: string[] = [
+    "#e60049",
+    "#0bb4ff",
+    "#50e991",
+    "#e6d800",
+    "#9b19f5",
+    "#ffa300",
+    "#dc0ab4",
+    "#b3d4ff",
+    "#00bfa0",
+  ];
+
   const labelDataArray: contributor[] = labels.map((label, index) => ({
     name: label,
     amount: data[index],
-    color: [
-      "#e60049",
-      "#0bb4ff",
-      "#50e991",
-      "#e6d800",
-      "#9b19f5",
-      "#ffa300",
-      "#dc0ab4",
-      "#b3d4ff",
-      "#00bfa0",
-    ][index],
+    color: "#b9babd", // placeholder color
   }));
+
+  // Sort the array in descending order by amount (= number of commits)
   labelDataArray.sort((b, a) => a.amount - b.amount);
 
+  // Prune the array to only include the top n contributors, and add an "Other" category
+  // -- Other
   const otherList = labelDataArray.slice(n, labelDataArray.length);
   const otherpercentage = otherList.reduce(
     (acc, value) => acc + value.amount,
@@ -47,8 +53,14 @@ function sortAndPruneTupleList(
     amount: otherpercentage,
     color: "#7d7a74",
   };
-  const prunedArray = labelDataArray.slice(0, n);
 
+  // -- Top n contributors (add colors)
+  const prunedArray = labelDataArray.slice(0, n);
+  for (let i = 0; i < prunedArray.length; i++) {
+    prunedArray[i].color = backgroundColors[i % backgroundColors.length];
+  }
+
+  // Only add the "Other" category if it exists
   if (otherpercentage > 0) prunedArray.push(other);
   return prunedArray;
 }

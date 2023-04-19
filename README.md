@@ -43,14 +43,15 @@ You should have [Node.js](https://nodejs.org/en/), [npm](https://www.npmjs.com/)
     cd your-repository
     ```
 
-3. Install the dependencies.
+3. Install the dependencies using [`pnpm`](https://www.npmjs.com/package/pnpm) ([faster and more efficient](https://www.npmjs.com/package/pnpm) compared to `npm`).
     ```bash
-    npm install
+    npm i -g pnpm
+    pnpm i
     ```
 
 4. Run the project.
     ```bash
-    npm run dev
+    pnpm run dev
     ```
 
 ## Contributing

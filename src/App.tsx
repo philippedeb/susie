@@ -6,6 +6,7 @@ import {
   Routes,
   Route,
   useLocation,
+  HashRouter,
 } from "react-router-dom";
 import Dashboard from "./components/pages/Dashboard/Dashboard";
 import Home from "./components/pages/Home";
@@ -15,7 +16,7 @@ import GuidePages from "./components/pages/Guides/GuidePages";
 
 function App() {
   return (
-    <Router>
+    <HashRouter>
       <div
         className="App"
         style={{
@@ -26,14 +27,14 @@ function App() {
       >
         <Header />
         <Routes>
-          <Route path="/susie/" element={<Home />} />
-          <Route path="/susie/dashboard" element={<Dashboard />} />
-          <Route path="/susie/guides" element={<Guides />} />
-          <Route path="/susie/guide" element={<GuidePageRoute />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/guides" element={<Guides />} />
+          <Route path="/guide" element={<GuidePageRoute />} />
           <Route path="*" element={<NotFound item={"page"} />} />
         </Routes>
       </div>
-    </Router>
+    </HashRouter>
   );
 }
 

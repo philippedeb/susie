@@ -9,7 +9,7 @@ function Header() {
   return (
     <Navbar bg="dark" expand="lg" className="header">
       <Container>
-        <Link className="shake" to="/susie/" style={{ textDecoration: "none" }}>
+        <Link className="shake" to="/" style={{ textDecoration: "none" }}>
           <Navbar.Brand style={{ color: "#fff", fontWeight: "bold" }}>
             <img
               src={logo}
@@ -26,12 +26,12 @@ function Header() {
         </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto justify-content-center">
-            <Link to="/susie/" style={{ textDecoration: "none" }}>
+            <Link to="/" style={{ textDecoration: "none" }}>
               <div className="nav-link-style header-button">
                 Analyse Repository
               </div>
             </Link>
-            <Link to="/susie/guides/" style={{ textDecoration: "none" }}>
+            <Link to="/guides/" style={{ textDecoration: "none" }}>
               <div className="nav-link-style header-button">Guides</div>
             </Link>
             <Link

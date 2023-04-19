@@ -7,7 +7,7 @@
     "dev": "pnpm vite",
     "build": "tsc && pnpm vite build"
   },
-  "homepage": "https://philippedeb.github.io/susie/",
+  "homepage": "/susie/#",
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/react-fontawesome": "^0.2.0",

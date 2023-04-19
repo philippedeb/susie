@@ -23,7 +23,7 @@ function Guide(props: GuideProps) {
 
   return (
     <Card className="guide">
-      <Link to={`/susie/guide?name=${props.guideKey}`}>
+      <Link to={`/guide?name=${props.guideKey}`}>
         <Card.Body>
           <Card.Title className="card-title" key={props.guideKey}>
             {props.guideTitle}

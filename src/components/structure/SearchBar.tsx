@@ -32,7 +32,12 @@ function SearchBar(props: Props) {
 
   function handleSearch() {
     if (isValidUrl(searchValue)) {
-      props.onSearch(searchValue);
+      if (isMobile && document.activeElement instanceof HTMLElement) {
+        // Check if a mobile device and the keyboard is still open
+        document.activeElement.blur();
+      } else {
+        props.onSearch(searchValue);
+      }
     } else {
       setShowWarning(true);
     }

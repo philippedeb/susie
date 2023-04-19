@@ -35,7 +35,7 @@ function ProgrammingLanguage(props: ProgrammingLanguageProps) {
         <br /> Read more about the topic in{" "}
         <a
           className="susie-link"
-          href="./guide?name=inclusive-language"
+          href="./#/guide?name=inclusive-language"
           target="_blank"
           rel="noopener noreferrer"
         >

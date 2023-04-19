@@ -38,7 +38,7 @@ function inclusiveStatement(children: React.ReactNode): ReactElement {
         inclusive language, please visit{" "}
         <a
           className="susie-link"
-          href="./guide?name=inclusive-language"
+          href="./#/guide?name=inclusive-language"
           target="_blank"
           rel="noopener noreferrer"
         >

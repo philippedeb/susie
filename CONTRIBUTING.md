@@ -40,7 +40,7 @@ Please follow the styleguides below when contributing to this project.
 * Code should be commented where necessary
 * Using new packages should be discussed first
 * Code should be tested where necessary
-* No code should be pushed directly to the `main` branch (unless it is a hotfix or minor change by the project owner)
+* No code should be pushed directly to the `main` branch (unless it is a hotfix or minor change by the project maintainers)
 * Refer to the [readme](README.md) for more information on the tech stack of the project and how to set it up
 
 

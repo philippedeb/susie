@@ -8,6 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
+  "homepage": "https://philippedeb.github.io/susie/",
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/react-fontawesome": "^0.2.0",

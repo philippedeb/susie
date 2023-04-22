@@ -21,21 +21,12 @@ function inclusiveStatement(children: React.ReactNode): ReactElement {
         that reflect prejudiced, stereotyped or discriminatory views of
         particular people or groups. It is also language that does not
         deliberately or inadvertently exclude people from being seen as part of
-        a group. (
-        <a
-          className="susie-link"
-          href="https://publicdocumentcentre.education.tas.gov.au/Documents/Guidelines-for-Inclusive-Language.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Source
-        </a>
-        )
+        a group.
       </p>
       <p>
         Susie checks your repository for common terms that may be considered as
         not inclusive, though it is not an exhaustive list. To learn more about
-        inclusive language, please visit{" "}
+        inclusive language and this metric, please visit{" "}
         <a
           className="susie-link"
           href="./#/guide?name=inclusive-language"

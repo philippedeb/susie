@@ -4858,8 +4858,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-devtools-core@4.27.5:
-    resolution: {integrity: sha512-QJTriF1V4oyIenViCvM6qQuvcevQsp0sbKkHBZIQOij+AwY9DdOBY+dOeuymUqO5zV61CbmGxWsAIjeWlFS++w==}
+  /react-devtools-core@4.28.5:
+    resolution: {integrity: sha512-cq/o30z9W2Wb4rzBefjv5fBalHU0rJGZCHAkf/RHSBWSSYwh8PlQTqqOJmgIIbBtpj27T6FIPXeomIjZtCNVqA==}
     dependencies:
       shell-quote: 1.8.1
       ws: 7.5.9
@@ -4997,7 +4997,7 @@ packages:
       pretty-format: 26.6.2
       promise: 8.3.0
       react: 18.2.0
-      react-devtools-core: 4.27.5
+      react-devtools-core: 4.28.5
       react-native-codegen: 0.71.5(@babel/preset-env@7.21.4)
       react-native-gradle-plugin: 0.71.17
       react-refresh: 0.4.3

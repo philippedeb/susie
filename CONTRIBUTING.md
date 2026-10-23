@@ -6,42 +6,17 @@
 </p>
 
 # Contributing to Susie
-👍🎉 First off, thanks for taking the time to contribute! 🎉👍
+👋 Thanks for your interest in contributing!
 
-All types of contributions are encouraged and valued. If you like the project, but just don’t have time to contribute, that’s fine. There are other easy ways to support the project and show your appreciation, which we would also be very happy about:
+Susie is **no longer maintained** in this repository and has continued at **[susie.philippedebekker.com](https://susie.philippedebekker.com)**, so contributions (issues and pull requests) are no longer possible here.
+
+If you like the project, there are still easy ways to support it and show your appreciation, which we would be very happy about:
 
 * ⭐ Star the project
-* ✉️ Post about it (e.g. Twitter, LinkedIn, Reddit, etc.)
-* 🔗 Refer this project in your project’s readme
+* ✉️ Post about the [new website](https://susie.philippedebekker.com) (e.g. Twitter, LinkedIn, Reddit, etc.)
+* 🔗 Refer to the new website in your project's readme
 * 💬 Mention the project at local meetups and tell your friends/colleagues
 
-### Legal Notice
-Yes.. this is **important** to read! ⚖️ When contributing to this project, you must agree that you have authored 100% of the content, that you have the necessary rights to the content and that the content you contribute may be provided under the project license and enforced laws. You also agree to follow the [code of conduct](CODE_OF_CONDUCT.md).
+The original source code (and the contribution guidelines that came with it) can still be found in the [git history](https://github.com/philippedeb/susie/tree/11cfbe0).
 
-### Styleguides
-
-Please follow the styleguides below when contributing to this project.
-
-##### Issues and Pull Requests
-* Use a clear and descriptive title
-* Select the appropiate labels
-* Provide as many details as possible in the description
-* Use the templates (should automatically appear when creating an issue or pull request)
-
-##### Git Commit Messages
-* Use the present tense ("Add feature" not "Added feature")
-  
-##### Branches
-* Should be named after the issue they are addressing
-  * e.g. *Issue #123* should be addressed in a branch named `123_fix-bug`
-
-##### Code
-* All code should be formatted with [Prettier](https://prettier.io/)
-* Code should be commented where necessary
-* Using new packages should be discussed first
-* Code should be tested where necessary
-* No code should be pushed directly to the `main` branch (unless it is a hotfix or minor change by the project maintainers)
-* Refer to the [readme](README.md) for more information on the tech stack of the project and how to set it up
-
-
-Thank you for reading this far! 🙏 Happy contributing! 🎉
+Thank you! 🙏

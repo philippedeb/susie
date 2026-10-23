@@ -16,6 +16,10 @@ auto-changelog --template susie-changelog-template.hbs --commit-limit 500 --back
 
 > Note: be aware of the manually entered limit, you might need to increase it.
 
+## v2.0.0 - 2026-10-24
+
+- Susie has moved to [susie.philippedebekker.com](https://susie.philippedebekker.com). This repository is no longer maintained.
+
 ## v1.0.0 - 2023-04-14
 
 ### Commits

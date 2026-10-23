@@ -7,8 +7,9 @@
 
 
 <p align="center">
-    <img src='https://img.shields.io/badge/version-v1.0.0-yellow'>
+    <img src='https://img.shields.io/badge/version-v2.0.0-yellow'>
     <img src='https://img.shields.io/badge/release%20date-april%202023-red'>
+    <img src='https://img.shields.io/badge/maintained-no-lightgrey'>
     <img src='https://img.shields.io/website-up-down-green-red/http/philippedeb.github.io/susie/.svg'>
 </p>
 
@@ -21,53 +22,28 @@
 
 </p>
 
-**Susie** is a <a href="https://philippedeb.github.io/susie/" target="_blank" rel="noopener noreferrer">website</a> aimed at Sustainable Software Development and consists of:
+> [!IMPORTANT]
+> **Susie is no longer maintained here.** It has continued at **[susie.philippedebekker.com](https://susie.philippedebekker.com)**. The old website now points visitors there.
+
+**Susie** is a <a href="https://susie.philippedebekker.com" target="_blank" rel="noopener noreferrer">website</a> aimed at Sustainable Software Development and consists of:
 
 * **Analysis Tool 🔍** - Check the sustainability of a GitHub repository
 * **Guides 📰** - Learn more about sustainable software development
 
+## Source code
 
-
-## Installation
-
-You should have [Node.js](https://nodejs.org/en/), [npm](https://www.npmjs.com/) and [git](https://git-scm.com/) installed on your machine.
-
-1. Clone the repository to your local machine.
-    ```bash
-    git clone https://github.com/philippedeb/susie.git
-    ```
-
-
-2. Navigate to the project directory.
-    ```bash
-    cd your-repository
-    ```
-
-3. Install the dependencies using [`pnpm`](https://www.npmjs.com/package/pnpm) ([faster and more efficient](https://www.npmjs.com/package/pnpm) compared to `npm`).
-    ```bash
-    npm i -g pnpm
-    pnpm i
-    ```
-
-4. Run the project.
-    ```bash
-    pnpm run dev
-    ```
+This repository no longer contains the original application, only a small page that points visitors to the new website. The full source code of Susie v1 is still available in the git history, for example at the [last commit before the move](https://github.com/philippedeb/susie/tree/11cfbe0).
 
 ## Contributing
 
-Contributions are always welcome! 👋 
+Since this repository is no longer maintained, contributions (issues and pull requests) are no longer possible. 👋
 
-Read the [contribution guidelines](CONTRIBUTING.md) and [code of conduct](CODE_OF_CONDUCT.md). 
-
-If you like the project, but just don’t have time to contribute, that’s fine. There are other easy ways to support the project and show your appreciation, which we would also be very happy about:
+If you like the project, there are still easy ways to support it and show your appreciation, which we would be very happy about:
 
 * ⭐ Star the project
-* ✉️ Post about it (e.g. Twitter, LinkedIn, Reddit, etc.)
-* 🔗 Refer this project in your project’s readme
+* ✉️ Post about the [new website](https://susie.philippedebekker.com) (e.g. Twitter, LinkedIn, Reddit, etc.)
+* 🔗 Refer to the new website in your project's readme
 * 💬 Mention the project at local meetups and tell your friends/colleagues
-
-> Note: early contributions of the maintainers did not follow the [contribution guidelines](CONTRIBUTING.md) due to a rushed production environment (Susie started as a university project!). We are working on improving the codebase and will be following these guidelines from now on.
 
 ## License
 This project is licensed under the terms of the **[GNU AGPLv3](LICENSE)** license.

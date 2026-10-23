@@ -1,38 +1,14 @@
 {
   "name": "susie",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
   "scripts": {
     "dev": "pnpm vite",
     "build": "tsc && pnpm vite build"
   },
   "homepage": "/susie/#",
-  "dependencies": {
-    "@fortawesome/free-solid-svg-icons": "^6.3.0",
-    "@fortawesome/react-fontawesome": "^0.2.0",
-    "@types/sentiment": "^5.0.1",
-    "bad-words": "^3.0.4",
-    "bootstrap": "^5.2.3",
-    "chart.js": "^4.2.1",
-    "pnpm": "^8.6.8",
-    "react": "^18.2.0",
-    "react-bootstrap": "^2.7.2",
-    "react-chartjs-2": "^5.2.0",
-    "react-dom": "^18.2.0",
-    "react-native": "^0.71.4",
-    "react-native-paper": "^5.5.1",
-    "react-native-progress": "^5.0.0",
-    "react-router-dom": "^6.9.0",
-    "sentiment": "^5.0.2"
-  },
   "devDependencies": {
-    "@types/bad-words": "^3.0.1",
-    "@types/colorbrewer": "^1.0.29",
-    "@types/node": "^18.15.7",
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.10",
-    "@vitejs/plugin-react": "^3.1.0",
     "auto-changelog": "^2.4.0",
     "typescript": "^4.9.3",
     "vite": "^4.5.3"
